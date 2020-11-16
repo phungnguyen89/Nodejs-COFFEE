@@ -1,0 +1,24 @@
+<div class="container">{{> navbar}}</div>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-8">
+    <div>
+      <div><h2>{{o.name}}</h2></div>
+      <div>{{o.quote}}</div>
+      <div class="row">
+        <div class="col-4">
+          <div><img src="/images/products/{{o.imgUrl}}" width="250px" alt="" /></div>
+        </div>
+        <div class="col-8">
+          <div>{{o.description}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #detail div h2 {
+    text-align: center;
+  }
+</style>

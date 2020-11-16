@@ -1,0 +1,111 @@
+<button id="inputCreate" class="badge-pill">CREATE</button>
+<div class="row">
+  <div class="col-9">
+    <table class="table table-borderred">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Quote</th>
+          <th>Decription</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="sheet">
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+    <form
+      style="margin-left: 2rem; display: none"
+      class="form-check-input"
+      id="frm"
+      action=""
+      method="POST"
+    >
+      <h2 class="form-check-input-heading">Create</h2>
+      <div>
+        <label for="inputName" class="sr-only">Email address</label>
+        <input
+          type="text"
+          id="inputName"
+          name="name"
+          class="form-control"
+          placeholder="Name"
+          autofocus
+        />
+      </div>
+      <div>
+        <label for="inputQuote" class="sr-only">Quote</label>
+        <textarea
+          id="inputQuote"
+          name="quote"
+          class="form-control"
+          cols="30"
+          rows="3"
+          placeholder="Quote"
+        ></textarea>
+      </div>
+      <div>
+        <label for="inputDecription" class="sr-only">Description</label>
+        <textarea
+          id="inputDecription"
+          name="description"
+          class="form-control"
+          cols="30"
+          rows="3"
+          placeholder="Description"
+        ></textarea>
+      </div>
+      <div>
+        <label for="inputImage" class="sr-only">Image</label>
+        <input
+          type="file"
+          id="inputImg"
+          name="img"
+          class="form-control"
+          placeholder="Image"
+        />
+      </div>
+      <br />
+      <button class="btn btn-danger btn-default btn-block" type="submit">CREATE</button>
+    </form>
+  </div>
+</div>
+
+<!-- list of api -->
+<script src="/js/app/api/product.js"></script>
+<script src="/js/app/product/index.js"></script>
+<!-- <tbody>
+    {{#each a}}
+    <tr>
+      <td colspan="2">{{name}}</td>
+
+      <td colspan="2">
+        <a href="/detail/{{_id}}"
+          ><img src="/images/products/{{imgUrl}}" alt="{{imgUrl}}" width="100px"
+        /></a>
+      </td>
+      <td colspan="4">{{quote}}</td>
+      <td colspan="2"><a href="/product/detail/{{_id}}">Edit</a></td>
+      <td colspan="2"><a href="/product/delete/{{_id}}">Delete</a></td>
+    </tr>
+    {{/each}}
+  </tbody> -->

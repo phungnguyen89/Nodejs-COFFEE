@@ -1,0 +1,34 @@
+<div class="container">{{> navbar}}</div>
+<div class="row">
+  {{#each a}}
+  <div class="col-3">
+    <div id="name">{{name}}</div>
+    <div><a href="/detail/{{_id}}"><img src="/images/products/{{imgUrl}}" alt="{{imgUrl}}" width="90%" /></div></a>
+  </div>
+  {{/each}}
+</div>
+
+<style>
+  #name {
+    text-align: center;
+  }
+</style>
+
+<form action="" enctype="application/x-www-form-urlencoded"></form>
+<!-- 
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Quote</th>
+    <th>Img</th>
+    <th>Description</th>
+  </tr>
+  {{#each a}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{quote}}</td>
+    <td><img src="{{imgUrl}}" alt="" /></td>
+    <td>{{description}}</td>
+  </tr>
+  {{/each}}
+</table> -->
