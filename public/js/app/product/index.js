@@ -32,27 +32,30 @@ async function createProduct(o) {
   let ret = await app.Product.POST(o);
   console.log(ret);
 }
+
 $(document).ready(function () {
   let create = document.getElementById("inputCreate");
   let sheet = document.getElementById("sheet");
   let frm = document.getElementById("frm");
-  //alert("asd");
+  let btn = document.getElementById("btn");
   loadProduct();
-
+  //test
+  btn.onclick = () => {
+    clearMsg();
+  };
   create.onclick = () => {
     frm.style = "display:block";
   };
   frm.onsubmit = async function (ev) {
     ev.preventDefault();
-    let o = {
-      name: frm.name.value,
-      quote: frm.quote.value,
-      description: frm.description.value,
-      img: frm.img.value,
-    };
-
-    let ret = await app.Product.POST(o);
-
-    if (ret.error) console.log(ret);
+    let ret = await app.Product.POST(new FormData(frm));
+    if (ret.error) {
+      //alert("eorr");
+      msg(ret.msg, true);
+    } else {
+      //successfully
+      sheet.insertAdjacentHTML("afterbegin", pushProduct(ret.data));
+      msg(`SUCESSFULLY TO CREATE ${ret.data.name}`);
+    }
   };
 });
