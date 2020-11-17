@@ -1,17 +1,17 @@
-const product = require("../../models/product");
+const app = require("../../models/appRepository");
 const helper = require("../../helper");
 const chalk = require("chalk");
-module.exports.PAGE = async (req, res) => {
-  res.send(req.params.p);
+module.exports.LOGIN = async (req, res) => {
+  res.send("LOGIN");
 };
 
 module.exports.DELETE = async (req, res) => {
   if (req.params.id) {
     try {
-      let ret = await product.deleteById(req.params.id);
+      let ret = await app.User.deleteById(req.params.id);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
-      return res.status(400).json(helper.stt400());
+      return res.status(500).json(helper.stt500(err));
     }
   }
   return res.status(400).json(helper.stt400());
@@ -20,10 +20,12 @@ module.exports.DELETE = async (req, res) => {
 module.exports.PUT = async (req, res) => {
   if (res.locals.data) {
     try {
-      let ret = await product.update(req.body);
+      //console.log(chalk.red("we got controller, has data"), res.locals.data);
+      let ret = await app.User.update(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
-      return res.status(500).json(helper.stt500());
+      //console.log(chalk.red(err));
+      return res.status(500).json(helper.stt500(err));
     }
   }
   return res.status(400).json(helper.stt400());
@@ -31,9 +33,9 @@ module.exports.PUT = async (req, res) => {
 
 module.exports.POST = async (req, res) => {
   if (res.locals.data) {
-    console.log(chalk.blue("we got product controller"));
+    //console.log(chalk.blue("has data"), res.locals.data);
     try {
-      let ret = await product.create(res.locals.data);
+      let ret = await app.User.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
       return res.status(500).json(helper.stt500(err));
@@ -45,11 +47,12 @@ module.exports.POST = async (req, res) => {
 module.exports.GET = async (req, res) => {
   try {
     let ret = req.params.id
-      ? await product.getById(req.params.id)
-      : await product.getAll();
+      ? await app.User.getByUsername(req.params.id)
+      : await app.User.getAll();
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
-    return res.status(500).json(helper.stt500());
+    console.log(chalk.red(err));
+    return res.status(500).json(helper.stt500(err));
   }
   return res.status(400).json(helper.stt400());
 };

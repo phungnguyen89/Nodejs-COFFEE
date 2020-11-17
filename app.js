@@ -15,7 +15,7 @@ require(".//src/configs/configs").connectDatabase();
 const Handlebars = require("handlebars");
 const expressHandlebars = require("express-handlebars");
 const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access");
-
+const helper = require("./src/helper");
 var app = express();
 
 appConfig = () => {
@@ -32,6 +32,8 @@ appConfig = () => {
       layoutsDir: path.join(__dirname, "/src/views/layouts"),
       partialsDir: path.join(__dirname, "/src/views/partials"),
       helpers: {
+        pag: helper.pag,
+        page: helper.page,
         //list of function helper
       },
     })

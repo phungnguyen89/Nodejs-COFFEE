@@ -61,3 +61,49 @@ module.exports.stt500 = (msg = "SERVER ERROR") => {
     msg: msg,
   };
 };
+
+module.exports.page = (n) => {
+  let s = [];
+  // console.log("nnnn", n);
+  s.push(`<ul class="pagination">`);
+
+  s.push(`<li class="active page-item"><a href="">${1}</a></li>`);
+  for (let i = 2; i <= n; i++) {
+    s.push(`<li class="page-item"><a href="#">${i}</a></li>`);
+  }
+  s.push(`</ul>`);
+  console.log(s.join(""));
+  return s.join("");
+};
+
+module.exports.pag = (p, n) => {
+  //console.log(p, size, n);
+  let s = [];
+  s.push(`<ul class="pagination">`);
+
+  let slot = 7;
+  let mid = Math.ceil(slot / 2);
+  let left = 1;
+  let right = slot;
+
+  if (p > mid) {
+    right = p + mid - 1;
+    if (right > n) {
+      right = n;
+    }
+
+    left = right - slot + 1;
+  }
+
+  for (let i = left; i <= right; i++) {
+    if (i == p) {
+      s.push('<li class="active page-item">');
+    } else {
+      s.push('<li class="page-item">');
+    }
+    s.push(`<a class="page-link" href="/${i}">${i}</a>`);
+    s.push("</li>");
+  }
+  s.push(`</ul>`);
+  return s.join("");
+};
