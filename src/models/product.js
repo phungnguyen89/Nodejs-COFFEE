@@ -45,10 +45,37 @@ module.exports.create = async (o) => {
   }
 };
 
+module.exports.getSearch = async (q) => {
+  try {
+    let ret = await Product.find({ name: { $regex: q, $options: "i" } });
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports.getPage = async (p, size) => {
+  try {
+    let ret = await Product.find()
+      .skip((p - 1) * size)
+      .limit(size);
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports.count = async () => {
+  try {
+    let ret = await Product.countDocuments();
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 module.exports.getAll = async () => {
   try {
     let a = await Product.find().sort({ createdAt: -1 });
-
     return a;
   } catch (err) {
     throw new Error(err);
