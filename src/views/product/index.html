@@ -1,3 +1,4 @@
+<button id="btn">TEST</button>
 <button id="inputCreate" class="badge-pill">CREATE</button>
 <div class="row">
   <div class="col-9">
@@ -8,7 +9,7 @@
           <th>Image</th>
           <th>Quote</th>
           <th>Decription</th>
-          <th>Edit</th>
+          <th>Update</th>
           <th>Delete</th>
         </tr>
       </thead>
@@ -18,7 +19,9 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
-          <td>1</td>
+          <td>
+            <img src="/images/crud/edit.png" alt="edit.png" width="50px" />
+          </td>
           <td>1</td>
         </tr>
         <tr>
@@ -26,7 +29,7 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
-          <td>1</td>
+          <td><a href="#" onclick="return false">1</a></td>
           <td>1</td>
         </tr>
       </tbody>
@@ -34,13 +37,13 @@
   </div>
   <div class="col-3">
     <form
-      style="margin-left: 2rem; display: none"
+      style="margin-left: 2rem; margin-top: -2.5rem; display: none"
       class="form-check-input"
       id="frm"
       action=""
       method="POST"
     >
-      <h2 class="form-check-input-heading">Create</h2>
+      <h2 id="titleForm" class="form-check-input-heading">Create</h2>
       <div>
         <label for="inputName" class="sr-only">Email address</label>
         <input

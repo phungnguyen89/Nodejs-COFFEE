@@ -1,6 +1,6 @@
 const product = require("../../models/product");
 const helper = require("../../helper");
-
+const chalk = require("chalk");
 module.exports.PAGE = async (req, res) => {
   res.send("PAGE");
 };
@@ -35,16 +35,16 @@ module.exports.PUT = async (req, res) => {
 };
 
 module.exports.POST = async (req, res) => {
-  try {
-    if (Object.getOwnPropertyNames(req.body) > 1)
-      return res.json(helper.stt400("EMPTY DATA")).status(400);
-    else {
-      let ret = await product.create(req.body);
+  if (res.locals.data) {
+    console.log(chalk.blue("we got product controller"));
+    try {
+      let ret = await product.create(res.locals.data);
       return res.status(200).json(helper.stt200(ret));
+    } catch (err) {
+      return res.status(500).json(helper.stt500(err));
     }
-  } catch (err) {
-    return res.status(500).json(helper.stt500());
   }
+  return res.status(500).json(helper.stt500());
 };
 
 module.exports.GET = async (req, res) => {

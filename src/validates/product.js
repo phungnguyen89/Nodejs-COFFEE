@@ -12,10 +12,12 @@ module.exports.update = (o) => {
 };
 
 module.exports.create = (o) => {
+  console.log("createCheck", o);
   let schema = Joi.object().keys({
     name: Joi.string().required().uppercase(),
     quote: Joi.string().allow(""),
     description: Joi.string().allow(""),
+    img: Joi.string().allow(""),
   });
   return schema.validate(o);
 };

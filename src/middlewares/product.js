@@ -1,6 +1,7 @@
 const validate = require("../validates/product");
 const helper = require("../helper");
 const app = require("../models/appRepository");
+const chalk = require("chalk");
 module.exports.updateCheck = (req, res, next) => {
   //validate
   let valid = validate.update(req.body);
@@ -48,15 +49,16 @@ module.exports.createCheck = function (req, res, next) {
   let valid = validate.create(req.body);
   //console.log("middleware", req.body);
   if (valid.error) {
-    console.log("error middleware", valid.error.details[0].message);
     return res.status(400).json(helper.stt400(valid.error.details[0].message));
     //res.status(400).send("Data entered is not valid. Please try again.");
   }
-  console.log("next error");
-  res.locals.data = valid.value;
 
+  //console.log(chalk.blue("req body"), req.body);
+  // console.log(chalk.blue("req file"), req.file);
+
+  res.locals.data = valid.value;
+  //console.log("has file", req.file);
   if (req.file) {
-    // console.log("has file");
     res.locals.data.imgUrl = req.file.filename;
   }
 

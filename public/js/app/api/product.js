@@ -8,8 +8,8 @@ class ProductApi extends BaseApi {
   GET(params = "") {
     return this.client.get(this.url);
   }
-  POST(body) {
+  POST(form) {
     //console.log("body", body);
-    return this.client.post(this.url, body);
+    return this.client.post(this.url, form);
   }
 }
