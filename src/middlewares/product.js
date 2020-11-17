@@ -6,7 +6,7 @@ module.exports.updateCheck = (req, res, next) => {
   //validate
   let valid = validate.update(req.body);
   if (valid.error) {
-    res.status(400).json(helper.stt400(valid.error.details[0].message));
+    return res.status(400).json(helper.stt400(valid.error.details[0].message));
     //res.status(400).send("Data entered is not valid. Please try again.");
   }
 

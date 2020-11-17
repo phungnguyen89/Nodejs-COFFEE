@@ -4,7 +4,7 @@ const upload = multer({ dest: "./public/images/products" });
 const middle = require("../middlewares/product");
 const product = require("../controllers/product");
 const auth = require("../middlewares/auth");
-router.use(auth.authorization);
+//router.use(auth.authorization);
 router
   .route("/detail/:id")
   .get(product.detail)

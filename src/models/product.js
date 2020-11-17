@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Product = require("./model").Product;
+const chalk = require("chalk");
 
 module.exports.update = async (o) => {
+  console.log(chalk.red("model "), o);
   try {
-    let ret = await Product.findByIdAndUpdate(o.id, o);
+    let ret = await Product.findById(o._id);
+    console.log(chalk.red("model"), ret);
+    return ret;
   } catch (err) {
+    console.log(chalk.red(err));
     throw new Error(err);
   }
 };
@@ -13,7 +18,7 @@ module.exports.update = async (o) => {
 module.exports.deleteById = async (id) => {
   try {
     let ret = await Product.findByIdAndRemove(id);
-    console.log("model delte", ret);
+    console.log(chalk.blue("model delte"), ret);
     return ret;
   } catch (err) {
     throw new Error(err);

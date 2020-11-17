@@ -34,31 +34,3 @@ class BaseApi {
     );
   }
 }
-
-// const client = axios.create({
-//   baseURL: "http://localhost:3000/api",
-//   headers: {
-//     "content-type": "application/json",
-//     // "Content-Security-Policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-//   },
-//   paramsSerializer: (params) => Qs.stringify(params),
-// });
-// client.interceptors.request.use(async (config) => {
-//   //console.log("Axios request", config);
-//   //handle token here
-//   return config;
-// });
-
-// client.interceptors.response.use(
-//   (res) => {
-//     //console.log("Axios respone", res);
-//     //console.log("check res client axios ", res);
-//     if (res && res.data) {
-//       return res.data;
-//     }
-//   },
-//   (error) => {
-//     console.log("respone error", error.config);
-//     //throw new Error(error);
-//   }
-// );
