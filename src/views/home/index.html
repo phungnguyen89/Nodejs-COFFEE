@@ -1,9 +1,29 @@
 <div class="container">{{> navbar}}</div>
 <div class="row">
+  <div class="col-5"></div>
+  <div class="col-7">
+    <form action="/search" method="GET" >
+      <div>
+        <input type="text" name="q" value="{{q}}" placeholder="SEARCH">
+        <button class="alert-danger">Search</button>
+      </div>
+  </form>
+</div>
+</div>
+{{#if p}}
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col-9">
+    {{{pag p n}}}
+  </div>
+</div>
+{{/if}}
+
+<div class="row">
   {{#each a}}
   <div class="col-3">
-    <div id="name">{{name}}</div>
-    <div><a href="/detail/{{_id}}"><img src="/images/products/{{imgUrl}}" alt="{{imgUrl}}" width="90%" /></div></a>
+    <div style="text-align: left;" id="name">{{name}}</div>
+    <div><a href="/detail/{{_id}}"><img src="/images/products/{{imgUrl}}" alt="{{imgUrl}}" width="100px" /></div></a>
   </div>
   {{/each}}
 </div>

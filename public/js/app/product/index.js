@@ -17,7 +17,7 @@ pushProduct = function (o) {
   return s.join("");
 };
 loadProduct = async function (elm) {
-  let ret = await app.Product.GET();
+  let ret = await app.Home.GET();
   if (ret.error) {
     //alert(ret.erro);
     console.log("API ERROR", ret.erro);
