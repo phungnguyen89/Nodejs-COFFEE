@@ -22,7 +22,7 @@ module.exports.detail = (req, res, next) => {
 
 module.exports.index = (req, res, next) => {
   product
-    .getProducts()
+    .getAll()
     .then((val) => {
       res.render("home/index", {
         a: val,

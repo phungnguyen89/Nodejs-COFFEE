@@ -9,7 +9,7 @@
           <th>Image</th>
           <th>Quote</th>
           <th>Decription</th>
-          <th>Edit</th>
+          <th>Update</th>
           <th>Delete</th>
         </tr>
       </thead>
@@ -19,7 +19,9 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
-          <td>1</td>
+          <td>
+            <img src="/images/crud/edit.png" alt="edit.png" width="50px" />
+          </td>
           <td>1</td>
         </tr>
         <tr>
@@ -27,7 +29,7 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
-          <td>1</td>
+          <td><a href="#" onclick="return false">1</a></td>
           <td>1</td>
         </tr>
       </tbody>
@@ -41,7 +43,7 @@
       action=""
       method="POST"
     >
-      <h2 class="form-check-input-heading">Create</h2>
+      <h2 id="titleForm" class="form-check-input-heading">Create</h2>
       <div>
         <label for="inputName" class="sr-only">Email address</label>
         <input
