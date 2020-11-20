@@ -9,7 +9,7 @@ class AppApi {
     return this.home;
   }
   get User() {
-    //if(this.user===undefined) this.user=new unregisterPartial()
+    if (this.user === undefined) this.user = new UserApi();
 
     return this.user;
   }

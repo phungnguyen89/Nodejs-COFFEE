@@ -10,7 +10,7 @@ class BaseApi {
       paramsSerializer: (params) => Qs.stringify(params),
     });
     this.client.interceptors.request.use(async (config) => {
-      //console.log("Axios request", config);
+      // console.log("Axios request", config);
       //handle token here
       return config;
     });

@@ -5,16 +5,18 @@ var path = require("path");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
-//const passport = require("passport");
+const passport = require("passport");
 var logger = require("morgan");
 const cors = require("cors");
-//const dotenv = require("dotenv");
-const configs = require("./src/configs/configs");
+
 //connect to database
 require(".//src/configs/configs").connectDatabase();
 const Handlebars = require("handlebars");
 const expressHandlebars = require("express-handlebars");
 const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access");
+const multer = require("multer");
+const upload = multer();
+
 const helper = require("./src/helper");
 var app = express();
 
@@ -43,12 +45,13 @@ appConfig = () => {
   app.use(logger("dev"));
   app.use(cors());
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-
-  app.use(cookieParser());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(upload.any());
+  app.use(cookieParser(process.env.TOKEN_SECRECT));
+  //app.use(cookieParser(process.env.TOKEN_SECRECT));
   app.use(express.static(path.join(__dirname, "public")));
 
   //app.use(passport.initialize());
@@ -58,7 +61,6 @@ appConfig = () => {
   const port = process.env.PORT || 3000;
   app.listen(port, () => console.log("Server started listening on PORT " + port));
 };
-appConfig();
 
 appRouting = () => {
   // routing
@@ -68,23 +70,21 @@ appRouting = () => {
   const cart = require("./src/routes/cart");
   const api = require("./src/api/route");
 
-  app.use("/", home);
-  app.use("/api", api);
-
+  app.use("/product", product);
+  app.use("/cart", cart);
   app.use("/user", user);
+  app.use("/api", api);
+  app.use("/", home);
 
   //use auth middleware
-  const auth = require("./src/middlewares/auth");
 
   app.use("/cart", cart);
+  const auth = require("./src/middlewares/auth");
   //app.use("/cart", auth.auth, cart);
   //use authorize middleware
 
-  app.use("/product", product);
   //app.use("/product", auth.authorization, product);
 };
-
-appRouting();
 
 handleError = () => {
   //404 not found
@@ -104,6 +104,8 @@ handleError = () => {
   });
 };
 
+appConfig();
+appRouting();
 handleError();
 
 module.exports = app;

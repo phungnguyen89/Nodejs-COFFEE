@@ -37,7 +37,7 @@ module.exports.getById = async (id) => {
 module.exports.create = async (o) => {
   try {
     let newProduct = await new Product(o).save();
-    console.log("Product model", newProduct);
+    // console.log("Product model", newProduct);
 
     return newProduct;
   } catch (err) {
@@ -56,9 +56,12 @@ module.exports.getSearch = async (q) => {
 
 module.exports.getPage = async (p, size) => {
   try {
+    console.log(chalk.blue("page,size"), p, size);
     let ret = await Product.find()
       .skip((p - 1) * size)
       .limit(size);
+    // console.log(chalk.blue("MODELS"), ret);
+    // console.log(chalk.blue("MODELS"));
     return ret;
   } catch (err) {
     throw new Error(err);

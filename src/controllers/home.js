@@ -1,4 +1,4 @@
-const app = require("../models/appRepository.js");
+const app = require("../models/app.js");
 const chalk = require("chalk");
 //const ml = require("path").join(__dirname, "models");
 
@@ -29,8 +29,7 @@ module.exports.detail = async (req, res, next) => {
       return res.status(200).render("home/detail", {
         o: ret,
         title: "DETAIL",
-        isAuthenticated:
-          req.cookies.token || req.body.token || req.headers.authorization ? true : false,
+        isAuthenticated: req.signedCookies.token ? true : false,
       });
     return res.status(400).render("error", { layout: false, message: "BAD NET WORK" });
   } catch (err) {
@@ -43,6 +42,7 @@ module.exports.index = async (req, res, next) => {
   try {
     let p = req.params.p || 1;
     let size = 20;
+    console.log(chalk.blue("HOME"));
     let ret = await app.Product.getPage(p, size);
     let total = await app.Product.count();
     let n = Math.ceil(total / size);
@@ -54,8 +54,7 @@ module.exports.index = async (req, res, next) => {
         p: p,
         n: n,
         title: "Express",
-        isAuthenticated:
-          req.cookies.token || req.body.token || req.headers.authorization ? true : false,
+        isAuthenticated: req.signedCookies.token ? true : false,
       });
     return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
   } catch (err) {

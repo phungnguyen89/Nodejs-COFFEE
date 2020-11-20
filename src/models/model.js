@@ -1,6 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const cart = new Schema(
+  {
+    _id: {
+      type: String,
+      required: true,
+    },
+    product: [{ type: Schema.Types.ObjectId, ref: "products" }],
+    expireAt: { type: Date, default: Date.now, expires: 60 * 60 * 24 },
+  },
+  { timestamps: true }
+);
 const user = new Schema(
   {
     email: {
@@ -48,5 +59,6 @@ const product = new Schema(
   { timestamps: true }
 );
 
+module.exports.Cart = mongoose.model("carts", cart, "carts");
 module.exports.User = mongoose.model("users", user, "users");
 module.exports.Product = mongoose.model("products", product, "products");

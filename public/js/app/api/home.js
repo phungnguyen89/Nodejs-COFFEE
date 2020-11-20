@@ -1,19 +1,13 @@
 class HomeApi extends BaseApi {
-  url = "/";
+  url;
   constructor() {
     super();
-  }
-
-  PAGE(params = 1) {
-    return this.client.get("/page", params);
+    this.url = "";
   }
   GET(params = "") {
-    return params ? this.client.get("/item", { params }) : this.client.get(this.url);
+    return this.client.get(`/detail/${params}`);
   }
-  REGISTER(frm) {
-    return this.client.post("/register", form);
-  }
-  LOGIN(frm) {
-    return this.client.post("/login", form);
+  PAGE(params = 1) {
+    return this.client.get(`/page/${params}`);
   }
 }

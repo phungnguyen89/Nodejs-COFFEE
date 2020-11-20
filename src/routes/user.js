@@ -6,24 +6,18 @@ const middle = require("../middlewares/user");
 
 router.get("/dashboard", (req, res) => {
   res.render("user/dashboard", {
-    isAuthenticated:
-      req.cookies.token || req.body.token || req.headers.authorization ? true : false,
+    isAuthenticated: signedCookies.token ? true : false,
   });
 });
 
-router
-  .route("/login")
-  .get((req, res) => {
-    res.render("user/login");
-  })
-  .post(middle.loginCheck, user.login);
+router.post("/logout", user.logout);
 
-router
-  .route("/register")
-  .get((req, res) => {
-    res.render("user/register");
-    //res.render("user/register", { partials: false, layout: false });
-  })
-  .post(middle.registerCheck, user.register);
+router.route("/login").get((req, res) => {
+  res.render("user/login");
+});
+
+router.route("/register").get((req, res) => {
+  res.render("user/register");
+});
 
 module.exports = router;
