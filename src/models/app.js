@@ -1,3 +1,3 @@
-module.exports.User = require("./cart");
-module.exports.Product = require("./product");
+module.exports.Cart = require("./cart");
+module.exports.Coffee = require("./coffee");
 module.exports.User = require("./user");

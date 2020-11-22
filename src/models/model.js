@@ -3,12 +3,9 @@ const Schema = mongoose.Schema;
 
 const cart = new Schema(
   {
-    _id: {
-      type: String,
-      required: true,
-    },
-    product: [{ type: Schema.Types.ObjectId, ref: "products" }],
-    expireAt: { type: Date, default: Date.now, expires: 60 * 60 * 24 },
+    token: { type: String, required: true },
+    productList: [{ type: String, ref: "coffees" }],
+    expireAt: { type: Date, default: new Date(), expires: 60 * 5 },
   },
   { timestamps: true }
 );
@@ -49,7 +46,7 @@ const user = new Schema(
   }
 );
 
-const product = new Schema(
+const coffee = new Schema(
   {
     name: { type: String },
     quote: { type: String },
@@ -61,4 +58,4 @@ const product = new Schema(
 
 module.exports.Cart = mongoose.model("carts", cart, "carts");
 module.exports.User = mongoose.model("users", user, "users");
-module.exports.Product = mongoose.model("products", product, "products");
+module.exports.Coffee = mongoose.model("coffees", coffee, "coffees");

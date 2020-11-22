@@ -2,6 +2,7 @@ const helper = require("../helper");
 const app = require("../models/app");
 const validate = require("../validates/user");
 const chalk = require("chalk");
+
 module.exports.loginCheck = async (req, res, next) => {
   //validtate
   let valid = validate.login(req.body);

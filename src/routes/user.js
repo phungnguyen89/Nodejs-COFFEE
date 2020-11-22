@@ -12,9 +12,12 @@ router.get("/dashboard", (req, res) => {
 
 router.post("/logout", user.logout);
 
-router.route("/login").get((req, res) => {
-  res.render("user/login");
-});
+router
+  .route("/login")
+  .get((req, res) => {
+    res.render("user/login");
+  })
+  .post(middle.loginCheck, user.login);
 
 router.route("/register").get((req, res) => {
   res.render("user/register");

@@ -13,6 +13,7 @@ module.exports.deleteById = async (id) => {
 module.exports.update = async (o) => {
   try {
     //console.log(chalk.blue("model"), o);
+    o.updateAt = new Date();
     let ret = await User.findByIdAndUpdate(o._id, o);
     return ret;
   } catch (err) {
@@ -21,7 +22,7 @@ module.exports.update = async (o) => {
   }
 };
 module.exports.create = async (o) => {
-  console.log("USER MODEL --- create1", o);
+  //console.log("USER MODEL --- create1", o);
   try {
     let newUser = new User(o);
     //console.log("newUser", newUser);

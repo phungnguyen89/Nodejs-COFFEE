@@ -5,7 +5,7 @@ const chalk = require("chalk");
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
     try {
-      let ret = await app.Product.getSearch(req.query.q);
+      let ret = await app.Coffee.getSearch(req.query.q);
       if (ret)
         return res.status(200).render("home/index", {
           a: ret,
@@ -24,7 +24,7 @@ module.exports.search = async (req, res, next) => {
 };
 module.exports.detail = async (req, res, next) => {
   try {
-    let ret = await app.Product.getById(req.params.id);
+    let ret = await app.Coffee.getById(req.params.id);
     if (ret)
       return res.status(200).render("home/detail", {
         o: ret,
@@ -42,9 +42,9 @@ module.exports.index = async (req, res, next) => {
   try {
     let p = req.params.p || 1;
     let size = 20;
-    console.log(chalk.blue("HOME"));
-    let ret = await app.Product.getPage(p, size);
-    let total = await app.Product.count();
+    //console.log(chalk.blue("HOME"));
+    let ret = await app.Coffee.getPage(p, size);
+    let total = await app.Coffee.count();
     let n = Math.ceil(total / size);
     //console.log(total);
     //console.log(chalk.blue("index"), ret);
