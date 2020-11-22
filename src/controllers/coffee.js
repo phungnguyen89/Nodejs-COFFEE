@@ -1,4 +1,3 @@
-//sajhskajhkjs
 const app = require("../models/app");
 const helper = require("../helper");
 module.exports.detail = (req, res) => {

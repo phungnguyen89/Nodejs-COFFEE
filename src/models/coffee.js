@@ -37,8 +37,14 @@ module.exports.getById = async (id) => {
 
 module.exports.create = async (o) => {
   try {
+    // for (let i = 1; i < 101; i++) {
+    //   let cf = Object.assign({}, o);
+    //   cf.name += i;
+    //   cf.quote += i;
+    //   cf.description += i;
+    //   await new Coffee(cf).save();
+    // }
     let newCoffee = await new Coffee(o).save();
-
     return newCoffee;
   } catch (err) {
     throw new Error(err);
