@@ -1,5 +1,5 @@
 const helper = require("../helper");
-const app = require("../models/appRepository");
+const app = require("../models/app");
 const validate = require("../validates/user");
 const chalk = require("chalk");
 module.exports.loginCheck = async (req, res, next) => {
@@ -62,6 +62,7 @@ module.exports.updateCheck = async (req, res, next) => {
 
 module.exports.registerCheck = async (req, res, next) => {
   //validate
+  console.log(chalk.blue("req body"), req.body);
   let valid = validate.create(req.body);
   if (valid.error)
     return res.status(400).json(helper.stt400(valid.error.details[0].message));

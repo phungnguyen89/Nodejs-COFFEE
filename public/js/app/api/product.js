@@ -18,6 +18,7 @@ class ProductApi extends BaseApi {
     return this.client.post(this.url, frm);
   }
   GET(params = "") {
+    console.log(this.baseURL);
     return params ? this.client.get(this.url, { params }) : this.client.get(this.url);
   }
 }

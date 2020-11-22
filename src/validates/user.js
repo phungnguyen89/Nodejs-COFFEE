@@ -33,8 +33,8 @@ module.exports.update = (o) => {
 
 module.exports.create = (o) => {
   let register = Joi.object().keys({
-    username: Joi.string().alphanum().min(5).max(30).lowercase().required(),
-    password: Joi.string().min(5).max(40).required(),
+    username: Joi.string().allow("_").alphanum().min(5).max(30).lowercase().required(),
+    password: Joi.string().alphanum().min(5).max(40).required(),
   });
   return register.validate(o);
 };

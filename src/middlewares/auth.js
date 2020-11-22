@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
-const app = require("../models/appRepository");
+const app = require("../models/app");
 
 module.exports.authorization = async (req, res, next) => {
   try {
-    let token = req.cookies.token || req.body.token || req.headers.authorization;
+    let token = req.signedCookies.token;
     console.log(token);
     if (!token)
       return res.status(403).render("error", { layout: false, message: "Access Denied" });
@@ -34,7 +34,7 @@ module.exports.authorization = async (req, res, next) => {
 module.exports.auth = async (req, res, next) => {
   try {
     //console.log("auth here");
-    let token = req.cookies.token || req.body.token || req.headers.authorization;
+    let token = req.signedCookies.token || req.body.token || req.headers.authorization;
     //console.log(token);
     if (!token)
       //return res.status(401).send("Need to login")

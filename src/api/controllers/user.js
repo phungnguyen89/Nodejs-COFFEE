@@ -1,8 +1,40 @@
-const app = require("../../models/appRepository");
+const app = require("../../models/app");
 const helper = require("../../helper");
 const chalk = require("chalk");
+
+module.exports.LOGOUT = async (req, res) => {
+  let token = req.signedCookies.token || req.body.token || req.headers.authorization;
+  // console.log(chalk.red("token"), token);
+
+  // let decode = jwt.verify(token, process.env.TOKEN_SECRECT);
+  // console.log(decode);
+  //clear session on dtb
+  if (req.signedCookies.token) {
+    return res.status(200).json(helper.stt200());
+  }
+  return res.status(500).json(helper.stt500());
+};
+
 module.exports.LOGIN = async (req, res) => {
-  res.send("LOGIN");
+  if (res.locals.data) {
+    let payload = {
+      username: res.locals.data.username,
+      name: res.locals.data.profile.fullName,
+      role: res.locals.data.role,
+    };
+
+    let token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
+      expiresIn: `${1000 * 60 * 10}`,
+    });
+
+    res.cookie("token", token, {
+      maxAge: 1000 * 60 * 10,
+      httpOnly: true,
+      signed: true,
+    });
+    //create session on dtb
+    return res.status(200).redirect("/user/dashboard");
+  }
 };
 
 module.exports.DELETE = async (req, res) => {
@@ -33,7 +65,7 @@ module.exports.PUT = async (req, res) => {
 
 module.exports.POST = async (req, res) => {
   if (res.locals.data) {
-    //console.log(chalk.blue("has data"), res.locals.data);
+    console.log(chalk.blue("has data"), res.locals.data);
     try {
       let ret = await app.User.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));

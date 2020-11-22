@@ -1,6 +1,6 @@
 const validate = require("../validates/product");
 const helper = require("../helper");
-const app = require("../models/appRepository");
+const app = require("../models/app");
 const chalk = require("chalk");
 module.exports.updateCheck = (req, res, next) => {
   //validate
@@ -47,7 +47,7 @@ module.exports.deleteCheck = async (req, res, next) => {
 
 module.exports.createCheck = function (req, res, next) {
   let valid = validate.create(req.body);
-  //console.log("middleware", req.body);
+  console.log(chalk.blue("middleware"), req.body);
   if (valid.error) {
     return res.status(400).json(helper.stt400(valid.error.details[0].message));
     //res.status(400).send("Data entered is not valid. Please try again.");

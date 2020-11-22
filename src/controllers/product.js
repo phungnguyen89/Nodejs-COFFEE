@@ -1,5 +1,5 @@
 //sajhskajhkjs
-const app = require("../models/appRepository");
+const app = require("../models/app");
 
 module.exports.update = (req, res) => {
   if (res.locals.data) {

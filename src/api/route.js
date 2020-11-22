@@ -10,16 +10,17 @@ const product = require("./controllers/product");
 const user = require("./controllers/user");
 
 //home
+router.get("/detail/:id?", product.GET);
 router.get("/page/:p?", product.PAGE);
-router.get("/item/:id?", product.GET);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
 
 //cart
-router.use(auth.auth);
+//router.use(auth.auth);
+router.route("/cart/:id?").get().post().put().delete();
 
 //user manage
-router.use(auth.authorization);
+//router.use(auth.authorization);
 router
   .route("/user/:id?")
   .get(user.GET)
@@ -30,6 +31,7 @@ router
 //manage product
 router
   .route("/product/:id?")
+  .get(product.GET)
   .post(upload.single("img"), productMiddle.createCheck, product.POST)
   .put(upload.single("img"), productMiddle.updateCheck, product.PUT)
   .delete(product.DELETE);
