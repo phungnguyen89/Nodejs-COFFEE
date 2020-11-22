@@ -49,7 +49,7 @@ appConfig = () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(upload.any());
+  //app.use(upload.none());
   app.use(cookieParser(process.env.TOKEN_SECRECT));
   //app.use(cookieParser(process.env.TOKEN_SECRECT));
   app.use(express.static(path.join(__dirname, "public")));
@@ -66,11 +66,11 @@ appRouting = () => {
   // routing
   const home = require("./src/routes/home");
   const user = require("./src/routes/user");
-  const product = require("./src/routes/product");
+  const coffee = require("./src/routes/coffee");
   const cart = require("./src/routes/cart");
   const api = require("./src/api/route");
 
-  app.use("/product", product);
+  app.use("/coffee", coffee);
   app.use("/cart", cart);
   app.use("/user", user);
   app.use("/api", api);

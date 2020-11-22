@@ -24,15 +24,15 @@ module.exports.login = async (req, res) => {
     };
 
     let token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
-      expiresIn: `${1000 * 60 * 10}`,
+      expiresIn: `${1000 * 60 * 30}`,
     });
 
     res.cookie("token", token, {
-      maxAge: 1000 * 60 * 10,
+      maxAge: 1000 * 60 * 30,
       httpOnly: true,
       signed: true,
     });
 
-    return res.status(200).redirect("/user/dashboard");
+    return res.status(200).redirect("/");
   }
 };
