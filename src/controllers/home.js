@@ -5,7 +5,7 @@ const chalk = require("chalk");
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
     try {
-      let ret = await app.Coffee.getSearch(req.query.q);
+      let ret = await app.ProductInfo.getSearch(req.query.q);
       if (ret)
         return res.status(200).render("home/index", {
           a: ret,
@@ -24,7 +24,7 @@ module.exports.search = async (req, res, next) => {
 };
 module.exports.detail = async (req, res, next) => {
   try {
-    let ret = await app.Coffee.getById(req.params.id);
+    let ret = await app.ProductInfo.getById(req.params.id);
     if (ret)
       return res.status(200).render("home/detail", {
         o: ret,
@@ -43,8 +43,10 @@ module.exports.index = async (req, res, next) => {
     let p = req.params.p || 1;
     let size = 20;
     //console.log(chalk.blue("HOME"));
-    let ret = await app.Coffee.getPage(p, size);
-    let total = await app.Coffee.count();
+    //let test = await app.Product.getAll();
+    //console.log(chalk.blue("test product"), test);
+    let ret = await app.ProductInfo.getPage(p, size);
+    let total = await app.ProductInfo.count();
     let n = Math.ceil(total / size);
     //console.log(total);
     //console.log(chalk.blue("index"), ret);
@@ -56,8 +58,8 @@ module.exports.index = async (req, res, next) => {
         title: "Express",
         isAuthenticated: req.signedCookies.token ? true : false,
       });
-    return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
   } catch (err) {
     return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
   }
+  return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
 };

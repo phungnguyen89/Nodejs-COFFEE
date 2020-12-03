@@ -18,15 +18,11 @@ module.exports.authorization = async (req, res, next) => {
           return next();
         }
       }
-      return res.status(400).json({
-        error: true,
-        status: 403,
-        message: "Access Denied",
-      });
+      return res.status(403).render("error", { layout: false, message: "Access Denied" });
     }
   } catch (err) {
-    return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     return res.status(500).render("error", { layout: false, message: err });
+    return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     //return res.status(500).send(err);
   }
 };

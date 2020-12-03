@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Coffee = require("./model").Coffee;
+const Product = require("./model").Product;
 const chalk = require("chalk");
 
 module.exports.update = async (o) => {
   console.log(chalk.red("model "), o);
   try {
     o.updatedAt = new Date();
-    let ret = await Coffee.findById(o._id);
+    let ret = await Product.findById(o._id);
     console.log(chalk.red("model"), ret);
     return ret;
   } catch (err) {
@@ -18,7 +18,7 @@ module.exports.update = async (o) => {
 
 module.exports.deleteById = async (id) => {
   try {
-    let ret = await Coffee.findByIdAndRemove(id);
+    let ret = await Product.findByIdAndRemove(id);
     console.log(chalk.blue("model delte"), ret);
     return ret;
   } catch (err) {
@@ -28,7 +28,7 @@ module.exports.deleteById = async (id) => {
 
 module.exports.getById = async (id) => {
   try {
-    let ret = await Coffee.findById(id);
+    let ret = await Product.findById(id);
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -42,10 +42,10 @@ module.exports.create = async (o) => {
     //   cf.name += i;
     //   cf.quote += i;
     //   cf.description += i;
-    //   await new Coffee(cf).save();
+    //   await new Product(cf).save();
     // }
-    let newCoffee = await new Coffee(o).save();
-    return newCoffee;
+    let newProduct = await new Product(o).save();
+    return newProduct;
   } catch (err) {
     throw new Error(err);
   }
@@ -53,7 +53,7 @@ module.exports.create = async (o) => {
 
 module.exports.getSearch = async (q) => {
   try {
-    let ret = await Coffee.find({ name: { $regex: q, $options: "i" } });
+    let ret = await Product.find({ name: { $regex: q, $options: "i" } });
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -63,9 +63,11 @@ module.exports.getSearch = async (q) => {
 module.exports.getPage = async (p, size) => {
   try {
     console.log(chalk.blue("page,size"), p, size);
-    let ret = await Coffee.find()
+    let ret = await Product.find()
+      .populate("info")
       .skip((p - 1) * size)
-      .limit(size);
+      .limit(size)
+      .sort({ updatedAt: -1 });
     // console.log(chalk.blue("MODELS"), ret);
     // console.log(chalk.blue("MODELS"));
     return ret;
@@ -76,7 +78,7 @@ module.exports.getPage = async (p, size) => {
 
 module.exports.count = async () => {
   try {
-    let ret = await Coffee.countDocuments();
+    let ret = await Product.countDocuments();
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -84,7 +86,7 @@ module.exports.count = async () => {
 };
 module.exports.getAll = async () => {
   try {
-    let a = await Coffee.find().sort({ createdAt: -1 });
+    let a = await Product.find().populate("info").sort({ updatedAt: -1 });
     return a;
   } catch (err) {
     throw new Error(err);

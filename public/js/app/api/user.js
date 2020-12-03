@@ -5,7 +5,7 @@ class UserApi extends BaseApi {
     this.url = "/user";
   }
   LOGIN(frm) {
-    return this.client.post(this.url, frm);
+    return this.client.post("/login", frm);
   }
 
   DELETE(params = "") {

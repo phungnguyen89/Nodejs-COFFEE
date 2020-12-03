@@ -1,3 +1,5 @@
 module.exports.Cart = require("./cart");
-module.exports.Coffee = require("./coffee");
 module.exports.User = require("./user");
+module.exports.Product = require("./product");
+module.exports.ProductInfo = require("./productInfo");
+module.exports.Category = require("./category");

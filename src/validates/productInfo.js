@@ -18,6 +18,7 @@ module.exports.create = (o) => {
     quote: Joi.string().allow(""),
     description: Joi.string().allow(""),
     img: Joi.string().allow(""),
+    category: Joi.string().required(),
   });
   return schema.validate(o);
 };

@@ -2,7 +2,7 @@
 
 class AppApi {
   user;
-  coffee;
+  productInfo;
   home;
   cart;
 
@@ -14,9 +14,9 @@ class AppApi {
     if (this.user === undefined) this.user = new UserApi();
     return this.user;
   }
-  get Coffee() {
-    if (this.coffee === undefined) this.coffee = new CoffeeApi();
-    return this.coffee;
+  get ProductInfo() {
+    if (this.productInfo === undefined) this.productInfo = new ProductInfoApi();
+    return this.productInfo;
   }
   get Home() {
     if (this.home === undefined) this.home = new HomeApi();

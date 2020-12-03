@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const cart = new Schema(
   {
     token: { type: String, required: true },
-    productList: [{ type: String, ref: "coffees" }],
+    productList: [{ type: String, ref: "productInfo" }],
     expireAt: { type: Date, default: new Date(), expires: 60 * 5 },
   },
   { timestamps: true }
@@ -46,16 +46,49 @@ const user = new Schema(
   }
 );
 
-const coffee = new Schema(
+const product = new Schema(
+  {
+    info: { type: String, ref: "productInfo" },
+    price: {
+      type: Number,
+      default: 1,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+      required: true,
+    },
+    size: {
+      type: Number,
+      default: 0.5,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+const productInfo = new Schema(
   {
     name: { type: String },
     quote: { type: String },
     imgUrl: { type: String, default: "default" },
     description: { type: String },
+    category: { type: [String], ref: "categories" },
+  },
+  { timestamps: true }
+);
+
+const category = new Schema(
+  {
+    name: { type: String, unique: true },
+    // parent: { type: String, ref: "categories" },
   },
   { timestamps: true }
 );
 
 module.exports.Cart = mongoose.model("carts", cart, "carts");
 module.exports.User = mongoose.model("users", user, "users");
-module.exports.Coffee = mongoose.model("coffees", coffee, "coffees");
+module.exports.Product = mongoose.model("products", product, "products");
+module.exports.ProductInfo = mongoose.model("productInfo", productInfo, "productInfo");
+module.exports.Category = mongoose.model("categories", category, "categories");

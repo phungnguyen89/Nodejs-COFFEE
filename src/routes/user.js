@@ -4,23 +4,10 @@ const user = require("../controllers/user");
 const middle = require("../middlewares/user");
 /* GET users listing. */
 
-router.get("/dashboard", (req, res) => {
-  res.render("user/dashboard", {
-    isAuthenticated: signedCookies.token ? true : false,
-  });
-});
+router.route("/logout").post(user.logout);
 
-router.post("/logout", user.logout);
+router.route("/login").get(user.login);
 
-router
-  .route("/login")
-  .get((req, res) => {
-    res.render("user/login");
-  })
-  .post(middle.loginCheck, user.login);
-
-router.route("/register").get((req, res) => {
-  res.render("user/register");
-});
+router.route("/register").get(user.register);
 
 module.exports = router;

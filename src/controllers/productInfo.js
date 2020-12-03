@@ -2,8 +2,9 @@ const app = require("../models/app");
 const helper = require("../helper");
 module.exports.detail = (req, res) => {
   try {
-    let ret = app.Coffee.getById(req.params.id);
-    if (ret) return res.status(200).render("coffee/detail", { o: val, title: "DETAIL" });
+    let ret = app.ProductInfo.getById(req.params.id);
+    if (ret)
+      return res.status(200).render("productInfo/detail", { o: val, title: "DETAIL" });
   } catch (err) {
     return res.status(500).json(helper.stt500());
   }
@@ -11,5 +12,5 @@ module.exports.detail = (req, res) => {
 };
 
 module.exports.index = (req, res) => {
-  return res.render("coffee/index", { title: "COFFEE" });
+  return res.render("productInfo/index", { title: "PRODUCT INFO" });
 };

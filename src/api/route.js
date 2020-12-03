@@ -1,17 +1,20 @@
 const router = require("express").Router();
 const multer = require("multer");
-const upload = multer({ dest: "./public/images/coffee" });
+const upload = multer({ dest: "./public/images/productInfo" });
 //middlewares
-const coffeeMiddle = require("../middlewares/coffee");
+const productInfoMiddle = require("../middlewares/productInfo");
 const userMiddle = require("../middlewares/user");
 const auth = require("../middlewares/auth");
+const categoryMiddle = require("../middlewares/category");
 //controllers
-const coffee = require("./controllers/coffee");
+const product = require("./controllers/product");
+const productInfo = require("./controllers/productInfo");
+const category = require("./controllers/category");
 const user = require("./controllers/user");
 const cart = require("./controllers/cart");
 //home
-router.get("/detail/:id?", coffee.GET);
-router.get("/page/:p?", coffee.PAGE);
+router.get("/detail/:id?", productInfo.GET);
+router.get("/page/:p?", productInfo.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
 
@@ -32,12 +35,21 @@ router
   .post(userMiddle.registerCheck, user.POST)
   .put(userMiddle.updateCheck, user.PUT)
   .delete(user.DELETE);
-
-//manage coffee
+//manage product
+router.route("/product/:id?");
+//manage productInfo
 router
-  .route("/coffee/:id?")
-  .get(coffee.GET)
-  .post(upload.single("img"), coffeeMiddle.createCheck, coffee.POST)
-  .put(upload.single("img"), coffeeMiddle.updateCheck, coffee.PUT)
-  .delete(coffee.DELETE);
+  .route("/product/info/:id?")
+  .get(productInfo.GET)
+  .post(upload.single("img"), productInfoMiddle.createCheck, productInfo.POST)
+  .put(upload.single("img"), productInfoMiddle.updateCheck, productInfo.PUT)
+  .delete(productInfoMiddle.deleteCheck, productInfo.DELETE);
+//manage category
+router
+  .route("/category/:id?")
+  .get(category.GET)
+  .post(categoryMiddle.createCheck, category.POST)
+  .put(categoryMiddle.updateCheck, category.PUT)
+  .delete(category.DELETE);
+
 module.exports = router;

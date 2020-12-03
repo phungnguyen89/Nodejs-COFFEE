@@ -1,21 +1,18 @@
 const app = require("../../models/app");
 const helper = require("../../helper");
 const chalk = require("chalk");
-
+const jwt = require("jsonwebtoken");
 module.exports.LOGOUT = async (req, res) => {
   let token = req.signedCookies.token || req.body.token || req.headers.authorization;
-  // console.log(chalk.red("token"), token);
-
-  // let decode = jwt.verify(token, process.env.TOKEN_SECRECT);
-  // console.log(decode);
-  //clear session on dtb
-  if (req.signedCookies.token) {
-    return res.status(200).json(helper.stt200());
+  if (token) {
+    res.clearCookie("token");
+    return res.status(200).redirect("/");
   }
-  return res.status(500).json(helper.stt500());
+  return res.status(400).json(helper.stt400());
 };
 
 module.exports.LOGIN = async (req, res) => {
+  console.log("we got login api");
   if (res.locals.data) {
     let payload = {
       username: res.locals.data.username,
@@ -32,9 +29,9 @@ module.exports.LOGIN = async (req, res) => {
       httpOnly: true,
       signed: true,
     });
-    //create session on dtb
-    return res.status(200).redirect("/user/dashboard");
+    return res.status(200).json(helper.stt200());
   }
+  return res.status(400).json(helper.stt400());
 };
 
 module.exports.DELETE = async (req, res) => {

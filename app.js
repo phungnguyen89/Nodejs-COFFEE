@@ -64,16 +64,18 @@ appConfig = () => {
 
 appRouting = () => {
   // routing
+
   const home = require("./src/routes/home");
   const user = require("./src/routes/user");
-  const coffee = require("./src/routes/coffee");
+  const productInfo = require("./src/routes/productInfo");
   const cart = require("./src/routes/cart");
   const api = require("./src/api/route");
+  const admin = require("./src/routes/admin");
 
-  app.use("/coffee", coffee);
+  app.use("/admin", admin);
+  app.use("/api", api);
   app.use("/cart", cart);
   app.use("/user", user);
-  app.use("/api", api);
   app.use("/", home);
 
   //use auth middleware

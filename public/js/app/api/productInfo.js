@@ -1,8 +1,8 @@
-class CoffeeApi extends BaseApi {
+class ProductInfoApi extends BaseApi {
   url;
   constructor() {
     super();
-    this.url = "/coffee";
+    this.url = "/product/info";
   }
   DELETE(params = "") {
     return params
