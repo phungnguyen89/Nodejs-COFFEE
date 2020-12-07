@@ -13,7 +13,9 @@ const category = require("./controllers/category");
 const user = require("./controllers/user");
 const cart = require("./controllers/cart");
 //home
+
 router.get("/detail/:id?", productInfo.GET);
+router.get("/search:q?", product.SEARCH);
 router.get("/page/:p?", productInfo.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
@@ -35,8 +37,7 @@ router
   .post(userMiddle.registerCheck, user.POST)
   .put(userMiddle.updateCheck, user.PUT)
   .delete(user.DELETE);
-//manage product
-router.route("/product/:id?");
+
 //manage productInfo
 router
   .route("/product/info/:id?")
@@ -44,6 +45,9 @@ router
   .post(upload.single("img"), productInfoMiddle.createCheck, productInfo.POST)
   .put(upload.single("img"), productInfoMiddle.updateCheck, productInfo.PUT)
   .delete(productInfoMiddle.deleteCheck, productInfo.DELETE);
+
+//manage product
+router.route("/product/:id?").get(product.GET).post().put().delete();
 //manage category
 router
   .route("/category/:id?")

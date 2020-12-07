@@ -78,32 +78,47 @@ module.exports.page = (n) => {
 
 module.exports.pag = (p, n) => {
   //console.log(p, size, n);
-  let s = [];
-  s.push(`<ul class="pagination">`);
+  if (n > 7) {
+    let s = [];
+    s.push(`<ul class="pagination">`);
+    let slot = 7;
+    let mid = Math.ceil(slot / 2);
+    let left = 1;
+    let right = slot;
 
-  let slot = 7;
-  let mid = Math.ceil(slot / 2);
-  let left = 1;
-  let right = slot;
+    if (p > mid) {
+      right = p + mid - 1;
+      if (right > n) {
+        right = n;
+      }
 
-  if (p > mid) {
-    right = p + mid - 1;
-    if (right > n) {
-      right = n;
+      left = right - slot + 1;
     }
 
-    left = right - slot + 1;
-  }
-
-  for (let i = left; i <= right; i++) {
-    if (i == p) {
-      s.push('<li class="active page-item">');
-    } else {
-      s.push('<li class="page-item">');
+    for (let i = left; i <= right; i++) {
+      if (i == p) {
+        s.push('<li class="active page-item">');
+      } else {
+        s.push('<li class="page-item">');
+      }
+      s.push(`<a class="page-link" href="/${i}">${i}</a>`);
+      s.push("</li>");
     }
-    s.push(`<a class="page-link" href="/${i}">${i}</a>`);
-    s.push("</li>");
+    s.push(`</ul>`);
+    return s.join("");
+  } else {
+    let s = [];
+    s.push(`<ul class="pagination">`);
+    for (let i = 1; i <= n; i++) {
+      if (i == p) {
+        s.push('<li class="active page-item">');
+      } else {
+        s.push('<li class="page-item">');
+      }
+      s.push(`<a class="page-link" href="/${i}">${i}</a>`);
+      s.push("</li>");
+    }
+    s.push(`</ul>`);
+    return s.join("");
   }
-  s.push(`</ul>`);
-  return s.join("");
 };

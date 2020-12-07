@@ -5,7 +5,7 @@ const chalk = require("chalk");
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
     try {
-      let ret = await app.ProductInfo.getSearch(req.query.q);
+      let ret = await app.Product.getSearch(req.query.q);
       if (ret)
         return res.status(200).render("home/index", {
           a: ret,
@@ -38,27 +38,23 @@ module.exports.detail = async (req, res, next) => {
 };
 
 module.exports.index = async (req, res, next) => {
-  //console.log(chalk.red("error"));
   try {
     let p = req.params.p || 1;
     let size = 20;
-    //console.log(chalk.blue("HOME"));
-    //let test = await app.Product.getAll();
-    //console.log(chalk.blue("test product"), test);
-    let ret = await app.ProductInfo.getPage(p, size);
-    let total = await app.ProductInfo.count();
+    let ret = await app.Product.getPage(p, size);
+    console.log(chalk.blue("get result"), ret);
+    let total = await app.Product.count();
     let n = Math.ceil(total / size);
-    //console.log(total);
-    //console.log(chalk.blue("index"), ret);
     if (ret)
       return res.status(200).render("home/index", {
         a: ret,
         p: p,
         n: n,
-        title: "Express",
+        title: "Home",
         isAuthenticated: req.signedCookies.token ? true : false,
       });
   } catch (err) {
+    console.log(chalk.red(err));
     return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
   }
   return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });

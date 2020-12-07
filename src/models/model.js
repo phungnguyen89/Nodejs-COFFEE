@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const cart = new Schema(
   {
     token: { type: String, required: true },
-    productList: [{ type: String, ref: "productInfo" }],
+    customer: { type: String, ref: "users" },
+    productList: [{ type: String, ref: "products" }],
     expireAt: { type: Date, default: new Date(), expires: 60 * 5 },
   },
   { timestamps: true }
@@ -70,11 +71,11 @@ const product = new Schema(
 
 const productInfo = new Schema(
   {
-    name: { type: String },
+    name: { type: String, unique: true },
     quote: { type: String },
     imgUrl: { type: String, default: "default" },
     description: { type: String },
-    category: { type: [String], ref: "categories" },
+    category: [{ type: String, ref: "categories" }],
   },
   { timestamps: true }
 );

@@ -1,13 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Product = require("./model").Product;
+const ProductInfo = require("./model").ProductInfo;
 const chalk = require("chalk");
+
+const selectFields = ["-createdAt", "-updatedAt"];
+const populateOpt = {
+  path: "info",
+  select: selectFields,
+  populate: { path: "category", select: ["name"] },
+};
 
 module.exports.update = async (o) => {
   console.log(chalk.red("model "), o);
   try {
     o.updatedAt = new Date();
-    let ret = await Product.findById(o._id);
+    let ret = await Product.findByIdAndUpdate(o._id, o, { new: true });
     console.log(chalk.red("model"), ret);
     return ret;
   } catch (err) {
@@ -28,7 +36,7 @@ module.exports.deleteById = async (id) => {
 
 module.exports.getById = async (id) => {
   try {
-    let ret = await Product.findById(id);
+    let ret = await Product.findById(id).populate(populateOpt);
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -53,8 +61,20 @@ module.exports.create = async (o) => {
 
 module.exports.getSearch = async (q) => {
   try {
-    let ret = await Product.find({ name: { $regex: q, $options: "i" } });
-    return ret;
+    console.log(chalk.red("we got search Product"));
+    let conds = Object.assign({}, populateOpt);
+
+    conds.match = { name: { $regex: q, $options: "i" } };
+
+    let ret = await Product.find({ "info.name": { $regex: q, $options: "i" } })
+      .populate(conds)
+      .sort({ updatedAt: -1 });
+    console.log(chalk.blackBright("ret "), ret);
+    // console.log(chalk.blue("search"), ret);
+    // let ret = await Product.find({ name: { $regex: q, $options: "i" } })
+    //   .populate(populateOpt)
+    //   .sort({ updatedAt: -1 });
+    //return ret;
   } catch (err) {
     throw new Error(err);
   }
@@ -62,14 +82,16 @@ module.exports.getSearch = async (q) => {
 
 module.exports.getPage = async (p, size) => {
   try {
-    console.log(chalk.blue("page,size"), p, size);
-    let ret = await Product.find()
-      .populate("info")
+    let ret = await Product.find({})
+      .populate(populateOpt)
       .skip((p - 1) * size)
       .limit(size)
       .sort({ updatedAt: -1 });
-    // console.log(chalk.blue("MODELS"), ret);
-    // console.log(chalk.blue("MODELS"));
+    // let ret = await Product.find()
+    //   .populate("info")
+    //   .skip((p - 1) * size)
+    //   .limit(size)
+    //   .sort({ updatedAt: -1 });
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -86,8 +108,9 @@ module.exports.count = async () => {
 };
 module.exports.getAll = async () => {
   try {
-    let a = await Product.find().populate("info").sort({ updatedAt: -1 });
-    return a;
+    let ret = await Product.find({}).populate(populateOpt);
+    //let a = await Product.find().populate("info").sort({ updatedAt: -1 });
+    return ret;
   } catch (err) {
     throw new Error(err);
   }

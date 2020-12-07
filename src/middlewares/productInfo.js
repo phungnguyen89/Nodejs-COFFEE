@@ -51,10 +51,14 @@ module.exports.createCheck = function (req, res, next) {
     return res.status(400).json(helper.stt400(valid.error.details[0].message));
   }
 
-  valid.value.category = valid.value.category.split(",");
-  res.send(valid.value);
+  //more than 2 cateogories
+  if (valid.value.category.includes(",")) {
+    let a = valid.value.category.split(",");
+    let cates = [];
+    for (let i in a) if (a[i]) cates.push(a[i]);
+    valid.value.category = cates;
+  }
 
-  return;
   res.locals.data = valid.value;
   if (req.file) {
     res.locals.data.imgUrl = req.file.filename;

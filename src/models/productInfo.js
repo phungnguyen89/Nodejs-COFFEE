@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ProductInfo = require("./model").ProductInfo;
+const Product = require("./model").Product;
 const chalk = require("chalk");
 
+const app = require("./app");
 module.exports.update = async (o) => {
   console.log(chalk.red("model "), o);
   try {
     o.updatedAt = new Date();
-    let ret = await ProductInfo.findById(o._id);
+    let ret = await ProductInfo.findByIdAndUpdate(o._id, o, { new: true });
     // console.log(chalk.red("model"), ret);
     return ret;
   } catch (err) {
@@ -36,6 +38,30 @@ module.exports.getById = async (id) => {
 };
 
 module.exports.create = async (o) => {
+  // console.log(chalk.blue("create now"), o);
+  // let product = {
+  //   price: 10000,
+  //   quantity: 10,
+  //   size: 1,
+  // };
+  // for (let i = 0; i < 100; i++) {
+  //   let info = Object.assign({}, o);
+  //   info.name += i;
+  //   info.quote += i;
+  //   info.description += i;
+
+  //   let newInfo = new ProductInfo(info);
+
+  //   newInfo.save().then((val) => {
+  //     let pro = Object.assign({}, product);
+  //     pro.price += i;
+  //     pro.quantity += i;
+  //     pro.size += i;
+  //     pro.info = val._id;
+  //     let newProduct = new Product(pro);
+  //     newProduct.save();
+  //   });
+  // }
   try {
     let newProductInfo = await new ProductInfo(o).save();
     return newProductInfo;
@@ -77,7 +103,10 @@ module.exports.count = async () => {
 };
 module.exports.getAll = async () => {
   try {
-    let a = await ProductInfo.find().sort({ createdAt: -1 });
+    console.log("we are here");
+    let a = await ProductInfo.find()
+      .populate({ path: "category", select: "name" })
+      .sort({ createdAt: -1 });
     return a;
   } catch (err) {
     throw new Error(err);

@@ -7,7 +7,7 @@ module.exports.deleteProductById = async (o) => {
 
     cart.productList.splice(cart.productList.indexOf(o.id), 1);
     cart.updatedAt = new Date();
-    let ret = await Cart.findOneAndUpdate({ token: cart.token }, cart);
+    let ret = await Cart.findOneAndUpdate({ token: cart.token }, cart, { new: true });
 
     return ret;
   } catch (err) {

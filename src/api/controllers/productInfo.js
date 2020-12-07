@@ -47,6 +47,7 @@ module.exports.POST = async (req, res) => {
       let ret = await app.ProductInfo.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
+      console.log(chalk.red(err));
       return res.status(500).json(helper.stt500(err));
     }
   }

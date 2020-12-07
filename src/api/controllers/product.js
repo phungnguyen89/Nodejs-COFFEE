@@ -1,6 +1,31 @@
 const app = require("../../models/app");
 const helper = require("../../helper");
 const chalk = require("chalk");
+
+module.exports.SEARCH = async (req, res) => {
+  let ret = await app.Product.getSearch(req.query.q);
+  // console.log(chalk.red("api product search"), ret);
+  return res.send("abc");
+  if (req.query.q) {
+    try {
+      let ret = await app.ProductInfo.getSearch(req.query.q);
+      if (ret)
+        return res.status(200).render("home/index", {
+          a: ret,
+          title: "Express",
+          isAuthenticated:
+            req.cookies.token || req.body.token || req.headers.authorization
+              ? true
+              : false,
+        });
+      return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
+    } catch (err) {
+      return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
+    }
+  }
+  return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
+};
+
 module.exports.PAGE = async (req, res) => {
   let p = req.params.p || 1;
 

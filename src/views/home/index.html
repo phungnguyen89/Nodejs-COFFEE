@@ -23,8 +23,9 @@
 <div class="row">
   {{#each a}}
   <div class="col-3">
-    <div style="text-align: left;" id="name">{{name}}</div>
-    <div><a href="/detail/{{_id}}"><img src="/images/productInfo/{{imgUrl}}" alt="{{imgUrl}}" width="100px" /></div></a>
+    <div style="text-align: left;" id="name">{{this.info.name}}</div>
+    <div><a href="/detail/{{_id}}"><img src="/images/productInfo/{{this.info.imgUrl}}" alt="{{imgUrl}}" width="100px" /></div></a>
+    <div><b>{{this.price}}</b></div>
   </div>
   {{/each}}
 </div>
