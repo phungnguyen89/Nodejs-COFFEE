@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// item: [
+//   { id: { type: String, ref: "products" } },
+//   { num: { type: Number, default: 1 } },
+// ],
 const cart = new Schema(
   {
     token: { type: String, required: true },
     customer: { type: String, ref: "users" },
-    productList: [{ type: String, ref: "products" }],
+    item: [{ type: String, ref: "products" }],
     expireAt: { type: Date, default: new Date(), expires: 60 * 5 },
   },
   { timestamps: true }

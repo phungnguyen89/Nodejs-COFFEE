@@ -14,4 +14,6 @@ let t = async function () {
   console.log(ret[0].info);
   console.log(ret[0].info.category[0]);
 };
-t();
+// t();
+let s = "Abc";
+console.log(Schema.Types.ObjectId(s));

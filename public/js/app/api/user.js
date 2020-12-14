@@ -4,6 +4,9 @@ class UserApi extends BaseApi {
     super();
     this.url = "/user";
   }
+  LOGOUT() {
+    return this.client.post("/logout");
+  }
   LOGIN(frm) {
     return this.client.post("/login", frm);
   }

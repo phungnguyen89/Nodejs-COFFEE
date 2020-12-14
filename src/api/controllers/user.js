@@ -6,27 +6,18 @@ module.exports.LOGOUT = async (req, res) => {
   let token = req.signedCookies.token || req.body.token || req.headers.authorization;
   if (token) {
     res.clearCookie("token");
-    return res.status(200).redirect("/");
   }
-  return res.status(400).json(helper.stt400());
+  return res.status(200).redirect("/");
+  // return res.status(400).json(helper.stt400());
 };
 
 module.exports.LOGIN = async (req, res) => {
   console.log("we got login api");
   if (res.locals.data) {
-    let payload = {
-      username: res.locals.data.username,
-      name: res.locals.data.profile.fullName,
-      role: res.locals.data.role,
-    };
-
-    let token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
-      expiresIn: `${1000 * 60 * 10}`,
-    });
-
+    let token = helper.createToken(res.locals.data);
     res.cookie("token", token, {
       maxAge: 1000 * 60 * 10,
-      httpOnly: true,
+      // httpOnly: true,
       signed: true,
     });
     return res.status(200).json(helper.stt200());

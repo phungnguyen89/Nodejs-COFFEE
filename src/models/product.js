@@ -61,20 +61,33 @@ module.exports.create = async (o) => {
 
 module.exports.getSearch = async (q) => {
   try {
-    console.log(chalk.red("we got search Product"));
-    let conds = Object.assign({}, populateOpt);
+    let agg = [];
+    agg.push({
+      $match: {
+        name: { $regex: q, $options: "i" },
+      },
+    });
+    agg.push({
+      $lookup: {
+        from: "products",
+        localField: "_id",
+        foreignField: "info",
+        as: "ret",
+      },
+    });
 
-    conds.match = { name: { $regex: q, $options: "i" } };
+    let idlist = await ProductInfo.find({ name: { $regex: q, $options: "i" } }).select(
+      "_id"
+    );
 
-    let ret = await Product.find({ "info.name": { $regex: q, $options: "i" } })
-      .populate(conds)
-      .sort({ updatedAt: -1 });
-    console.log(chalk.blackBright("ret "), ret);
-    // console.log(chalk.blue("search"), ret);
-    // let ret = await Product.find({ name: { $regex: q, $options: "i" } })
-    //   .populate(populateOpt)
-    //   .sort({ updatedAt: -1 });
-    //return ret;
+    if (idlist.length > 1) {
+      idlist = idlist.map(function (o) {
+        return o._id;
+      });
+      let ret = await Product.find({ info: { $in: idlist } }).populate(populateOpt);
+      return ret;
+    }
+    return null;
   } catch (err) {
     throw new Error(err);
   }

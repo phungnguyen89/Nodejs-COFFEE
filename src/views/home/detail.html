@@ -2,22 +2,33 @@
 <div class="row">
   <div class="col-4"></div>
   <div class="col-8">
-    <form action="" id="frm">
+    <div>
       <div>
-        <input type="hidden" name="id" value="{{o._id}}" />
-        <div><h2>{{o.name}}</h2></div>
-        <div>{{o.quote}}</div>
-        <div class="row">
-          <div class="col-4">
-            <div><img src="/images/productInfo/{{o.imgUrl}}" width="250px" alt="" /></div>
-          </div>
-          <div class="col-8">
-            <div>DESCRIPTION:{{o.description}}</div>
+        <h2>{{o.name}}</h2>
+      </div>
+      <div>{{o.quote}}</div>
+      <div class="row">
+        <div class="col-4">
+          <div>
+            <img
+              src="/images/productInfo/{{o.info.imgUrl}}"
+              width="250px"
+              alt="{{o.info.imgUrl}}"
+            />
           </div>
         </div>
-        <div><button id="btnCart">Add To CART</button></div>
+        <div class="col-8">
+          <div>DESCRIPTION:{{o.info.description}}</div>
+        </div>
       </div>
-    </form>
+      <div>
+        <form id="frm" name="frm">
+          <input type="hidden" name="id" value="{{o._id}}" />
+          <!-- <input name="num" type="number" min="1" max="50" step="1" value="1" /> -->
+          <button>Add To CART</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

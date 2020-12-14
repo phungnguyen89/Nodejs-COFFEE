@@ -1,6 +1,27 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+
+module.exports.valueToken = (token) => {
+  return token ? jwt.verify(token, process.env.TOKEN_SECRECT) : {};
+};
+
+module.exports.createToken = (
+  o = {
+    role: "guest",
+  }
+) => {
+  let payload = {
+    username: o.username,
+    role: o.role,
+  };
+
+  let token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
+    expiresIn: `${1000 * 60 * 10}`,
+  });
+  return token;
+};
 
 module.exports.hashPassword = (usr, pwd) => {
   try {

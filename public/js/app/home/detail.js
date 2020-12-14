@@ -7,9 +7,9 @@ const addCart = async function (o) {
 
 $(document).ready(function () {
   let frm = document.getElementById("frm");
+  // console.log(frm.num.value);
   frm.onsubmit = function (ev) {
     ev.preventDefault();
-    // alert("hdakjd");
-    addCart(new FormData(frm));
+    addCart({ productId: frm.id.value });
   };
 });

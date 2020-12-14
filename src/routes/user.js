@@ -4,7 +4,7 @@ const user = require("../controllers/user");
 const middle = require("../middlewares/user");
 /* GET users listing. */
 
-router.route("/logout").post(user.logout);
+router.route("/logout").get(user.logout).post(user.logout);
 
 router.route("/login").get(user.login);
 
