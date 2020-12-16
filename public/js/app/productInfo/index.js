@@ -1,27 +1,10 @@
-const app = new AppApi();
+let app = new AppApi();
 
-const main = {};
+let main = {};
 
-$(document).ready(function () {
-  let create = document.getElementById("inputCreate");
-  let sheet = document.getElementById("sheet");
-  let frm = document.getElementById("frm");
-  let title = document.getElementById("titleForm");
-  let btn = document.getElementById("btn");
-  main.loadProductInfo(sheet);
-  //test
-  btn.onclick = () => {
-    console.log(udts);
-  };
-  create.onclick = () => {
-    frm.style = "display:block";
-  };
+let productInfo = {};
 
-  frm.onsubmit = async function (ev) {
-    ev.preventDefault();
-    main.createProductInfo(frm);
-  };
-});
+productInfo.GET = () => {};
 main.pushProductInfo = function (o) {
   let s = [];
   s.push("<tr>");
@@ -51,7 +34,7 @@ main.loadProductInfo = async function (elm) {
     elm.insertAdjacentHTML("afterbegin", s.join(""));
   }
 };
-main.createProductInfo = async function (o) {
+main.POST = async function (o) {
   let ret = await app.ProductInfo.POST(new FormData(o));
   if (ret.error) {
     //alert("eorr");
@@ -62,3 +45,24 @@ main.createProductInfo = async function (o) {
     helper.msg(`SUCESSFULLY TO CREATE ${ret.data.name}`);
   }
 };
+
+$(document).ready(function () {
+  let create = document.getElementById("inputCreate");
+  let sheet = document.getElementById("sheet");
+  let frm = document.getElementById("frm");
+  let title = document.getElementById("titleForm");
+  let btn = document.getElementById("btn");
+  main.loadProductInfo(sheet);
+  //test
+  btn.onclick = () => {
+    console.log(udts);
+  };
+  create.onclick = () => {
+    frm.style = "display:block";
+  };
+
+  frm.onsubmit = async function (ev) {
+    ev.preventDefault();
+    main.POST(frm);
+  };
+});

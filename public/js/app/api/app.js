@@ -2,6 +2,8 @@
 
 class AppApi {
   user;
+  category;
+  product;
   productInfo;
   home;
   cart;
@@ -14,9 +16,19 @@ class AppApi {
     if (this.user === undefined) this.user = new UserApi();
     return this.user;
   }
+  get Product() {
+    if (this.product === undefined) this.product = new ProductApi();
+    return this.product;
+  }
+
   get ProductInfo() {
     if (this.productInfo === undefined) this.productInfo = new ProductInfoApi();
     return this.productInfo;
+  }
+
+  get Category() {
+    if (this.category === undefined) this.category = new CategoryApi();
+    return this.category;
   }
   get Home() {
     if (this.home === undefined) this.home = new HomeApi();

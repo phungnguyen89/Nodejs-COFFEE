@@ -38,31 +38,31 @@ module.exports.getById = async (id) => {
 };
 
 module.exports.create = async (o) => {
-  // console.log(chalk.blue("create now"), o);
-  // let product = {
-  //   price: 10000,
-  //   quantity: 10,
-  //   size: 1,
-  // };
-  // for (let i = 0; i < 100; i++) {
-  //   let info = Object.assign({}, o);
-  //   info.name += i;
-  //   info.quote += i;
-  //   info.description += i;
-
-  //   let newInfo = new ProductInfo(info);
-
-  //   newInfo.save().then((val) => {
-  //     let pro = Object.assign({}, product);
-  //     pro.price += i;
-  //     pro.quantity += i;
-  //     pro.size += i;
-  //     pro.info = val._id;
-  //     let newProduct = new Product(pro);
-  //     newProduct.save();
-  //   });
-  // }
   try {
+    console.log(chalk.blue("create now"), o);
+    // let product = {
+    //   price: 10000,
+    //   quantity: 10,
+    //   size: 1,
+    // };
+    // for (let i = 0; i < 100; i++) {
+    //   let info = Object.assign({}, o);
+    //   info.name += i;
+    //   info.quote += i;
+    //   info.description += i;
+
+    //   let newInfo = new ProductInfo(info);
+
+    //   newInfo.save().then((val) => {
+    //     let pro = Object.assign({}, product);
+    //     pro.price += i;
+    //     pro.quantity += i;
+    //     pro.size += i;
+    //     pro.info = val._id;
+    //     let newProduct = new Product(pro);
+    //     newProduct.save();
+    //   });
+    // }
     let newProductInfo = await new ProductInfo(o).save();
     return newProductInfo;
   } catch (err) {
