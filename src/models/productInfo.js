@@ -45,7 +45,7 @@ module.exports.create = async (o) => {
     //   quantity: 10,
     //   size: 1,
     // };
-    // for (let i = 0; i < 100; i++) {
+    // for (let i = 1; i < 51; i++) {
     //   let info = Object.assign({}, o);
     //   info.name += i;
     //   info.quote += i;

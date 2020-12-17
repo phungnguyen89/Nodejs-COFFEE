@@ -5,5 +5,4 @@ let a = [1, 2, 1, 3, 4, 5];
 // b.push(10);
 // console.log(a);
 // console.log(b);
-a.splice(0, 1);
-console.log(a);
+// a.splice(0, 1);
