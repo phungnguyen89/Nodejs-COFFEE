@@ -9,7 +9,7 @@ class CartApi extends BaseApi {
   }
   PUT(frm) {
     //console.log("body", body);
-    return this.client.post(this.url, frm);
+    return this.client.put(this.url, frm);
   }
   POST(frm) {
     //console.log("body", body);

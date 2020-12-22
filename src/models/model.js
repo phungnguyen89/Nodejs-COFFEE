@@ -41,9 +41,9 @@ const user = new Schema(
     },
     profile: {
       fullName: { type: String, uppercase: true, default: "NO NAME" },
-      address: { type: String },
+      address: { type: String, default: "0/0/0 unknown road" },
       gender: { type: Boolean, default: 1 },
-      birthDate: { type: Date },
+      birthDate: { type: Date, default: new Date() },
     },
   },
   {

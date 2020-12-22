@@ -5,6 +5,7 @@ module.exports.update = (o) => {
     id: Joi.string().hex().required(),
     name: Joi.string().required().uppercase(),
     quote: Joi.string().allow(""),
+    category: Joi.string().required(),
     description: Joi.string().allow(""),
     imgUrl: Joi.string().required(),
   });

@@ -1,5 +1,5 @@
 <button id="btn">TEST</button>
-<button id="inputCreate" class="badge-pill">CREATE</button>
+<button id="btnCreate" class="badge-pill">CREATE</button>
 <div class="row">
   <div class="col-9">
     <table class="table table-borderred">
@@ -14,7 +14,6 @@
           <th>Delete</th>
         </tr>
       </thead>
-
       <tbody id="sheet">
         <tr>
           <td>1</td>
@@ -41,11 +40,19 @@
     <form
       style="margin-left: 2rem; margin-top: -2.5rem; display: none"
       class="form-check-input"
-      id="frm"
+      id="createFrm"
       action=""
       method="POST"
     >
-      <h2 id="titleForm" class="form-check-input-heading">Create</h2>
+      <div class="row">
+        <div class="col-7">
+          <h2 id="titleForm" class="form-check-input-heading">Create</h2>
+        </div>
+        <div class="col-5">
+          <h2><button type="button" id="createClearBtn">Clear</button></h2>
+        </div>
+      </div>
+
       <div>
         <!-- <label for="inputName" class="sr-only">Email address</label> -->
         <input
@@ -60,10 +67,21 @@
 
       <div>
         <label for="inputName" class="form-control sr-only">Cateogry</label>
-        <select class="form-control text-center" id="selectCategory" name="category">
+        <select class="form-control text-center" id="selectCategory">
           <option class="form-control text-center" value="">------Category------</option>
         </select>
+
+        <input id="inputCategory" name="category" type="hidden" value="" />
+        <textarea
+          id="txtCategory"
+          class="form-control"
+          cols="30"
+          rows="2"
+          placeholder="Category"
+          disabled="true"
+        ></textarea>
       </div>
+
       <div>
         <label for="inputQuote" class="sr-only">Quote</label>
         <textarea
@@ -87,6 +105,9 @@
         ></textarea>
       </div>
       <div>
+        <img id="currentImg" src="" alt="" />
+      </div>
+      <div>
         <label for="inputImage" class="sr-only">Image</label>
         <input
           type="file"
@@ -97,7 +118,92 @@
         />
       </div>
       <br />
-      <button class="btn btn-danger btn-default btn-block" type="submit">CREATE</button>
+      <button class="btn btn-danger btn-default btn-block" type="submit">SUBMIT</button>
+    </form>
+    <form
+      style="margin-left: 2rem; margin-top: -2.5rem; display: none"
+      class="form-check-input"
+      id="updateFrm"
+      action=""
+      method="POST"
+    >
+      <input type="hidden" name="id" id="inputId" />
+      <div class="row">
+        <div class="col-7">
+          <h2 id="titleForm" class="form-check-input-heading">Update</h2>
+        </div>
+        <div class="col-5">
+          <h2><button type="button" id="updateClearBtn">Clear</button></h2>
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="text"
+          id="inputName"
+          name="name"
+          class="form-control"
+          placeholder="Name"
+          autofocus
+        />
+      </div>
+
+      <div>
+        <label for="inputName" class="form-control sr-only">Cateogry</label>
+        <select class="form-control text-center" id="selectCategory">
+          <option class="form-control text-center" value="">------Category------</option>
+        </select>
+
+        <input id="inputCategory" name="category" type="hidden" value="" />
+        <textarea
+          id="txtCategory"
+          class="form-control"
+          cols="30"
+          rows="2"
+          placeholder="Category"
+          disabled="true"
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="inputQuote" class="sr-only">Quote</label>
+        <textarea
+          id="inputQuote"
+          name="quote"
+          class="form-control"
+          cols="30"
+          rows="3"
+          placeholder="Quote"
+        ></textarea>
+      </div>
+      <div>
+        <label for="inputDecription" class="sr-only">Description</label>
+        <textarea
+          id="inputDecription"
+          name="description"
+          class="form-control"
+          cols="30"
+          rows="3"
+          placeholder="Description"
+        ></textarea>
+      </div>
+      <div>
+        <img id="currentImg" src="" alt="" />
+      </div>
+      <div>
+        <label for="inputImage" class="sr-only">Image</label>
+        <img src="" alt="" id="currentImg" width="100px" />
+        <input type="hidden" name="imgUrl" />
+        <input
+          type="file"
+          id="inputImg"
+          name="img"
+          class="form-control"
+          placeholder="Image"
+        />
+      </div>
+      <br />
+      <button class="btn btn-danger btn-default btn-block" type="submit">SUBMIT</button>
     </form>
   </div>
 </div>

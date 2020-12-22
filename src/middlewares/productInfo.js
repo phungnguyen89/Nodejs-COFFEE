@@ -4,43 +4,39 @@ const app = require("../models/app");
 const chalk = require("chalk");
 
 module.exports.deleteCheck = async (req, res, next) => {
+  //console.log(req.params);
   let ret = await app.ProductInfo.getById(req.params.id);
-  if (ret && ret.imgUrl != "default") {
-    try {
-      helper.deleteFile(`/images/productInfo/${ret.imgUrl}`);
-      return next();
-    } catch (err) {
-      return res.status(500).json(helper.stt500());
+  if (ret) {
+    if (ret.imgUrl != "default") {
+      try {
+        helper.deleteFile(`/images/productInfo/${ret.imgUrl}`);
+      } catch (err) {
+        return res.status(400).json(helper.stt400("Image not found"));
+      }
     }
+    return next();
   }
-  return res.status(400).json(helper.stt400());
 };
 
 module.exports.updateCheck = (req, res, next) => {
   //validate
   let valid = validate.update(req.body);
-  if (valid.error) {
+  if (valid.error)
     return res.status(400).json(helper.stt400(valid.error.details[0].message));
-    //res.status(400).send("Data entered is not valid. Please try again.");
+  //more than 2 cateogories
+  if (valid.value.category.includes(",")) {
+    valid.value.category = valid.value.category.split(",");
   }
-
-  //check file
-  //console.log(req.file);
   if (req.file) {
-    //delete old img
     if (valid.value.imgUrl != "default") {
-      try {
-        //valid.value.imgUrl ;
-        helper.deleteFile(`/images/coffee/${valid.value.imgUrl}`);
-      } catch (err) {
-        return res.status(500).json(helper.stt500());
-      }
-    }
+      //delete old img
 
+      helper.deleteFile(`/images/productInfo/${valid.value.imgUrl}`);
+    }
     valid.value.imgUrl = req.file.filename;
   }
-
   res.locals.data = valid.value;
+
   return next();
 };
 
@@ -53,10 +49,7 @@ module.exports.createCheck = function (req, res, next) {
 
   //more than 2 cateogories
   if (valid.value.category.includes(",")) {
-    let a = valid.value.category.split(",");
-    let cates = [];
-    for (let i in a) if (a[i]) cates.push(a[i]);
-    valid.value.category = cates;
+    valid.value.category = valid.value.category.split(",");
   }
 
   res.locals.data = valid.value;

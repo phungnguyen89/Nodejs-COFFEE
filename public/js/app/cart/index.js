@@ -8,14 +8,14 @@ function pushProduct(o) {
   s.push(` <td>${o.price}</td>`);
   s.push(` <td>1</td>`);
   s.push(` <td>123</td>`);
-  s.push(`<td class="del" value=${o._id}>Delete</td>`);
+  s.push(`<td id="del" value=${o._id}>Delete</td>`);
   s.push("</tr>");
   return s.join("");
 }
 
 cart.PUT = () => {
   {
-    let dels = document.querySelectorAll(".del");
+    let dels = document.querySelectorAll("#del");
     for (let i in dels) {
       dels[i].onclick = function () {
         app.Cart.DELETE(this.getAttribute("value"))

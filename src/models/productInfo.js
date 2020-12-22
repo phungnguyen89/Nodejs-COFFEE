@@ -6,11 +6,10 @@ const chalk = require("chalk");
 
 const app = require("./app");
 module.exports.update = async (o) => {
-  console.log(chalk.red("model "), o);
   try {
     o.updatedAt = new Date();
-    let ret = await ProductInfo.findByIdAndUpdate(o._id, o, { new: true });
-    // console.log(chalk.red("model"), ret);
+    let ret = await ProductInfo.findByIdAndUpdate(o.id, o, { new: true });
+    console.log(chalk.blue("after update"), ret);
     return ret;
   } catch (err) {
     console.log(chalk.red(err));

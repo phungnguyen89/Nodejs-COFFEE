@@ -35,11 +35,12 @@ module.exports.hashPassword = (usr, pwd) => {
 };
 
 module.exports.deleteFile = (link) => {
-  try {
-    fs.unlinkSync(path.join(__dirname, `.././public${link}`));
-  } catch (err) {
-    throw new Error(err);
-  }
+  if (link) fs.unlinkSync(path.join(__dirname, `.././public${link}`));
+  // try {
+  //   fs.unlinkSync(path.join(__dirname, `.././public${link}`));
+  // } catch (err) {
+  //   throw new Error(err);
+  // }
 };
 
 module.exports.stt200 = (data, msg = "SUCCESSFULLY") => {

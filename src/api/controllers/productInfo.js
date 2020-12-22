@@ -31,8 +31,9 @@ module.exports.DELETE = async (req, res) => {
 
 module.exports.PUT = async (req, res) => {
   if (res.locals.data) {
+    console.log("controller", res.locals.data.imgUrl);
     try {
-      let ret = await app.ProductInfo.update(req.body);
+      let ret = await app.ProductInfo.update(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
       return res.status(500).json(helper.stt500(err));
