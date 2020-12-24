@@ -84,6 +84,7 @@ const productInfo = new Schema(
   { timestamps: true }
 );
 
+productInfo.index({ "$**": "text" });
 const category = new Schema(
   {
     name: { type: String, unique: true },

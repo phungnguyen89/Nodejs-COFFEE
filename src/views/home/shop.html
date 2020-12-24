@@ -1,0 +1,58 @@
+
+<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+<button id="btn">TEST</button>
+<div class="row">
+  <div class="col-5"></div>
+  <div class="col-7">
+    <form action="/search" method="GET">
+      <div>
+        <input type="text" name="q" value="{{q}}" placeholder="SEARCH">
+        <button class="alert-danger">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+{{#if p}}
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col-9">
+    {{{pag p n}}}
+  </div>
+</div>
+{{/if}}
+{{#if message }}
+<div class="text-center" style="color: cadetblue;margin-top: 10px;">
+  <b>{{{message}}}</b>
+</div>
+{{/if}}
+<div class="row">
+  {{#each a}}
+  <div id="sheet" class="col-3">
+    <div style="text-align: left;" >{{this.info.name}}</div>
+    <div><a href="/detail/{{_id}}"><img src="/images/productInfo/{{this.info.imgUrl}}" alt="{{imgUrl}}" width="100px" />
+    </div></a>
+    <div><b>{{this.price}}</b></div>
+  </div>
+  {{/each}}
+</div>
+
+
+<script src="/js/app/api/home.js"></script>
+<script src="/js/app/home/index.js"></script>
+<!-- 
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Quote</th>
+    <th>Img</th>
+    <th>Description</th>
+  </tr>
+  {{#each a}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{quote}}</td>
+    <td><img src="{{imgUrl}}" alt="" /></td>
+    <td>{{description}}</td>
+  </tr>
+  {{/each}}
+</table> -->

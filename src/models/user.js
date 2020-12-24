@@ -52,15 +52,14 @@ module.exports.getAll = async () => {
   }
 };
 module.exports.getByUsernameOrEmail = async (o) => {
+  console.log("o here", o);
   //return User.find({ $or: [{ email: o.email }, { userName: o.userName }] });
   try {
     let ret = await User.find({
-      $or: [
-        { email: o.email ? o.email.toLowerCase() : "" },
-        { userName: o.userName.toLowerCase() },
-      ],
-    });
-    return ret ? (ret.length > 1 ? ret : ret[0]) : null;
+      $or: [{ email: o.email.toLowerCase() }, { userName: o.username.toLowerCase() }],
+    }).select(["username", "email", "password"]);
+    console.log("email or username", ret);
+    return ret;
   } catch (err) {
     throw new Error(err);
   }

@@ -8,14 +8,22 @@ module.exports.search = async (req, res, next) => {
     try {
       let ret = await app.Product.getSearch(req.query.q);
       if (ret)
-        return res.status(200).render("home/index", {
+        return res.status(200).render("home/shop", {
           a: ret,
           title: "Express",
+          q: req.query.q,
           isAuthenticated: helper.valueToken(req.signedCookies.token).username
             ? true
             : false,
         });
-      return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
+      return res.status(200).render("home/shop", {
+        message: `No Products was found with "${req.query.q}"`,
+        title: "Express",
+        q: req.query.q,
+        isAuthenticated: helper.valueToken(req.signedCookies.token).username
+          ? true
+          : false,
+      });
     } catch (err) {
       return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     }
@@ -39,7 +47,7 @@ module.exports.detail = async (req, res, next) => {
   }
 };
 
-module.exports.index = async (req, res, next) => {
+module.exports.shop = async (req, res, next) => {
   try {
     let p = req.params.p || 1;
     let size = 20;
@@ -48,7 +56,7 @@ module.exports.index = async (req, res, next) => {
     let total = await app.Product.count();
     let n = Math.ceil(total / size);
     if (ret)
-      return res.status(200).render("home/index", {
+      return res.status(200).render("home/shop", {
         a: ret,
         p: p,
         n: n,
@@ -62,4 +70,8 @@ module.exports.index = async (req, res, next) => {
     return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
   }
   return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
+};
+
+module.exports.index = (req, res) => {
+  return res.render("home/index", { title: "HOME" });
 };

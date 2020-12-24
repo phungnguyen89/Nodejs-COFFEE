@@ -76,6 +76,7 @@ appRouting = () => {
   app.use("/api", api);
   app.use("/cart", cart);
   app.use("/user", user);
+
   app.use("/", home);
 
   //use auth middleware

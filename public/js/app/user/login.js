@@ -4,12 +4,17 @@ $(document).ready(function () {
   //code here
 
   let frm = document.getElementById("frm");
-  frm.onsubmit = async function (ev) {
+  frm.onsubmit = function (ev) {
     ev.preventDefault();
-    let ret = await app.User.LOGIN({
+    let ret = app.User.LOGIN({
       username: frm.username.value,
       password: frm.password.value,
-    });
-    ret.error ? helper.msg(ret.msg, true) : (document.location.href = "/");
+    })
+      .then((ret) => {
+        ret.error ? helper.msg(ret.msg, true) : (document.location.href = "/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 });

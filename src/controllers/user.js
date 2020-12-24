@@ -12,9 +12,9 @@ module.exports.logout = async (req, res) => {
 };
 
 module.exports.register = async (req, res) => {
-  res.render("user/register");
+  return res.render("user/register");
 };
 
 module.exports.login = async (req, res) => {
-  res.render("user/login");
+  return res.render("user/login");
 };

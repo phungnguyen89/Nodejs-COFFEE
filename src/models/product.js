@@ -61,21 +61,23 @@ module.exports.create = async (o) => {
 
 module.exports.getSearch = async (q) => {
   try {
-    let agg = [];
-    agg.push({
-      $match: {
-        name: { $regex: q, $options: "i" },
-      },
-    });
-    agg.push({
-      $lookup: {
-        from: "products",
-        localField: "_id",
-        foreignField: "info",
-        as: "ret",
-      },
-    });
-
+    // let agg = [];
+    // agg.push({
+    //   $match: {
+    //     name: { $regex: q, $options: "i" },
+    //   },
+    // });
+    // agg.push({
+    //   $lookup: {
+    //     from: "products",
+    //     localField: "_id",
+    //     foreignField: "info",
+    //     as: "ret",
+    //   },
+    // });
+    // let idlist = await ProductInfo.find({
+    //   name: { $regex: { $text: { $search: q } }, $options: "i" },
+    // }).select("_id");
     let idlist = await ProductInfo.find({ name: { $regex: q, $options: "i" } }).select(
       "_id"
     );

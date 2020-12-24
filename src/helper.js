@@ -137,7 +137,7 @@ module.exports.pag = (p, n) => {
       } else {
         s.push('<li class="page-item">');
       }
-      s.push(`<a class="page-link" href="/${i}">${i}</a>`);
+      s.push(`<a class="page-link" href="/shop/${i}">${i}</a>`);
       s.push("</li>");
     }
     s.push(`</ul>`);

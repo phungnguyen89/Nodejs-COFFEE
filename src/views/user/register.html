@@ -1,4 +1,50 @@
-<div>{{>navbar}}</div>
+<link rel="stylesheet" href="/css/style/styleregister.css" />
+
+<div class="item2">
+  <div class="align">
+    <div class="login">
+      <h1>Sign up</h1>
+      <form id="frm" action="post">
+        <div class="txtfield">
+          <input
+            type="email"
+            id="inputEmail"
+            name="email"
+            placeholder="Email@example.com"
+            required
+          />
+          <label> Email </label>
+        </div>
+        <div class="txtfield">
+          <input
+            type="text"
+            id="inputUsername"
+            name="username"
+            placeholder="Username"
+            required
+          />
+          <label> Username </label>
+        </div>
+
+        <div class="txtfield">
+          <input
+            type="password"
+            id="inputPassword"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <label> Password </label>
+        </div>
+
+        <!-- <div class="pass">Forgot password?</div> -->
+
+        <input type="Submit" value="Register" />
+      </form>
+    </div>
+  </div>
+</div>
+<!-- 
 <form
   class="form-signin"
   id="frm"
@@ -7,15 +53,7 @@
   enctype="application/x-www-form-urlencoded"
 >
   <h2 class="form-signin-heading">Please Register</h2>
-  <!-- <label for="inputEmail" class="sr-only">Email address</label>
-  <input
-    type="email"
-    id="inputEmail"
-    name="email"
-    class="form-control"
-    placeholder="Email address"
-    autofocus
-  /> -->
+
   <div>
     <label for="inputUsername" class="sr-only">Username</label>
     <input
@@ -42,7 +80,7 @@
   <br />
 
   <button class="btn btn-lg btn-default btn-block" type="submit">Register</button>
-</form>
+</form> -->
 
 <script src="/js/app/api/user.js"></script>
 <script src="/js/app/user/register.js"></script>

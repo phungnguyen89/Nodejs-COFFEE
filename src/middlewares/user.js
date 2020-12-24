@@ -70,8 +70,15 @@ module.exports.registerCheck = async (req, res, next) => {
 
   // check existing
   try {
-    let ret = await app.User.getByUsername(valid.value.username);
-    if (ret) return res.status(400).json(helper.stt400(`${ret.username} already exists`));
+    let ret = await app.User.getByUsernameOrEmail(valid.value);
+    if (ret) {
+      for (let i in ret) {
+        if (ret.username == valid.value.username)
+          return res.status(400).json(helper.stt400(`"${ret.username}" already exists`));
+        if (ret.email == valid.value.email)
+          return res.status(400).json(helper.stt400(`"${ret.email}" already exists`));
+      }
+    }
   } catch (err) {
     return res.status(500).json(helper.stt500());
   }

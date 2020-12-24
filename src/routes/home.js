@@ -6,7 +6,8 @@ const home = require("../controllers/home");
 
 router.get("/search:q?", home.search);
 router.get("/detail/:id?", home.detail);
-router.get("/:p?", home.index);
+router.get("/shop/:p?", home.shop);
+router.get("/", home.index);
 //router.get("/", home.index);
 
 module.exports = router;

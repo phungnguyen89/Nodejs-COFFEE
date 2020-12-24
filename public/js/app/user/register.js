@@ -8,6 +8,7 @@ $(document).ready(function () {
     let ret = await app.User.POST({
       username: frm.username.value,
       password: frm.password.value,
+      email: frm.email.value,
     });
     if (ret.error) {
       helper.msg(ret.msg, true);
