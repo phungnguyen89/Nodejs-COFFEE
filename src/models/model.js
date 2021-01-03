@@ -53,7 +53,7 @@ const user = new Schema(
 
 const product = new Schema(
   {
-    info: { type: String, ref: "productInfo" },
+    info: { type: mongoose.Types.ObjectId, ref: "productInfo" },
     price: {
       type: Number,
       default: 1,
@@ -75,19 +75,19 @@ const product = new Schema(
 
 const productInfo = new Schema(
   {
-    name: { type: String, unique: true },
-    quote: { type: String },
+    name: { type: String, unique: true, uppercase: true },
+    subname: { type: String },
     imgUrl: { type: String, default: "default" },
     description: { type: String },
-    category: [{ type: String, ref: "categories" }],
+    category: [{ type: mongoose.Types.ObjectId, ref: "categories" }],
   },
   { timestamps: true }
 );
 
-productInfo.index({ "$**": "text" });
+productInfo.index({ name: "text", subname: "text" });
 const category = new Schema(
   {
-    name: { type: String, unique: true },
+    name: { type: String, unique: true, uppercase: true },
     // parent: { type: String, ref: "categories" },
   },
   { timestamps: true }

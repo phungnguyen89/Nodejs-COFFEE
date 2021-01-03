@@ -8,6 +8,6 @@ class HomeApi extends BaseApi {
     return this.client.get(`/detail/${params}`);
   }
   PAGE(params = 1) {
-    return this.client.get(`/page/${params}`);
+    return this.client.get(`/page/$w{params}`);
   }
 }

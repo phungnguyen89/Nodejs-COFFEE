@@ -6,7 +6,7 @@ const helper = require("../helper");
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
     try {
-      let ret = await app.Product.getSearch(req.query.q);
+      let ret = await app.Product.getSearchByName(req.query.q);
       if (ret)
         return res.status(200).render("home/shop", {
           a: ret,
@@ -28,7 +28,11 @@ module.exports.search = async (req, res, next) => {
       return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     }
   }
-  return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
+  return res.status(200).render("home/shop", {
+    message: `You should input product name.Example : "coffee"`,
+    title: "Express",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
 };
 module.exports.detail = async (req, res, next) => {
   try {
@@ -73,5 +77,8 @@ module.exports.shop = async (req, res, next) => {
 };
 
 module.exports.index = (req, res) => {
-  return res.render("home/index", { title: "HOME" });
+  return res.status(200).render("home/index", {
+    title: "Home",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
 };

@@ -8,7 +8,6 @@ class ProductApi extends BaseApi {
     return this.client.delete(`${this.url}/${params}`);
   }
   PUT(frm) {
-    //console.log("body", body);
     return this.client.put(this.url, frm);
   }
   POST(frm) {

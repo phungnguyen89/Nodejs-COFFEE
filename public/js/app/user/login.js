@@ -11,7 +11,7 @@ $(document).ready(function () {
       password: frm.password.value,
     })
       .then((ret) => {
-        ret.error ? helper.msg(ret.msg, true) : (document.location.href = "/");
+        ret.error ? helper.msg(ret.msg, true) : (document.location.href = "/shop");
       })
       .catch((err) => {
         console.log(err);

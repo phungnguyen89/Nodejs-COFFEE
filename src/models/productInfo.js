@@ -111,3 +111,25 @@ module.exports.getAll = async () => {
     throw new Error(err);
   }
 };
+
+module.exports.getByName = async (name) => {
+  try {
+    console.log("we are here");
+    let ret = await ProductInfo.findOne({ name: name });
+    return ret;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+};
+
+module.exports.getByNameAndId = async (o) => {
+  try {
+    console.log("we are here");
+    let ret = await ProductInfo.findOne({ name: o.name, _id: o._id });
+    return ret;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+};

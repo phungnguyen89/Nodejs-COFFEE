@@ -1,6 +1,5 @@
 
 <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
-<button id="btn">TEST</button>
 <div class="row">
   <div class="col-5"></div>
   <div class="col-7">
@@ -28,7 +27,8 @@
 <div class="row">
   {{#each a}}
   <div id="sheet" class="col-3">
-    <div style="text-align: left;" >{{this.info.name}}</div>
+    <div style="text-align: left;" >{{this.info.name}} {{this.size}}kg</div>
+    <div style="text-align: left;" >  "{{this.info.subname}}"</div>
     <div><a href="/detail/{{_id}}"><img src="/images/productInfo/{{this.info.imgUrl}}" alt="{{imgUrl}}" width="100px" />
     </div></a>
     <div><b>{{this.price}}</b></div>

@@ -19,7 +19,7 @@ DOM.updateFrmClick = function (arr) {
   let o = {
     name: arr[0].textContent,
     imgUrl: arr[1].childNodes[0].getAttribute("alt"),
-    quote: arr[2].textContent,
+    subname: arr[2].textContent,
     description: arr[3].textContent,
     category: arr[4].getAttribute("value").split(","),
     id: arr[5].getAttribute("value"),
@@ -27,7 +27,7 @@ DOM.updateFrmClick = function (arr) {
 
   DOM.updateFrm.id.value = o.id;
   DOM.updateFrm.name.value = o.name;
-  DOM.updateFrm.quote.textContent = o.quote;
+  DOM.updateFrm.subname.textContent = o.subname;
   DOM.updateFrm.description.textContent = o.description;
   DOM.updateFrm.querySelector("#currentImg").src = `/images/productInfo/${o.imgUrl}`;
   DOM.updateFrm.imgUrl.value = o.imgUrl;
@@ -49,16 +49,18 @@ DOM.setEventUpdate = function (elm) {
 
 DOM.setEventDelete = function (elm) {
   elm.onclick = function () {
-    app.ProductInfo.DELETE(elm.getAttribute("value"))
-      .then((ret) => {
-        if (ret.error) helper.msg(ret.msg, true);
-        else {
-          this.parentNode.parentNode.removeChild(this.parentNode);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (confirm("SURE to DELETE")) {
+      app.ProductInfo.DELETE(elm.getAttribute("value"))
+        .then((ret) => {
+          if (ret.error) helper.msg(ret.msg, true);
+          else {
+            this.parentNode.parentNode.removeChild(this.parentNode);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 };
 DOM.loadTable = function (arr) {
@@ -95,18 +97,29 @@ category.GET = function () {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
-        category.list = [];
-        for (let i in ret.data) category.list[ret.data[i]._id] = ret.data[i].name;
+        if (ret.data.length > 0) {
+          category.list = [];
+          for (let i in ret.data) category.list[ret.data[i]._id] = ret.data[i].name;
 
-        for (let i in ret.data) {
-          DOM.updateFrm
-            .querySelector("#selectCategory")
-            .appendChild(category.pushOneToOption(ret.data[i]));
-          DOM.createFrm
-            .querySelector("#selectCategory")
-            .appendChild(category.pushOneToOption(ret.data[i]));
+          for (let i in ret.data) {
+            DOM.updateFrm
+              .querySelector("#selectCategory")
+              .appendChild(category.pushOneToOption(ret.data[i]));
+            DOM.createFrm
+              .querySelector("#selectCategory")
+              .appendChild(category.pushOneToOption(ret.data[i]));
+          }
+          let clearCategory = document.getElementById("btnClearCategory");
+          clearCategory.onclick = function () {
+            DOM.updateFrm.querySelector("#txtCategory").textContent = "";
+            DOM.updateFrm.category.value = "";
+            DOM.updateFrm.querySelector("#selectCategory").setAttribute("required", true);
+          };
         }
       }
+    })
+    .then(function () {
+      productInfo.GET();
     })
     .catch((err) => {
       console.log(err);
@@ -150,7 +163,7 @@ productInfo.pushOne = function (o) {
   s.push(
     `<td><img src="/images/productInfo/${o.imgUrl}" alt="${o.imgUrl}" width="100px"/></td>`
   );
-  s.push(`<td>${o.quote}</td>`);
+  s.push(`<td>${o.subname}</td>`);
   s.push(`<td>${o.description}</td>`);
   s.push(category.pushTable(o.category));
   s.push(`  <td class="update" id=id${o._id} value=${o._id}>
@@ -190,14 +203,16 @@ productInfo.GET = function () {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
-        productInfo.list = ret.data;
-        DOM.loadTable(ret.data);
-        let updt = DOM.sheet.querySelectorAll("td.update");
-        let dels = DOM.sheet.querySelectorAll("td.del");
+        if (ret.data.length > 0) {
+          productInfo.list = ret.data;
+          DOM.loadTable(ret.data);
+          let updt = DOM.sheet.querySelectorAll("td.update");
+          let dels = DOM.sheet.querySelectorAll("td.del");
 
-        for (let i in updt) {
-          DOM.setEventUpdate(updt[i]);
-          DOM.setEventDelete(dels[i]);
+          for (let i in updt) {
+            DOM.setEventUpdate(updt[i]);
+            DOM.setEventDelete(dels[i]);
+          }
         }
       }
     })
@@ -212,9 +227,14 @@ productInfo.POST = function (o) {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
-        console.log(ret.data);
+        // console.log(ret.data);
         sheet.insertAdjacentHTML("afterbegin", productInfo.pushOne(ret.data));
         helper.msg(`SUCESSFULLY TO CREATE ${ret.data.name}`);
+        DOM.setEventDelete(DOM.sheet.querySelector("td.del"));
+        DOM.setEventUpdate(DOM.sheet.querySelector("td.update"));
+        DOM.createFrm.category.value = "";
+        document.getElementById("txtCategory").textContent = "";
+        $("#createFrm").trigger("reset");
       }
     })
     .catch((err) => {
@@ -237,7 +257,6 @@ $(document).ready(function () {
     $("#createFrm").trigger("reset");
   };
   category.GET();
-  productInfo.GET();
   DOM.frmCategorySelect(DOM.createFrm);
   DOM.frmCategorySelect(DOM.updateFrm);
   DOM.create.onclick = function () {
@@ -251,6 +270,8 @@ $(document).ready(function () {
   };
   DOM.updateFrm.onsubmit = function (ev) {
     ev.preventDefault();
+    console.log(this.querySelector("#selectCategory"));
+    // console.log(this.category);
     productInfo.PUT(new FormData(DOM.updateFrm));
   };
 });

@@ -3,6 +3,13 @@ const jwt = require("jsonwebtoken");
 const helper = require("../helper");
 const chalk = require("chalk");
 
+module.exports.dashboard = async (req, res) => {
+  return res.status(200).render("admin/index", {
+    title: "Home",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
+};
+
 module.exports.logout = async (req, res) => {
   if (req.signedCookies.token) {
     res.clearCookie("token");

@@ -11,7 +11,7 @@ module.exports.authorization = async (req, res, next) => {
       if (token == req.header.authorization)
         token = token.slice(process.env.TOKEN_SECRECT.length + 1, token);
       let decode = jwt.verify(token, process.env.TOKEN_SECRECT);
-      let ret = await app.User.userExisting(decode.username);
+      let ret = await app.User.getByUsername(decode.username);
       //console.log(decode.role, ret.role);
       if (ret) {
         if (ret.role == decode.role && ret.role == "admin") {

@@ -6,6 +6,7 @@ const productInfoMiddle = require("../middlewares/productInfo");
 const userMiddle = require("../middlewares/user");
 const auth = require("../middlewares/auth");
 const categoryMiddle = require("../middlewares/category");
+const productMiddle = require("../middlewares/product");
 //controllers
 const product = require("./controllers/product");
 const productInfo = require("./controllers/productInfo");
@@ -47,7 +48,12 @@ router
   .delete(productInfoMiddle.deleteCheck, productInfo.DELETE);
 
 //manage product
-router.route("/product/:id?").get(product.GET).post().put().delete();
+router
+  .route("/product/:id?")
+  .get(product.GET)
+  .post(productMiddle.createCheck, product.POST)
+  .put(productMiddle.updateCheck, product.PUT)
+  .delete(product.DELETE);
 //manage category
 router
   .route("/category/:id?")

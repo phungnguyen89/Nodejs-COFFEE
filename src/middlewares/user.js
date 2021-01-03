@@ -16,7 +16,7 @@ module.exports.loginCheck = async (req, res, next) => {
     let ret = await app.User.getByUsername(valid.value.username);
     //not found
     if (!ret)
-      return res.status(400).json(helper.stt400(`${valid.value.username} not found`));
+      return res.status(400).json(helper.stt400(`"${valid.value.username}" not found`));
     else {
       //existing 1 // feature  more in someday
       valid.value.password = helper.hashPassword(

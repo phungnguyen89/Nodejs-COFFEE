@@ -15,8 +15,10 @@ module.exports.update = async (o) => {
   console.log(chalk.red("model "), o);
   try {
     o.updatedAt = new Date();
-    let ret = await Product.findByIdAndUpdate(o._id, o, { new: true });
-    console.log(chalk.red("model"), ret);
+    let ret;
+    await Product.findByIdAndUpdate(o.id, o, { new: true }).then((data) => {
+      ret = data.populate(populateOpt).execPopulate();
+    });
     return ret;
   } catch (err) {
     console.log(chalk.red(err));
@@ -45,21 +47,18 @@ module.exports.getById = async (id) => {
 
 module.exports.create = async (o) => {
   try {
-    // for (let i = 1; i < 101; i++) {
-    //   let cf = Object.assign({}, o);
-    //   cf.name += i;
-    //   cf.quote += i;
-    //   cf.description += i;
-    //   await new Product(cf).save();
-    // }
-    let newProduct = await new Product(o).save();
+    let newProduct;
+    await new Product(o).save().then((data) => {
+      newProduct = data.populate(populateOpt).execPopulate();
+    });
     return newProduct;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-module.exports.getSearch = async (q) => {
+module.exports.getSearchByName = async (q) => {
+  // console.log(mongoose.Types.ObjectId("4edd40c86762e0fb12000003"));
   try {
     // let agg = [];
     // agg.push({
@@ -67,30 +66,41 @@ module.exports.getSearch = async (q) => {
     //     name: { $regex: q, $options: "i" },
     //   },
     // });
+
     // agg.push({
     //   $lookup: {
     //     from: "products",
     //     localField: "_id",
     //     foreignField: "info",
-    //     as: "ret",
+    //     as: "product",
     //   },
     // });
-    // let idlist = await ProductInfo.find({
-    //   name: { $regex: { $text: { $search: q } }, $options: "i" },
-    // }).select("_id");
-    let idlist = await ProductInfo.find({ name: { $regex: q, $options: "i" } }).select(
+
+    // let ret = await ProductInfo.aggregate(agg);
+    // console.log(ret);
+    // console.log(chalk.blue("test aggregate"), ret[1], ret[1].product);
+    // return null;
+    console.log(chalk.red(q));
+
+    let idlist = await ProductInfo.find({ $text: { $search: new RegExp(q) } }).select(
       "_id"
     );
+    // let idlist = await ProductInfo.find({ $text: { $search: `"\"${q}\""` } }).select(
+    //   "_id"
+    // );
+    console.log(idlist);
 
-    if (idlist.length > 1) {
+    if (idlist.length > 0) {
       idlist = idlist.map(function (o) {
         return o._id;
       });
       let ret = await Product.find({ info: { $in: idlist } }).populate(populateOpt);
+      console.log(chalk.blue("ret"), ret);
       return ret;
     }
     return null;
   } catch (err) {
+    console.log(chalk.red(err));
     throw new Error(err);
   }
 };
@@ -124,6 +134,7 @@ module.exports.count = async () => {
 module.exports.getAll = async () => {
   try {
     let ret = await Product.find({}).populate(populateOpt);
+    console.log(ret);
     //let a = await Product.find().populate("info").sort({ updatedAt: -1 });
     return ret;
   } catch (err) {

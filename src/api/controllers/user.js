@@ -12,7 +12,7 @@ module.exports.LOGOUT = async (req, res) => {
 };
 
 module.exports.LOGIN = async (req, res) => {
-  console.log("we got login api");
+  // console.log("we got login api");
   if (res.locals.data) {
     let token = helper.createToken(res.locals.data);
     res.cookie("token", token, {
@@ -20,6 +20,10 @@ module.exports.LOGIN = async (req, res) => {
       // httpOnly: true,
       signed: true,
     });
+    // return res.status(200).render("home/shop", {
+    //   title: "SHOP",
+    //   isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+    // });
     return res.status(200).json(helper.stt200());
   }
   return res.status(400).json(helper.stt400());
