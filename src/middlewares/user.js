@@ -2,6 +2,7 @@ const helper = require("../helper");
 const app = require("../models/app");
 const validate = require("../validates/user");
 const chalk = require("chalk");
+const jwt = require("jsonwebtoken");
 
 module.exports.loginCheck = async (req, res, next) => {
   //validtate
@@ -37,26 +38,27 @@ module.exports.loginCheck = async (req, res, next) => {
 };
 
 module.exports.updateCheck = async (req, res, next) => {
-  let valid = validate.update(req.body);
-  if (valid.error) {
-    //console.log(chalk.red("middleware update"), valid.error);
-    return res.status(400).json(helper.stt400(valid.error.details[0].message));
-  }
-  // check existing
   try {
+    //check token get username
+    let token = helper.valueToken(req.signedCookies.token);
+    if (token.username) {
+    }
     let ret = await app.User.getByUsername(valid.value.username);
+
+    let valid = validate.profile(req.body);
+    if (valid.error) {
+      return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    }
+
     if (ret) {
-      //console.log(valid.value);
-      //console.log(chalk.red("USER"), ret);
-      // console.log(chalk.red("VALIDATE"), valid.value);
       ret.profile = valid.value.profile;
       ret.email = valid.value.email;
       res.locals.data = ret;
       return next();
-      return res.status(200).json(helper.stt200(ret));
     }
     return res.status(400).json(helper.stt400(`${valid.value.username} not existing`));
   } catch (err) {
+    console.log("user update middle", err);
     return res.status(500).json(helper.stt500());
   }
 };
@@ -73,13 +75,16 @@ module.exports.registerCheck = async (req, res, next) => {
     let ret = await app.User.getByUsernameOrEmail(valid.value);
     if (ret) {
       for (let i in ret) {
-        if (ret.username == valid.value.username)
-          return res.status(400).json(helper.stt400(`"${ret.username}" already exists`));
-        if (ret.email == valid.value.email)
-          return res.status(400).json(helper.stt400(`"${ret.email}" already exists`));
+        if (ret[i].username == valid.value.username)
+          return res
+            .status(400)
+            .json(helper.stt400(`"${ret[i].username}" already exists`));
+        if (ret[i].email == valid.value.email)
+          return res.status(400).json(helper.stt400(`"${ret[i].email}" already exists`));
       }
     }
   } catch (err) {
+    console.log(err);
     return res.status(500).json(helper.stt500());
   }
 
@@ -89,5 +94,3 @@ module.exports.registerCheck = async (req, res, next) => {
   res.locals.data = valid.value;
   return next();
 };
-
-module.exports.PUT = async (req, res) => {};

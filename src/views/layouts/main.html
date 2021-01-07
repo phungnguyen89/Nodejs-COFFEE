@@ -11,10 +11,11 @@
     <!-- api -->
     <script src="/js/app/api/base.js"></script>
     <script src="/js/app/api/app.js"></script>
+    <script src="/js/app/api/user.js"></script>
     <script src="/js/app/helper.js"></script>
+    <script src="/js/app/layout/main.js"></script>
   </head>
   <body>
-    <!-- <div class="container">{{> navbar}}</div> -->
     <div class="item1">
       <header>
         <div class="left">
@@ -29,10 +30,11 @@
         </div>
         <div class="right">
           {{#if isAuthenticated}}
-            <a href="/user/logout"> <button class="btnlogin">Logout</button> </a>
+          <a href="/user/profile"> <button id="btnProfile">Profile</button> </a>
+           <button id="btnLogout">Logout</button>
           {{else}}
-          <a href="/user/register"> <button class="btnsignin">Register</button> </a>
-          <a href="/user/login"><button class="btnlogin">Login</button> </a>
+          <a href="/user/register"> <button id="btnRegister">Register</button> </a>
+          <a href="/user/login"><button id="btnLogin">Login</button> </a>
           </li>
           {{/if}}
         
@@ -46,3 +48,4 @@
     <div class="container">{{{body}}}</div>
   </body>
 </html>
+

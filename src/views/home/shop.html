@@ -1,11 +1,10 @@
-
 <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
 <div class="row">
   <div class="col-5"></div>
   <div class="col-7">
     <form action="/search" method="GET">
       <div>
-        <input type="text" name="q" value="{{q}}" placeholder="SEARCH">
+        <input type="text" name="q" value="{{q}}" placeholder="SEARCH" />
         <button class="alert-danger">Search</button>
       </div>
     </form>
@@ -14,28 +13,33 @@
 {{#if p}}
 <div class="row">
   <div class="col-3"></div>
-  <div class="col-9">
-    {{{pag p n}}}
-  </div>
+  <div class="col-9">{{{pag p n}}}</div>
 </div>
-{{/if}}
-{{#if message }}
-<div class="text-center" style="color: cadetblue;margin-top: 10px;">
+{{/if}} {{#if message }}
+<div class="text-center" style="color: cadetblue; margin-top: 10px">
   <b>{{{message}}}</b>
 </div>
 {{/if}}
 <div class="row">
   {{#each a}}
   <div id="sheet" class="col-3">
-    <div style="text-align: left;" >{{this.info.name}} {{this.size}}kg</div>
-    <div style="text-align: left;" >  "{{this.info.subname}}"</div>
-    <div><a href="/detail/{{_id}}"><img src="/images/productInfo/{{this.info.imgUrl}}" alt="{{imgUrl}}" width="100px" />
-    </div></a>
-    <div><b>{{this.price}}</b></div>
+    <div style="text-align: left">{{this.info.name}} {{this.size}}kg</div>
+    <div style="text-align: left">"{{this.info.subname}}"</div>
+    <div>
+      <a href="/detail/{{_id}}"
+        ><img
+          src="/images/productInfo/{{this.info.imgUrl}}"
+          alt="{{imgUrl}}"
+          width="100px"
+        />
+      </a>
+    </div>
+    <div>
+      <p><b>{{this.price}}</b></p>
+    </div>
   </div>
   {{/each}}
 </div>
-
 
 <script src="/js/app/api/home.js"></script>
 <script src="/js/app/home/index.js"></script>

@@ -20,7 +20,12 @@ router.get("/search:q?", product.SEARCH);
 router.get("/page/:p?", productInfo.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
-
+router.post("/logout", auth.auth, user.LOGOUT);
+router
+  .route("/profile")
+  .get(auth.auth, user.PROFILE)
+  .put(auth.auth, userMiddle.updateCheck, user.PUT)
+  .patch(auth.auth, user.PUT);
 //cart
 //router.use(auth.auth);
 router
@@ -38,7 +43,6 @@ router
   .post(userMiddle.registerCheck, user.POST)
   .put(userMiddle.updateCheck, user.PUT)
   .delete(user.DELETE);
-
 //manage productInfo
 router
   .route("/product/info/:id?")

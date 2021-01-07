@@ -10,9 +10,12 @@ module.exports.SEARCH = async (req, res) => {
       console.log(req.query.q);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
+      return res.status(500).json(helper.stt500());
       return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     }
   }
+
+  return res.status(400).json(helper.stt400());
   return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
 };
 
@@ -24,9 +27,9 @@ module.exports.PAGE = async (req, res) => {
     //console.log(chalk.blue("PRODUCT"));
     let ret = await app.Product.getPage(p, 10);
     //console.log(ret);
-    return res.status(200).json(helper.stt200(ret));
+    if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
-    return res.status(500).json(helper.stt500(err));
+    return res.status(500).json(helper.stt500());
   }
 
   return res.status(400).json(helper.stt400());
@@ -50,7 +53,6 @@ module.exports.PUT = async (req, res) => {
       let ret = await app.Product.update(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
-      console.log(err);
       return res.status(500).json(helper.stt500());
     }
   }
@@ -63,7 +65,7 @@ module.exports.POST = async (req, res) => {
       let ret = await app.Product.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
-      return res.status(500).json(helper.stt500(err));
+      return res.status(500).json(helper.stt500());
     }
   }
   return res.status(400).json(helper.stt400());
@@ -87,7 +89,7 @@ module.exports.POST = async (req, res) => {
 
 module.exports.GET = async (req, res) => {
   try {
-    console.log(chalk.red("here we go"), req.params);
+    // console.log(chalk.red("here we go"), req.params);
     let ret = req.params.id
       ? await app.Product.getById(req.params.id)
       : await app.Product.getAll();
@@ -95,8 +97,7 @@ module.exports.GET = async (req, res) => {
     //console.log(ret);
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
-    console.log(chalk.red(err));
-    return res.status(500).json(helper.stt500(err));
+    return res.status(500).json(helper.stt500());
   }
   return res.status(400).json(helper.stt400());
 };

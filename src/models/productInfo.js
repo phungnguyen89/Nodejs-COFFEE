@@ -32,6 +32,7 @@ module.exports.getById = async (id) => {
     let ret = await ProductInfo.findById(id);
     return ret;
   } catch (err) {
+    return null;
     throw new Error(err);
   }
 };

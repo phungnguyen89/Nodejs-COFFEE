@@ -135,7 +135,11 @@ product.pushCategory = function (arr) {
 };
 product.pushOne = function (o) {
   let s = [];
-  s.push(`<tr id="id${o._id}" info="${o.info._id}" value="${o._id}">`);
+
+  s.push(
+    `<tr id="id${o._id}" info="${o.info._id}" value="${o._id}"
+         ${o.quantity <= 0 ? `style = "background-color: darkgrey;"` : ""}   >`
+  );
   s.push(`<td>${o.info.name}</td>`);
   s.push(
     `<td><img width="100px" src="/images/productInfo/${o.info.imgUrl}" alt="${o.info.imgUrl}"></td>`
@@ -156,7 +160,7 @@ product.POST = function (o) {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
-        console.log(ret.data);
+        // console.log(ret.data);
         DOM.sheet.insertAdjacentHTML("afterbegin", product.pushOne(ret.data));
       }
     })
@@ -174,7 +178,7 @@ product.GET = function () {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
-        console.log(ret.data.length);
+        // console.log(ret.data.length);
         if (ret.data.length > 0) {
           for (let i in ret.data) {
             DOM.sheet.insertAdjacentHTML("afterbegin", product.pushOne(ret.data[i]));

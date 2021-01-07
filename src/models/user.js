@@ -1,6 +1,17 @@
 const User = require("./model").User;
 const chalk = require("chalk");
 
+module.exports.getProfileByUsername = async (usr) => {
+  try {
+    let select = ["-password", "-role", "-_id"];
+    let ret = await User.findOne({ username: usr }).select(select);
+    return ret;
+  } catch (err) {
+    console.log("user MODEL-getUserByUsername", err);
+    throw new Error(err);
+  }
+};
+
 module.exports.deleteById = async (id) => {
   try {
     let ret = await User.findByIdAndRemove(id).select({ username: 1 });
@@ -55,12 +66,16 @@ module.exports.getByUsernameOrEmail = async (o) => {
   console.log("o here", o);
   //return User.find({ $or: [{ email: o.email }, { userName: o.userName }] });
   try {
+    // let ret = await User.find
+    //   .or([{ email: o.email.toLowerCase() }, { usename: o.username.toLowerCase() }])
+    //   .select(["username", "email", "password"]);
     let ret = await User.find({
-      $or: [{ email: o.email.toLowerCase() }, { userName: o.username.toLowerCase() }],
+      $or: [{ email: o.email.toLowerCase() }, { username: o.username.toLowerCase() }],
     }).select(["username", "email", "password"]);
     console.log("email or username", ret);
     return ret;
   } catch (err) {
+    console.log(chalk.red(err));
     throw new Error(err);
   }
 };

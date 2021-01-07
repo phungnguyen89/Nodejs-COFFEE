@@ -2,12 +2,34 @@ const app = require("../../models/app");
 const helper = require("../../helper");
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
+
+module.exports.PROFILE = async (req, res) => {
+  try {
+    let value = helper.valueToken(req.signedCookies.token);
+    if (value != {}) {
+      let ret = await app.User.getProfileByUsername(value.username);
+      if (ret) return res.status(200).json(helper.stt200(ret));
+    }
+  } catch (err) {
+    console.log(chalk.red("user api PROFILE"), err);
+    return res.status(500).json(helper.stt500());
+    return res.status(500).json(helper.stt500(err));
+  }
+  return res.status(400).json(helper.stt400());
+};
+
+module.exports.GETONE = async (req, res) => {
+  let token = req.signedCookies.token;
+  console.log(token);
+};
+
 module.exports.LOGOUT = async (req, res) => {
   let token = req.signedCookies.token || req.body.token || req.headers.authorization;
   if (token) {
     res.clearCookie("token");
+    return res.status(200).json(helper.stt200());
   }
-  return res.status(200).redirect("/");
+  return res.status(400).json(helper.stt400());
   // return res.status(400).json(helper.stt400());
 };
 
@@ -70,12 +92,14 @@ module.exports.POST = async (req, res) => {
 
 module.exports.GET = async (req, res) => {
   try {
-    let ret = req.params.id
-      ? await app.User.getByUsername(req.params.id)
-      : await app.User.getAll();
-    if (ret) return res.status(200).json(helper.stt200(ret));
+    let value = helper.valueToken(req.signedCookies.token);
+    if (value != {}) {
+      let ret = await app.User.getByUsername(value.username);
+      if (ret) return res.status(200).json(helper.stt200(ret));
+    }
   } catch (err) {
-    console.log(chalk.red(err));
+    console.log(chalk.red("user api GET"), err);
+    return res.status(500).json(helper.stt500());
     return res.status(500).json(helper.stt500(err));
   }
   return res.status(400).json(helper.stt400());

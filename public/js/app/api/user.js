@@ -4,6 +4,12 @@ class UserApi extends BaseApi {
     super();
     this.url = "/user";
   }
+  UPDATE_PROFILE(frm) {
+    return this.client.put(`/profile`, frm);
+  }
+  PROFILE() {
+    return this.client.get(`/profile`);
+  }
   LOGOUT() {
     return this.client.post("/logout");
   }
@@ -20,8 +26,7 @@ class UserApi extends BaseApi {
   POST(frm) {
     return this.client.post(this.url, frm);
   }
-
-  GET(params = "") {
-    return params ? this.client.get(`${this.url}/${params}`) : this.client.get(this.url);
+  GET() {
+    return this.client.get(`${this.url}`);
   }
 }

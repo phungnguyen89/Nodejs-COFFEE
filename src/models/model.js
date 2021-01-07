@@ -20,6 +20,7 @@ const user = new Schema(
       type: String,
       default: new mongoose.Types.ObjectId().toHexString() + "@email.com",
       unique: true,
+      lowercase: true,
     },
     username: {
       type: String,
@@ -44,6 +45,7 @@ const user = new Schema(
       address: { type: String, default: "0/0/0 unknown road" },
       gender: { type: Boolean, default: 1 },
       birthDate: { type: Date, default: new Date() },
+      phoneNumber: { type: String, minlength: 10, maxlenth: 10, default: "0000000000" },
     },
   },
   {
@@ -75,8 +77,8 @@ const product = new Schema(
 
 const productInfo = new Schema(
   {
-    name: { type: String, unique: true, uppercase: true },
-    subname: { type: String },
+    name: { type: String, unique: true, uppercase: true, index: "text" },
+    subname: { type: String, index: "text" },
     imgUrl: { type: String, default: "default" },
     description: { type: String },
     category: [{ type: mongoose.Types.ObjectId, ref: "categories" }],
@@ -84,7 +86,7 @@ const productInfo = new Schema(
   { timestamps: true }
 );
 
-productInfo.index({ name: "text", subname: "text" });
+// productInfo.index({ name: "text", subname: "text" });
 const category = new Schema(
   {
     name: { type: String, unique: true, uppercase: true },

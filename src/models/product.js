@@ -21,7 +21,7 @@ module.exports.update = async (o) => {
     });
     return ret;
   } catch (err) {
-    console.log(chalk.red(err));
+    console.log(chalk.red("model-product-update"), err);
     throw new Error(err);
   }
 };
@@ -41,6 +41,8 @@ module.exports.getById = async (id) => {
     let ret = await Product.findById(id).populate(populateOpt);
     return ret;
   } catch (err) {
+    console.log("model-product-getbyId", err);
+    return null;
     throw new Error(err);
   }
 };
@@ -53,6 +55,7 @@ module.exports.create = async (o) => {
     });
     return newProduct;
   } catch (err) {
+    console.log("model-product-create", err);
     throw new Error(err);
   }
 };

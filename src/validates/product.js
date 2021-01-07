@@ -6,7 +6,7 @@ module.exports.update = (o) => {
     price: Joi.number().positive().min(1).required(),
     quantity: Joi.number().positive().min(1).required(),
     size: Joi.number().positive().precision(1).min(0.5).required(),
-    info: Joi.string().required(),
+    info: Joi.string().hex().required(),
   });
   return schema.validate(o);
 };

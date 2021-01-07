@@ -5,7 +5,7 @@ helper.clearMsg = function (element) {
   document.getElementById("error_msg").innerText = "";
   document.getElementById("success_msg").innerText = "";
 };
-helper.msg = function (str, err = false) {
+helper.msg = function (str = "BAD REQUEST", err = false) {
   this.clearMsg();
   let msg = err
     ? document.getElementById("error_msg")
