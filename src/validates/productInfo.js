@@ -10,12 +10,14 @@ module.exports.update = (o) => {
       .required()
       .uppercase(),
     subname: Joi.string()
-      .regex(/^((\w+( ?\w)*)(, ?)?\w*)*$/)
+      .regex(
+        /^[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
+      )
       .min(6)
       .max(100)
-      .allow(" "),
+      .allow(""),
     category: Joi.string().required(),
-    description: Joi.string().allow(" "),
+    description: Joi.string().allow(""),
     imgUrl: Joi.string().required(),
   });
   return schema.validate(o);
@@ -30,7 +32,9 @@ module.exports.create = (o) => {
       .required()
       .uppercase(),
     subname: Joi.string()
-      .regex(/^((\w+( ?\w)*)(, ?)?\w*)*$/)
+      .regex(
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
+      )
       .min(6)
       .max(100)
       .allow(""),

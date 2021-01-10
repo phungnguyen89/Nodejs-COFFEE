@@ -119,18 +119,13 @@ module.exports.getSearchByName = async (q, p = 1, size = 2) => {
   }
 };
 
-module.exports.getPage = async (p, size) => {
+module.exports.getPage = async (p = 1, size = 12) => {
   try {
     let ret = await Product.find({})
       .populate(populateOpt)
       .skip((p - 1) * size)
       .limit(size)
       .sort({ updatedAt: -1 });
-    // let ret = await Product.find()
-    //   .populate("info")
-    //   .skip((p - 1) * size)
-    //   .limit(size)
-    //   .sort({ updatedAt: -1 });
     return ret;
   } catch (err) {
     throw new Error(err);

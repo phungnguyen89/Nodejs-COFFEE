@@ -57,14 +57,14 @@ module.exports.detail = async (req, res, next) => {
 module.exports.shop = async (req, res, next) => {
   try {
     let p = req.params.p || 1;
-    let size = 20;
+    let size = 12;
     let ret = await app.Product.getPage(p, size);
     // console.log(chalk.blue("get result"), ret);
     let total = await app.Product.count();
-    let n = Math.ceil(total / size);
-    if (ret)
+    let n = Math.ceil(total / size) || 1;
+    if (total > 0)
       return res.status(200).render("home/shop", {
-        a: ret,
+        // a: ret,
         p: p,
         n: n,
         title: "Home",

@@ -17,7 +17,7 @@ const cart = require("./controllers/cart");
 
 router.get("/detail/:id?", productInfo.GET);
 router.post("/search", product.SEARCH);
-router.get("/page/:p?", productInfo.PAGE);
+router.get("/page/:p?", product.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
 router.post("/logout", auth.auth, user.LOGOUT);

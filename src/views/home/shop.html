@@ -15,13 +15,38 @@
   <div class="col-3"></div>
   <div class="col-9">{{{pag p n}}}</div>
 </div>
+<div class="row">
+  <div class="col-4">
+    <select class="filter" id="selectPrice">
+      <option value="0">Price</option>
+      <option value="1">Ascending</option>
+      <option value="-1">Descending</option>
+      <option value="10000" s="1">Higher 10000</option>
+      <option value="10000" s="-1">Lower 10000</option>
+    </select>
+  </div>
+  <div class="col-4">
+    <select class="filter" id="selectName">
+      <option value="0">Name</option>
+      <option value="1">a-z</option>
+      <option value="-1">z-a</option>
+    </select>
+  </div>
+  <div class="col-4">
+    <select class="filter" id="selectUpdated">
+      <option value="0">Time</option>
+      <option value="1">Lastest</option>
+      <option value="-1">Oldest</option>
+    </select>
+  </div>
+</div>
 {{/if}} {{#if message }}
 <div class="text-center" style="color: cadetblue; margin-top: 10px">
   <b>{{{message}}}</b>
 </div>
 {{/if}}
 <div class="row" id="sheet">
-  {{#each a}}
+  <!-- {{#each a}}
   <div class="col-3">
     <div style="text-align: left">{{this.info.name}} {{this.size}}kg</div>
     <div style="text-align: left">"{{this.info.subname}}"</div>
@@ -38,7 +63,7 @@
       <p><b>{{this.price}}</b></p>
     </div>
   </div>
-  {{/each}}
+  {{/each}} -->
 </div>
 {{#if loadmore}}
 <div><button value="1" id="btnLoadmore">Load more</button></div>
@@ -46,20 +71,3 @@
 
 <script src="/js/app/api/product.js"></script>
 <script src="/js/app/home/index.js"></script>
-<!-- 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Quote</th>
-    <th>Img</th>
-    <th>Description</th>
-  </tr>
-  {{#each a}}
-  <tr>
-    <td>{{name}}</td>
-    <td>{{quote}}</td>
-    <td><img src="{{imgUrl}}" alt="" /></td>
-    <td>{{description}}</td>
-  </tr>
-  {{/each}}
-</table> -->

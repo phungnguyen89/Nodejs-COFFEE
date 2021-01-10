@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+
+/* background va nen */
+.background{
+    background: #43978D;
+    height: 100vh;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
+.col-3{
+    width: 80px;   
+}
+
+/* layout cho card */
+.cardproduct{
+    padding: 20px 20px;
+        background-color:azure ;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        transition: 0.3s;
+        margin: 5px 10px;
+        text-align: left;
+        border-radius: 20px;
+        color: azure;
+}
+/* nut them gio hang */
+
+.imgproduct{
+    height: 250px;
+    border-radius: 20px;
+}
+.hc{
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+.add{
+    background-color: #F9AD6A;
+    align-items: center;
+    margin-left: 38px;
+    font-size: 16px;
+    font-family: 'Catamaran',serif;
+    margin-top: 3px ;
+    margin-bottom: 3px;
+}
+.add:hover{
+    background-color:#D46C4E;
+}
+.price{
+    font-size: 35px;
+    font-family: 'Prata',serif;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+h2{
+    font-family: 'Prata',serif;
+    font-weight: 500;
+    margin-top: 30px;
+    font-size: 25px;
+}
+h3{
+    font-weight: 300;
+    font-family: 'Catamaran',serif;
+    color: #F9AD6A;
+}

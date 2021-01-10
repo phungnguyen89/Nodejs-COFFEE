@@ -4,7 +4,7 @@ const chalk = require("chalk");
 module.exports.PAGE = async (req, res) => {
   let p = req.params.p || 1;
 
-  //console.log(chalk.red("here we go PAGE"), p);
+  // console.log(chalk.red("here we go PAGE"), p);
   try {
     //console.log(chalk.blue("PRODUCT"));
     let ret = await app.ProductInfo.getPage(p, 10);

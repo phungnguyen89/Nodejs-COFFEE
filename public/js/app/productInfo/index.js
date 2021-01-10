@@ -3,6 +3,17 @@ let DOM = {};
 let productInfo = {};
 let category = {};
 
+DOM.formReset = function (frm) {
+  frm.category.value = "";
+  frm.querySelector("#txtCategory").textContent = "";
+  frm.querySelector("#inputDecription").textContent = "";
+  frm.querySelector("#inputSubname").textContent = "";
+  frm.querySelector("#currentImg").src = "";
+  let emptyFile = document.createElement("input");
+  emptyFile.type = "file";
+  frm.img.files = emptyFile.files;
+  $(`#${frm.getAttribute("id")}`).trigger("reset");
+};
 DOM.frmCategoryDisplay = function (elm, arr) {
   for (let i in arr) {
     if (i == 0) {
@@ -188,6 +199,7 @@ productInfo.PUT = function (o) {
           DOM.sheet.insertAdjacentHTML("afterbegin", productInfo.pushOne(ret.data));
         }).then(function () {
           DOM.setEventUpdate(DOM.sheet.querySelector("tr >td.update"));
+          DOM.formReset(DOM.updateFrm);
         });
       }
     })
@@ -232,9 +244,10 @@ productInfo.POST = function (o) {
         helper.msg(`SUCESSFULLY TO CREATE ${ret.data.name}`);
         DOM.setEventDelete(DOM.sheet.querySelector("td.del"));
         DOM.setEventUpdate(DOM.sheet.querySelector("td.update"));
-        DOM.createFrm.category.value = "";
-        document.getElementById("txtCategory").textContent = "";
-        $("#createFrm").trigger("reset");
+        DOM.formReset(DOM.createFrm);
+        // DOM.createFrm.category.value = "";
+        // document.getElementById("txtCategory").textContent = "";
+        // $("#createFrm").trigger("reset");
       }
     })
     .catch((err) => {
@@ -254,7 +267,7 @@ $(document).ready(function () {
   DOM.createClearBtn.onclick = function () {
     DOM.createFrm.category.value = "";
     document.getElementById("txtCategory").textContent = "";
-    $("#createFrm").trigger("reset");
+    DOM.formReset(DOM.createFrm);
   };
   category.GET();
   DOM.frmCategorySelect(DOM.createFrm);
@@ -270,7 +283,7 @@ $(document).ready(function () {
   };
   DOM.updateFrm.onsubmit = function (ev) {
     ev.preventDefault();
-    console.log(this.querySelector("#selectCategory"));
+    // console.log(this.querySelector("#selectCategory"));
     // console.log(this.category);
     productInfo.PUT(new FormData(DOM.updateFrm));
   };

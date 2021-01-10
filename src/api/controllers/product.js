@@ -21,11 +21,9 @@ module.exports.SEARCH = async (req, res) => {
 module.exports.PAGE = async (req, res) => {
   let p = req.params.p || 1;
 
-  //console.log(chalk.red("here we go PAGE"), p);
+  console.log(chalk.red("here we go product PAGE"), p);
   try {
-    //console.log(chalk.blue("PRODUCT"));
     let ret = await app.Product.getPage(p, 10);
-    //console.log(ret);
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
     return res.status(500).json(helper.stt500());

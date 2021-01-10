@@ -9,15 +9,37 @@
   background-color: #264d59;
   width: 100%;
 }
+
 .item2 {
   background-image: url("/images/img/bg1.jpg");
   height: 100vh;
   background-size: cover;
   background-position: center;
 }
+
+.item2 .th .text h1{
+  text-align: left;
+  font-size: 60px;
+  color: #f9ad6a;
+  padding-bottom: 40px;
+}
+
+.item2 .th .text p{
+  text-align: left;
+  font-size: 25px;
+}
+.item2 .th .text .t{
+  text-align: left;
+  font-size: 18px;
+  padding-top: 35px;
+  padding-right: 200px;
+}
 .body {
   margin: 0;
   width: 100%;
+}
+.cov{
+  padding-left: 30px;
 }
 li,
 a,
@@ -107,7 +129,6 @@ button:hover {
   margin: 0px;
   box-sizing: border-box;
   padding: 0;
-  background-image: url("/images/img/bg1.jpg");
   color: #edf0f1;
   font-family: "Catamaran", sans-serif;
   justify-content: space-between;
@@ -116,29 +137,18 @@ button:hover {
 
 .item3 {
   background-color: #f9e07f;
-  background-image: url("images/img/bg2-01.png");
-  background-size: contain;
+  padding: 0 0px;
+  margin: 0 0px;
 }
-.story {
-  display: grid;
-  grid-template-columns: 50% 50%;
+.item3 .story{
+  background-image: url("/public/images/img/bg2.png");
+  padding: 20px 20px;
+  align-items: center;
+  text-align: center;
 }
-.storyimg {
-  margin: 100px;
+.item3 .story{
 }
-.story p {
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-}
-.sttext {
-  margin-top: 100px;
-  margin-right: 100px;
-  padding-top: 50px;
-}
-.sttext h2 {
-  color: #264d59;
-}
+
 
 .carddis {
   display: flex;

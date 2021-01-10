@@ -4,6 +4,9 @@ class ProductApi extends BaseApi {
     super();
     this.url = "/product";
   }
+  PAGE(p) {
+    return this.client.get(`/page/${p}`);
+  }
   SEARCH(frm) {
     return this.client.post(`/search`, frm);
   }

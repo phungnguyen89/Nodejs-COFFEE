@@ -79,7 +79,7 @@ module.exports.getSearch = async (q) => {
   }
 };
 
-module.exports.getPage = async (p, size) => {
+module.exports.getPage = async (p, size = 10) => {
   try {
     // console.log(chalk.blue("page,size"), p, size);
     let ret = await ProductInfo.find()

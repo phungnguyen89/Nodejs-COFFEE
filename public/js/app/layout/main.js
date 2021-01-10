@@ -1,7 +1,7 @@
 $(document).ready(function () {
   let app = new AppApi();
   let btnLogout = document.getElementById("btnLogout");
-  console.log(btnLogout);
+
   //   console.log(app.User);
   if (btnLogout) {
     btnLogout.onclick = function () {
