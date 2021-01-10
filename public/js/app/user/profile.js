@@ -15,9 +15,18 @@ DOM.fillData = function (o) {
 user.updateProfile = function (o) {
   app.User.UPDATE_PROFILE(o)
     .then((ret) => {
-      if (ret.error) helper.msg(ret.msg, true);
-      else {
-        console.log(ret.data);
+      if (ret.error) {
+        if (ret.status == undefined) document.location.href = "/user/login";
+        else helper.msg(ret.msg, true);
+      } else {
+        if (typeof ret == String && ret.indexOf("Need to Login"))
+          document.location.reload();
+        else {
+          helper.msg("Change your Profile successfully,we will go to shop");
+          setTimeout(function () {
+            document.location.href = "/shop";
+          }, 2000);
+        }
       }
     })
     .catch((err) => {

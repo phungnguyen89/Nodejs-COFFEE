@@ -3,20 +3,19 @@ const helper = require("../../helper");
 const chalk = require("chalk");
 
 module.exports.SEARCH = async (req, res) => {
-  // console.log(chalk.red("api product search"), ret);
-  if (req.query.q) {
-    try {
-      let ret = await app.Product.getSearchByName(req.query.q);
-      console.log(req.query.q);
+  try {
+    console.log("search api", req.body);
+    if (req.body) {
+      let q = req.body.q || "";
+      let ret = await app.Product.getSearchByName(q, req.body.skip);
       if (ret) return res.status(200).json(helper.stt200(ret));
-    } catch (err) {
-      return res.status(500).json(helper.stt500());
-      return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
     }
+  } catch (err) {
+    return res.status(500).json(helper.stt500());
+    return res.status(500).render("error", { layout: false, message: "SERVER ERROR" });
   }
 
   return res.status(400).json(helper.stt400());
-  return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
 };
 
 module.exports.PAGE = async (req, res) => {

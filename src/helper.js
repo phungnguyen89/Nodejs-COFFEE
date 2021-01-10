@@ -10,16 +10,22 @@ module.exports.valueToken = (token) => {
 module.exports.createToken = (
   o = {
     role: "guest",
+    remember: false,
   }
 ) => {
   let payload = {
     username: o.username,
     role: o.role,
   };
+  let token;
+  if (o.remember) {
+    token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
+      expiresIn: `${1000 * 60 * 60 * 24 * 30}`,
+    });
+  } else {
+    token = jwt.sign(payload, process.env.TOKEN_SECRECT);
+  }
 
-  let token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
-    expiresIn: `${1000 * 60 * 10}`,
-  });
   return token;
 };
 

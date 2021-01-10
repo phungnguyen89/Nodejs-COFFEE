@@ -59,46 +59,57 @@ module.exports.create = async (o) => {
     throw new Error(err);
   }
 };
+module.exports.getSearchAggregate = async (q) => {
+  // let agg = [];
+  // agg.push({
+  //   $match: {
+  //     name: { $regex: q, $options: "i" },
+  //   },
+  // });
+  // agg.push({
+  //   $lookup: {
+  //     from: "products",
+  //     localField: "_id",
+  //     foreignField: "info",
+  //     as: "product",
+  //   },
+  // });
+  // let ret = await ProductInfo.aggregate(agg);
+};
 
-module.exports.getSearchByName = async (q) => {
-  // console.log(mongoose.Types.ObjectId("4edd40c86762e0fb12000003"));
+module.exports.getSearchCount = async (q) => {
   try {
-    // let agg = [];
-    // agg.push({
-    //   $match: {
-    //     name: { $regex: q, $options: "i" },
-    //   },
-    // });
-
-    // agg.push({
-    //   $lookup: {
-    //     from: "products",
-    //     localField: "_id",
-    //     foreignField: "info",
-    //     as: "product",
-    //   },
-    // });
-
-    // let ret = await ProductInfo.aggregate(agg);
-    // console.log(ret);
-    // console.log(chalk.blue("test aggregate"), ret[1], ret[1].product);
-    // return null;
-    console.log(chalk.red(q));
-
     let idlist = await ProductInfo.find({ $text: { $search: new RegExp(q) } }).select(
       "_id"
     );
-    // let idlist = await ProductInfo.find({ $text: { $search: `"\"${q}\""` } }).select(
-    //   "_id"
-    // );
-    console.log(idlist);
-
     if (idlist.length > 0) {
       idlist = idlist.map(function (o) {
         return o._id;
       });
-      let ret = await Product.find({ info: { $in: idlist } }).populate(populateOpt);
-      console.log(chalk.blue("ret"), ret);
+      let count = await Product.find({ info: { $in: idlist } }).countDocuments();
+      return count;
+    }
+    return null;
+  } catch (err) {
+    console.log(chalk.red(err));
+    throw new Error(err);
+  }
+};
+
+module.exports.getSearchByName = async (q, p = 1, size = 2) => {
+  try {
+    let idlist = await ProductInfo.find({ $text: { $search: new RegExp(q) } }).select(
+      "_id"
+    );
+    if (idlist.length > 0) {
+      idlist = idlist.map(function (o) {
+        return o._id;
+      });
+      let count = await Product.find({ info: { $in: idlist } }).countDocuments();
+      let ret = await Product.find({ info: { $in: idlist } })
+        .populate(populateOpt)
+        .skip((p - 1) * size)
+        .limit(size);
       return ret;
     }
     return null;

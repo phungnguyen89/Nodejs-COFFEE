@@ -3,8 +3,17 @@ const Joi = require("joi");
 module.exports.update = (o) => {
   let schema = Joi.object().keys({
     id: Joi.string().hex().required(),
-    name: Joi.string().alphanum().required().allow(" ").uppercase(),
-    subname: Joi.string().allow(" "),
+    name: Joi.string()
+      .regex(/^(\w+( ?\w)+)$/)
+      .min(6)
+      .max(50)
+      .required()
+      .uppercase(),
+    subname: Joi.string()
+      .regex(/^((\w+( ?\w)*)(, ?)?\w*)*$/)
+      .min(6)
+      .max(100)
+      .allow(" "),
     category: Joi.string().required(),
     description: Joi.string().allow(" "),
     imgUrl: Joi.string().required(),
@@ -13,10 +22,18 @@ module.exports.update = (o) => {
 };
 
 module.exports.create = (o) => {
-  // console.log("createCheck", o);
   let schema = Joi.object().keys({
-    name: Joi.string().alphanum().allow(" ").required().uppercase(),
-    subname: Joi.string().allow(""),
+    name: Joi.string()
+      .regex(/^(\w+( ?\w)+)$/)
+      .min(6)
+      .max(50)
+      .required()
+      .uppercase(),
+    subname: Joi.string()
+      .regex(/^((\w+( ?\w)*)(, ?)?\w*)*$/)
+      .min(6)
+      .max(100)
+      .allow(""),
     description: Joi.string().allow(""),
     img: Joi.string().allow(""),
     category: Joi.string().required(),

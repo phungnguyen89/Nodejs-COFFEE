@@ -2,14 +2,27 @@ const app = require("../../models/app");
 const helper = require("../../helper");
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
+module.exports.PATCH = async (req, res) => {
+  if (res.locals.data) {
+    try {
+      let ret = await app.User.changePassword(res.locals.data);
+      console.log(ret);
+      if (ret) return res.status(200).json(helper.stt200(ret));
+    } catch (err) {
+      console.log(chalk.red(err));
+      return res.status(500).json(helper.stt500(err));
+    }
+  }
+  return res.status(400).json(helper.stt400());
+};
 
 module.exports.PROFILE = async (req, res) => {
   try {
-    let value = helper.valueToken(req.signedCookies.token);
-    if (value != {}) {
-      let ret = await app.User.getProfileByUsername(value.username);
+    let token = helper.valueToken(req.signedCookies.token);
+    if (token.username) {
+      let ret = await app.User.getProfileByUsername(token.username);
       if (ret) return res.status(200).json(helper.stt200(ret));
-    }
+    } else return res.status(401).json(helper.stt401());
   } catch (err) {
     console.log(chalk.red("user api PROFILE"), err);
     return res.status(500).json(helper.stt500());
@@ -30,23 +43,30 @@ module.exports.LOGOUT = async (req, res) => {
     return res.status(200).json(helper.stt200());
   }
   return res.status(400).json(helper.stt400());
-  // return res.status(400).json(helper.stt400());
 };
 
 module.exports.LOGIN = async (req, res) => {
-  // console.log("we got login api");
+  // if (req.signedCookies.token) {
+  //   res.clearCookie("token");
+  // }
   if (res.locals.data) {
     let token = helper.createToken(res.locals.data);
-    res.cookie("token", token, {
-      maxAge: 1000 * 60 * 10,
-      // httpOnly: true,
-      signed: true,
-    });
-    // return res.status(200).render("home/shop", {
-    //   title: "SHOP",
-    //   isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
-    // });
-    return res.status(200).json(helper.stt200());
+    if (res.locals.data.remember) {
+      res.cookie("token", token, {
+        maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
+        // httpOnly: true,
+        signed: true,
+      });
+    } else {
+      res.cookie("token", token, {
+        // httpOnly: true,
+        signed: true,
+      });
+    }
+    let data = {
+      admin: res.locals.data.role === "admin" ? true : false,
+    };
+    return res.status(200).json(helper.stt200(data));
   }
   return res.status(400).json(helper.stt400());
 };
@@ -66,8 +86,9 @@ module.exports.DELETE = async (req, res) => {
 module.exports.PUT = async (req, res) => {
   if (res.locals.data) {
     try {
-      //console.log(chalk.red("we got controller, has data"), res.locals.data);
-      let ret = await app.User.update(res.locals.data);
+      // console.log(chalk.red("we got controller, has data"), res.locals.data);
+      let ret = await app.User.updateProfile(res.locals.data);
+      console.log(ret);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
       //console.log(chalk.red(err));

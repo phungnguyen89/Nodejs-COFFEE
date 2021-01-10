@@ -4,6 +4,9 @@ class UserApi extends BaseApi {
     super();
     this.url = "/user";
   }
+  CHANGE_PASSWORD(frm) {
+    return this.client.patch(`/profile`, frm);
+  }
   UPDATE_PROFILE(frm) {
     return this.client.put(`/profile`, frm);
   }
@@ -19,6 +22,9 @@ class UserApi extends BaseApi {
 
   DELETE(params = "") {
     return this.client.delete(`${this.url}/${params}`);
+  }
+  PATCH(frm) {
+    return this.client.patch(this.url, frm);
   }
   PUT(frm) {
     return this.client.put(this.url, frm);

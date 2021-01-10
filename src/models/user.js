@@ -1,6 +1,21 @@
 const User = require("./model").User;
 const chalk = require("chalk");
 
+module.exports.changePassword = async (o) => {
+  try {
+    o.updatedAt = new Date();
+    let ret = await User.findByIdAndUpdate(
+      o.id,
+      { $set: { password: o.password } },
+      { new: true }
+    );
+    return ret;
+  } catch (err) {
+    console.log("user MODEL-changePassword", err);
+    throw new Error(err);
+  }
+};
+
 module.exports.getProfileByUsername = async (usr) => {
   try {
     let select = ["-password", "-role", "-_id"];
@@ -21,11 +36,14 @@ module.exports.deleteById = async (id) => {
   }
 };
 
-module.exports.update = async (o) => {
+module.exports.updateProfile = async (o) => {
   try {
-    //console.log(chalk.blue("model"), o);
-    o.updateAt = new Date();
-    let ret = await User.findByIdAndUpdate(o._id, o);
+    o.updatedAt = new Date();
+    let ret = await User.findByIdAndUpdate(
+      o.id,
+      { $set: { profile: o.profile } },
+      { new: true }
+    );
     return ret;
   } catch (err) {
     //console.log(chalk.red(err));

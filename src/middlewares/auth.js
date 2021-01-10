@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const app = require("../models/app");
-
+const helper = require("../helper");
+const chalk = require("chalk");
 module.exports.authorization = async (req, res, next) => {
   try {
     let token = req.signedCookies.token;
@@ -28,21 +29,21 @@ module.exports.authorization = async (req, res, next) => {
 
 module.exports.auth = async (req, res, next) => {
   try {
-    let token = req.signedCookies.token || req.body.token || req.headers.authorization;
-    if (!token)
-      //return res.status(401).send("Need to login")
+    // console.log(chalk.red("we get auth here"));
+    // console.log(!req.signedCookies.token);
+    // let token = req.signedCookies.token || req.body.token || req.headers.authorization;
+
+    if (!req.signedCookies.token)
       return res.status(401).render("error", { layout: false, message: "Need to Login" });
     else {
-      if (token == req.header.authorization)
-        token = token.slice(process.env.TOKEN_SECRECT.length + 1, token);
-      let decode = jwt.verify(token, process.env.TOKEN_SECRECT);
-      let ret = await app.User.getByUsername(decode.username);
-      if (!ret) {
+      let token = helper.valueToken(req.signedCookies.token);
+      if (token.username) {
+        let ret = await app.User.getByUsername(token.username);
+        if (ret) return next();
         return res
           .status(401)
           .render("error", { layout: false, message: "Invalid TOKEN" });
       }
-      return next();
     }
   } catch (err) {
     console.log("auth middleware check", err);

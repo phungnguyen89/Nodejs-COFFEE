@@ -16,7 +16,7 @@ const cart = require("./controllers/cart");
 //home
 
 router.get("/detail/:id?", productInfo.GET);
-router.get("/search:q?", product.SEARCH);
+router.post("/search", product.SEARCH);
 router.get("/page/:p?", productInfo.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
 router.post("/login", userMiddle.loginCheck, user.LOGIN);
@@ -24,8 +24,9 @@ router.post("/logout", auth.auth, user.LOGOUT);
 router
   .route("/profile")
   .get(auth.auth, user.PROFILE)
-  .put(auth.auth, userMiddle.updateCheck, user.PUT)
-  .patch(auth.auth, user.PUT);
+  .put(auth.auth, userMiddle.profileCheck, user.PUT)
+  .patch(auth.auth, userMiddle.changePasswordCheck, user.PATCH);
+
 //cart
 //router.use(auth.auth);
 router

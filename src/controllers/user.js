@@ -3,16 +3,23 @@ const jwt = require("jsonwebtoken");
 const helper = require("../helper");
 const chalk = require("chalk");
 
+module.exports.changePassword = async (req, res) => {
+  return res.status(200).render("user/changepassword", {
+    title: "Change Password",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
+};
+
 module.exports.profile = async (req, res) => {
   return res.status(200).render("user/profile", {
-    title: "Home",
+    title: "Profile",
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
   });
 };
 
 module.exports.dashboard = async (req, res) => {
   return res.status(200).render("admin/index", {
-    title: "Home",
+    title: "Admin",
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
   });
 };
@@ -26,9 +33,9 @@ module.exports.logout = async (req, res) => {
 };
 
 module.exports.register = async (req, res) => {
-  return res.render("user/register");
+  return res.render("user/register", { title: "Register" });
 };
 
 module.exports.login = async (req, res) => {
-  return res.render("user/login");
+  return res.render("user/login", { title: "Login" });
 };

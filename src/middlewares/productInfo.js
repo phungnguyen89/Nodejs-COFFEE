@@ -21,11 +21,24 @@ module.exports.deleteCheck = async (req, res, next) => {
 module.exports.updateCheck = async (req, res, next) => {
   //validate
   let valid = validate.update(req.body);
-  if (valid.error)
-    return res.status(400).json(helper.stt400(valid.error.details[0].message));
+  if (valid.error) {
+    if (valid.error.details[0].message.indexOf("pattern") <= -1)
+      return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    return res
+      .status(400)
+      .json(
+        helper.stt400(
+          `${
+            valid.error.details[0].message.indexOf("subname") === 1
+              ? `"subname"`
+              : `"name"`
+          } should include characters [A-Z], [a-z], " ", [0-9], start and end with a character`
+        )
+      );
+  }
   let ret = await app.ProductInfo.getByName(valid.value.name);
-  console.log(valid.value.name);
-  console.log(ret);
+  // console.log(valid.value.name);
+  // console.log(ret);
   if (ret) {
     if (ret.name == valid.value.name)
       if (ret._id != valid.value.id)
@@ -54,7 +67,19 @@ module.exports.createCheck = async function (req, res, next) {
   let valid = validate.create(req.body);
 
   if (valid.error) {
-    return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    if (valid.error.details[0].message.indexOf("pattern") <= -1)
+      return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    return res
+      .status(400)
+      .json(
+        helper.stt400(
+          `${
+            valid.error.details[0].message.indexOf("subname") === 1
+              ? `"subname"`
+              : `"name"`
+          } should include characters [A-Z], [a-z], " ", [0-9], start and end with a character`
+        )
+      );
   }
   let ret = await app.ProductInfo.getByName(valid.value.name);
   // console.log(valid.value.name);

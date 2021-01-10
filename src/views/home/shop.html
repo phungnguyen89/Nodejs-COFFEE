@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-5"></div>
   <div class="col-7">
-    <form action="/search" method="GET">
+    <form action="/search" id="searchFrm" method="GET">
       <div>
         <input type="text" name="q" value="{{q}}" placeholder="SEARCH" />
         <button class="alert-danger">Search</button>
@@ -20,9 +20,9 @@
   <b>{{{message}}}</b>
 </div>
 {{/if}}
-<div class="row">
+<div class="row" id="sheet">
   {{#each a}}
-  <div id="sheet" class="col-3">
+  <div class="col-3">
     <div style="text-align: left">{{this.info.name}} {{this.size}}kg</div>
     <div style="text-align: left">"{{this.info.subname}}"</div>
     <div>
@@ -40,8 +40,11 @@
   </div>
   {{/each}}
 </div>
+{{#if loadmore}}
+<div><button value="1" id="btnLoadmore">Load more</button></div>
+{{/if}}
 
-<script src="/js/app/api/home.js"></script>
+<script src="/js/app/api/product.js"></script>
 <script src="/js/app/home/index.js"></script>
 <!-- 
 <table>

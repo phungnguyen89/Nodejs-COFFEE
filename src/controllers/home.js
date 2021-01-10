@@ -6,12 +6,15 @@ const helper = require("../helper");
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
     try {
+      let total = await app.Product.getSearchCount(req.query.q);
       let ret = await app.Product.getSearchByName(req.query.q);
       if (ret)
         return res.status(200).render("home/shop", {
           a: ret,
           title: "Express",
           q: req.query.q,
+          loadmore: true,
+          // loadmore: total > ret.length ? true : false,
           isAuthenticated: helper.valueToken(req.signedCookies.token).username
             ? true
             : false,
@@ -77,6 +80,13 @@ module.exports.shop = async (req, res, next) => {
 };
 
 module.exports.index = (req, res) => {
+  if (!req.signedCookies.token) {
+    let token = helper.createToken();
+    res.cookie("token", token, {
+      // httpOnly: true,
+      signed: true,
+    });
+  }
   return res.status(200).render("home/index", {
     title: "Home",
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,

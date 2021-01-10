@@ -6,7 +6,15 @@ module.exports.updateCheck = async (req, res, next) => {
   let valid = validate.update(req.body);
 
   if (valid.error) {
-    return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    if (valid.error.details[0].message.indexOf("pattern") <= -1)
+      return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    return res
+      .status(400)
+      .json(
+        helper.stt400(
+          `"name" should include characters [A-Z], [a-z], " ", [0-9], start and end with a character`
+        )
+      );
   }
   let ret = await app.Category.getById(valid.value.id);
   if (!ret)
@@ -23,7 +31,15 @@ module.exports.createCheck = async (req, res, next) => {
   console.log(req.body);
   console.log(valid);
   if (valid.error) {
-    return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    if (valid.error.details[0].message.indexOf("pattern") <= -1)
+      return res.status(400).json(helper.stt400(valid.error.details[0].message));
+    return res
+      .status(400)
+      .json(
+        helper.stt400(
+          `"name" should include characters [A-Z], [a-z], " ", [0-9], start and end with a character`
+        )
+      );
   }
 
   res.locals.data = valid.value;
