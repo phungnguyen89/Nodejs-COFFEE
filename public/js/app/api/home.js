@@ -4,6 +4,9 @@ class HomeApi extends BaseApi {
     super();
     this.url = "";
   }
+  VIETNAM() {
+    return this.client.get(`/vietnam`);
+  }
   GET(params = "") {
     return this.client.get(`/detail/${params}`);
   }

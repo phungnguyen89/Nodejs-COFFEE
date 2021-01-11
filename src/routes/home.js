@@ -7,6 +7,7 @@ auth.authorization;
 
 router.get("/search:q?", home.search);
 router.get("/detail/:id?", home.detail);
+
 router.get("/shop/:p?", home.shop);
 router.get("/aboutus", home.aboutus);
 router.get("/error/auth", home.auth);

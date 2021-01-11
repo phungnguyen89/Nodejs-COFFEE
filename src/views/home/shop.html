@@ -46,9 +46,9 @@
 </div>
 {{/if}}
 <div class="row" id="sheet">
-  <!-- {{#each a}}
+  {{#each a}}
   <div class="col-3">
-    <div style="text-align: left">{{this.info.name}} {{this.size}}kg</div>
+    <div style="text-align: left"><b>{{this.info.name}} {{this.size}}gr</b></div>
     <div style="text-align: left">"{{this.info.subname}}"</div>
     <div>
       <a href="/detail/{{_id}}"
@@ -63,7 +63,7 @@
       <p><b>{{this.price}}</b></p>
     </div>
   </div>
-  {{/each}} -->
+  {{/each}}
 </div>
 {{#if loadmore}}
 <div><button value="1" id="btnLoadmore">Load more</button></div>

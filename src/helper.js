@@ -14,7 +14,7 @@ module.exports.createToken = (
   }
 ) => {
   let payload = {
-    username: o.username,
+    username: o.username || null,
     role: o.role,
   };
   let token;
@@ -23,7 +23,9 @@ module.exports.createToken = (
       expiresIn: `${1000 * 60 * 60 * 24 * 30}`,
     });
   } else {
-    token = jwt.sign(payload, process.env.TOKEN_SECRECT);
+    token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
+      expiresIn: `${1000 * 60 * 60 * 24 * 2}`,
+    });
   }
 
   return token;
@@ -115,7 +117,7 @@ module.exports.pag = (p, n) => {
       } else {
         s.push('<li class="page-item">');
       }
-      s.push(`<a class="page-link" href="/${i}">${i}</a>`);
+      s.push(`<a class="page-link" href="/shop/${i}">${i}</a>`);
       s.push("</li>");
     }
     s.push(`</ul>`);
@@ -136,3 +138,48 @@ module.exports.pag = (p, n) => {
     return s.join("");
   }
 };
+
+module.exports.moneyFormat = function (price) {
+  let formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+  return formatter.format(price);
+};
+
+module.exports.shop = function (arr) {
+  let s = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i % 3 == 0) s.push(pushRowProductCard(arr.slice(i, i + 3)));
+  }
+  return s.join("");
+};
+
+function pushRowProductCard(row) {
+  console.log(row.length);
+  let s = [];
+  s.push(`  <div class="row">`);
+  for (let i in row) {
+    s.push(pushProductCard(row[i]));
+  }
+  s.push(`  </div>`);
+  return s.join("");
+}
+
+function pushProductCard(o) {
+  let s = [];
+  s.push(` <div class="cardproduct">`);
+  s.push(
+    ` <a href="/detail/${o._id}"><img src="/images/productInfo/${o.info.imgUrl}" widtd="30px" alt="${o.info.imgUrl}" class="imgproduct" /></a>`
+  );
+  s.push(
+    `  <h2 id="productName" class="name" style="color:red">${o.info.name} ${o.size}gr</h2>`
+  );
+  s.push(` <h3 class="subname">${o.info.subname}</h3>`);
+  s.push(`  <div class="hc">
+  <h4 id="productPrice" class="price" style="color:black">${module.exports.moneyFormat(
+    o.price
+  )}</h4><button class="add" value=${o._id}>Thêm vào giỏ</button></div>`);
+  s.push(`</div>`);
+  return s.join("");
+}

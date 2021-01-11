@@ -23,7 +23,7 @@ module.exports.PAGE = async (req, res) => {
 
   console.log(chalk.red("here we go product PAGE"), p);
   try {
-    let ret = await app.Product.getPage(p, 10);
+    let ret = await app.Product.getPage(p);
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
     return res.status(500).json(helper.stt500());

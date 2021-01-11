@@ -1,5 +1,6 @@
 const Cart = require("./model").Cart;
 const chalk = require("chalk");
+const helper = require("../helper");
 const selectFields = ["-createdAt", "-updatedAt"];
 const populateOpt = {
   path: "item",
@@ -12,6 +13,15 @@ const populateOpt = {
 };
 
 module.exports.checkout = async (o) => {};
+
+module.exports.removeOne = async (token) => {
+  try {
+    let ret = await Cart.findOneAndDelete({ token: token });
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 module.exports.delete = async (token) => {
   try {
@@ -33,10 +43,13 @@ module.exports.delete = async (token) => {
 module.exports.deleteProductById = async (o) => {
   try {
     let cart = await Cart.findOne({ token: o.token });
-
-    cart.item.splice(cart.item.indexOf(o.id), 1);
+    if (cart.item.indexOf(o.id) > -1) cart.item.splice(cart.item.indexOf(o.id), 1);
     cart.updatedAt = new Date();
-    let ret = await Cart.findOneAndUpdate({ token: cart.token }, cart, { new: true });
+    let ret = await Cart.findOneAndUpdate(
+      { token: cart.token },
+      { $set: { item: cart.item } },
+      { new: true }
+    );
     // let t = await Cart.findOneAndUpdate({ token: cart.token }, {}, { new: true });
 
     return ret;

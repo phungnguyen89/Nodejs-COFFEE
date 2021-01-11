@@ -141,12 +141,20 @@ module.exports.loginCheck = async (req, res, next) => {
           role: ret.role,
           remember: valid.value.remember,
         };
+        if (req.signedCookies.token) {
+          let cart = await app.Cart.getByToken(req.signedCookies.token);
+          if (cart && cart.item.length > 0) {
+            res.locals.data.item = cart.item;
+            await app.Cart.removeOne(req.signedCookies.token);
+          }
+        }
         return next();
       }
       return res.status(400).json(helper.stt400("Password Incorrect"));
     }
     //not existing
   } catch (err) {
+    console.log(err);
     return res.status(500).json(helper.stt500(err));
   }
 };

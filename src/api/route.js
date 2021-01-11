@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const multer = require("multer");
 const upload = multer({ dest: "./public/images/productInfo" });
+const fs = require("fs");
+const path = require("path");
+const helper = require("../helper");
 //middlewares
 const productInfoMiddle = require("../middlewares/productInfo");
 const userMiddle = require("../middlewares/user");
@@ -15,6 +18,13 @@ const user = require("./controllers/user");
 const cart = require("./controllers/cart");
 //home
 
+router.get("/vietnam", (req, res) => {
+  let link = path.join(__dirname, "../data/vietnam.json");
+  let rawdata = fs.readFileSync(link);
+  let data = JSON.parse(rawdata);
+  if (data) return res.status(200).json(helper.stt200(data));
+  return res.status(400).json(helper.stt400());
+});
 router.get("/detail/:id?", productInfo.GET);
 router.post("/search", product.SEARCH);
 router.get("/page/:p?", product.PAGE);

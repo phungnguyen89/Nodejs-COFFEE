@@ -96,7 +96,7 @@ module.exports.getSearchCount = async (q) => {
   }
 };
 
-module.exports.getSearchByName = async (q, p = 1, size = 2) => {
+module.exports.getSearchByName = async (q, p = 1, size = 20) => {
   try {
     let idlist = await ProductInfo.find({ $text: { $search: new RegExp(q) } }).select(
       "_id"
@@ -119,7 +119,7 @@ module.exports.getSearchByName = async (q, p = 1, size = 2) => {
   }
 };
 
-module.exports.getPage = async (p = 1, size = 12) => {
+module.exports.getPage = async (p = 1, size = 20) => {
   try {
     let ret = await Product.find({})
       .populate(populateOpt)

@@ -1,12 +1,34 @@
-<div class="container">{{> navbar}}</div>
+<link rel="stylesheet" href="/css/style/style.css" />
+<link rel="stylesheet" href="/css/style/styleshop.css" />
+
+<div class="background">
+  <div class="row">
+    <div class="cardproduct" style="margin-left: 10cm">
+      <img
+        src="/images/productInfo/{{o.info.imgUrl}}"
+        alt="{{o.info.imgUrl}}"
+        class="imgproduct"
+      />
+      <h2 id="productName" class="name" style="color: red">
+        {{o.info.name}} {{o.size}}gr
+      </h2>
+      <h3 class="subname">{{o.info.subname}}</h3>
+      <div class="hc">
+        <h4 id="productPrice" class="price" style="color: black">{{{money o.price}}}</h4>
+        <button id="cart" value="{{o._id}}">Thêm vào giỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
 <div class="row">
   <div class="col-4"></div>
   <div class="col-8">
     <div>
       <div>
-        <h2>{{o.name}}</h2>
+        <h2>{{o.info.name}}</h2>
       </div>
-      <div>{{o.quote}}</div>
+      <div>{{o.info.subname}}</div>
       <div class="row">
         <div class="col-4">
           <div>
@@ -18,19 +40,19 @@
           </div>
         </div>
         <div class="col-8">
-          <div>DESCRIPTION:{{o.info.description}}</div>
+          <div>{{o.info.description}}</div>
         </div>
       </div>
       <div>
         <form id="frm" name="frm">
           <input type="hidden" name="id" value="{{o._id}}" />
-          <!-- <input name="num" type="number" min="1" max="50" step="1" value="1" /> -->
+          <input name="num" type="number" min="1" max="50" step="1" value="1" />
           <button>Add To CART</button>
         </form>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <script src="/js/app/api/productInfo.js"></script>
 <script src="/js/app/api/cart.js"></script>

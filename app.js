@@ -36,6 +36,8 @@ appConfig = () => {
       helpers: {
         pag: helper.pag,
         page: helper.page,
+        shop: helper.shop,
+        money: helper.moneyFormat,
         //list of function helper
       },
     })

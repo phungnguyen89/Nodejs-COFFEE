@@ -46,28 +46,33 @@ module.exports.LOGOUT = async (req, res) => {
 };
 
 module.exports.LOGIN = async (req, res) => {
-  // if (req.signedCookies.token) {
-  //   res.clearCookie("token");
-  // }
-  if (res.locals.data) {
-    let token = helper.createToken(res.locals.data);
-    if (res.locals.data.remember) {
-      res.cookie("token", token, {
-        maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
-        // httpOnly: true,
-        signed: true,
-      });
-    } else {
-      res.cookie("token", token, {
-        // httpOnly: true,
-        signed: true,
-      });
+  try {
+    if (res.locals.data) {
+      let token = helper.createToken(res.locals.data);
+      if (res.locals.data.remember) {
+        res.cookie("token", token, {
+          maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
+          // httpOnly: true,
+          signed: true,
+        });
+      } else {
+        res.cookie("token", token, {
+          // httpOnly: true,
+          signed: true,
+        });
+      }
+      if (res.locals.data.item) {
+        let ret = app.Cart.create({ token: token, item: res.locals.data.item });
+      }
+      let data = {
+        admin: res.locals.data.role === "admin" ? true : false,
+      };
+      return res.status(200).json(helper.stt200(data));
     }
-    let data = {
-      admin: res.locals.data.role === "admin" ? true : false,
-    };
-    return res.status(200).json(helper.stt200(data));
+  } catch (err) {
+    console.log(err);
   }
+
   return res.status(400).json(helper.stt400());
 };
 

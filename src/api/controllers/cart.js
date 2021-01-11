@@ -19,16 +19,17 @@ module.exports.DELETE = async (req, res) => {
 
 module.exports.PUT = async (req, res) => {
   try {
-    console.log(chalk.blue("DELETE API"), req.params);
     let o = {
       token: req.signedCookies.token,
-      id: req.params.id,
+      id: req.body.id,
     };
     let ret = await app.Cart.deleteProductById(o);
+    if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
     console.log(chalk.red(err));
     return res.status(500).json(helper.stt500());
   }
+  return res.status(400).json(helper.stt400());
 };
 
 module.exports.POST = async (req, res) => {
@@ -38,8 +39,8 @@ module.exports.POST = async (req, res) => {
       if (!token) {
         token = helper.createToken();
         res.cookie("token", helper.createToken(), {
-          maxAge: 1000 * 60 * 10,
           signed: true,
+          maxAge: 1000 * 60 * 60 * 24 * 2,
         });
       }
       let cart = await app.Cart.getByToken(token);
@@ -71,14 +72,19 @@ module.exports.GET = async (req, res) => {
     let token = req.signedCookies.token;
     if (!token) {
       token = helper.createToken();
-      res.cookie("token", helper.createToken(), {
-        maxAge: 1000 * 60 * 10,
+      res.cookie("token", token, {
+        // httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 2,
         signed: true,
       });
     }
-
+    console.log(typeof helper.valueToken(token).exp);
     let ret = await app.Cart.getByToken(token);
-    if (!ret) ret = await app.Cart.create({ token: token });
+    if (!ret)
+      ret = await app.Cart.create({
+        token: token,
+        expireAt: new Date(helper.valueToken(token).exp),
+      });
 
     // console.log(chalk.red(req.signedCookies.token));
     // console.log(chalk.blue("ret"), ret);

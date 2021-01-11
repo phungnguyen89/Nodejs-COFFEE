@@ -1,10 +1,74 @@
 let app = new AppApi();
 let product = {};
 let DOM = {};
+
+DOM.setEventCart = function () {
+  let carts = document.querySelectorAll("button.add");
+  for (let i in carts) {
+    carts[i].onclick = function () {
+      app.Cart.POST({ productId: this.getAttribute("value") })
+        .then((ret) => {
+          if (ret.error) helper.msg(ret.msg, true);
+          else {
+            helper.msg(`Successfully add your cart`);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }
+};
+
+DOM.pushProductAll = function (arr) {
+  let t = new Promise(function (resolve, reject) {
+    for (let i = 0; i < arr.length; i++) {
+      if (i % 3 == 0)
+        DOM.sheet.insertAdjacentHTML(
+          "beforeend",
+          DOM.pushRowProductCard(arr.slice(i, i + 3))
+        );
+    }
+    resolve();
+  });
+  t.then(function () {
+    DOM.setEventCart();
+  });
+};
+
+DOM.pushRowProductCard = function (row) {
+  console.log(row.length);
+  let s = [];
+  s.push(`  <div class="row">`);
+  for (let i in row) {
+    s.push(DOM.pushProductCard(row[i]));
+  }
+  s.push(`  </div>`);
+  return s.join("");
+};
+
+DOM.pushProductCard = function (o) {
+  let s = [];
+  s.push(` <div class="cardproduct">`);
+  s.push(
+    ` <a href="/detail/${o._id}"><img src="/images/productInfo/${o.info.imgUrl}" widtd="30px" alt="${o.info.imgUrl}" class="imgproduct" /></a>`
+  );
+  s.push(
+    `  <h2 id="productName" class="name" style="color:red">${o.info.name} ${o.size}gr</h2>`
+  );
+  s.push(` <h3 class="subname">${o.info.subname}</h3>`);
+  s.push(`  <div class="hc">
+  <h4 id="productPrice" class="price" style="color:black">${helper.moneyFormat(
+    o.price
+  )}</h4><button class="add" value=${o._id}>Thêm vào giỏ</button></div>`);
+  s.push(`</div>`);
+  return s.join("");
+};
+
 DOM.pushProduct = function (o) {
   let s = [];
   s.push(` <div class="col-3">`);
-  s.push(` <div style="text-align: left">${o.info.name} ${o.size}kg</div>`);
+  s.push(` <div style="text-align: left"><b>${o.info.name} ${o.size}gr</b></div>`);
 
   s.push(`<div style="text-align: left">"${o.info.subname}"</div>`);
   s.push(`<div>
@@ -37,11 +101,9 @@ DOM.loadmoreEvent = function () {
           if (ret.error) {
             helper.msg(ret.msg, true);
           } else {
-            console.log(ret.data);
+            // console.log(ret.data);
             if (ret.data.length > 0) {
-              for (let i in ret.data) {
-                DOM.sheet.insertAdjacentHTML("beforeend", DOM.pushProduct(ret.data[i]));
-              }
+              DOM.pushProductAll(ret.data);
             } else {
               DOM.loadmore.style.display = "none";
             }
@@ -54,10 +116,10 @@ DOM.loadmoreEvent = function () {
   }
 };
 DOM.init = function () {
-  DOM.page = document.getElementsByClassName(
-    "active page-item"
-  )[0].childNodes[0].textContent;
-  if (DOM.page) {
+  if (document.getElementsByClassName("active page-item").length > 0) {
+    DOM.page = document.getElementsByClassName(
+      "active page-item"
+    )[0].childNodes[0].textContent;
     product.PAGE(DOM.page);
   }
 };
@@ -75,13 +137,8 @@ DOM.sortByPrice = function (key) {
   return key == 1 ? arr : arr.reverse();
 };
 DOM.sortByLastest = function (key) {
-  if (key == 1) {
-    // console.log(key);
-    return product.list;
-  }
-  if (key == -1) {
-    return product.list.reverse();
-  }
+  let arr = product.list.slice();
+  return key == 1 ? arr : arr.reverse();
 };
 DOM.filterByPrice = function (value, s) {
   console.log(typeof value, value);
@@ -101,10 +158,14 @@ DOM.filterChoose = function (elm) {
       switch (this.id) {
         case "selectName": {
           arr = DOM.sortByName(this.value);
+          document.getElementById("selectUpdated").selectedIndex = 0;
+          document.getElementById("selectPrice").selectedIndex = 0;
           break;
         }
         case "selectUpdated": {
           arr = DOM.sortByLastest(this.value);
+          document.getElementById("selectName").selectedIndex = 0;
+          document.getElementById("selectPrice").selectedIndex = 0;
           break;
         }
         case "selectPrice": {
@@ -114,23 +175,23 @@ DOM.filterChoose = function (elm) {
           } else {
             arr = DOM.sortByPrice(this.value);
           }
+          document.getElementById("selectUpdated").selectedIndex = 0;
+          document.getElementById("selectName").selectedIndex = 0;
           break;
         }
       }
-      console.log(
-        arr.map((o) => {
-          return {
-            price: o.price,
-            size: o.size,
-            updatedAt: o.updatedAt,
-            quantity: o.quantity,
-          };
-        })
-      );
+      // console.log(
+      //   arr.map((o) => {
+      //     return {
+      //       price: o.price,
+      //       size: o.size,
+      //       updatedAt: o.updatedAt,
+      //       quantity: o.quantity,
+      //     };
+      //   })
+      // );
       DOM.sheet.textContent = "";
-      for (let i in arr) {
-        sheet.insertAdjacentHTML("beforeend", DOM.pushProduct(arr[i]));
-      }
+      DOM.pushProductAll(arr);
     }
   };
 };
@@ -148,14 +209,12 @@ product.PAGE = function (p) {
       if (ret.error) {
         helper.msg(ret.msg, true);
       } else {
-        product.list = ret.data;
-        for (let i in ret.data) {
-          ret.data[i].updatedAt = new Date(ret.data[i].updatedAt).toLocaleDateString();
-          DOM.sheet.insertAdjacentHTML("beforeend", DOM.pushProduct(ret.data[i]));
+        if (ret.data.length > 0) {
+          product.list = ret.data;
+          for (let i in ret.data)
+            ret.data[i].updatedAt = new Date(ret.data[i].updatedAt).toLocaleDateString();
+          DOM.pushProductAll(ret.data);
         }
-        // DOM.filterByName(ret.data);
-        // DOM.filterByPrice(ret.data);
-        // DOM.filterByLastest(ret.data);
       }
     })
     .catch((err) => {

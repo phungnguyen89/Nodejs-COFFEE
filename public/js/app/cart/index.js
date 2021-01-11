@@ -1,13 +1,13 @@
 let app = new AppApi();
 let cart = {};
-
+let DOM = {};
 function pushProduct(o) {
   let s = [];
   s.push("<tr>");
-  s.push(` <td>${o.info.name}</td>`);
-  s.push(` <td>${o.price}</td>`);
-  s.push(` <td>1</td>`);
-  s.push(` <td>123</td>`);
+  s.push(` <td>${o.info.name} ${o.size}gr x1</td>`);
+  s.push(` <td>${o.info.subname}</td>`);
+  s.push(` <td>${DOM.moneyFormat(o.price)}</td>`);
+
   s.push(`<td id="del" value=${o._id}>Delete</td>`);
   s.push("</tr>");
   return s.join("");
@@ -18,7 +18,7 @@ cart.PUT = () => {
     let dels = document.querySelectorAll("#del");
     for (let i in dels) {
       dels[i].onclick = function () {
-        app.Cart.DELETE(this.getAttribute("value"))
+        app.Cart.PUT({ id: this.getAttribute("value") })
           .then((ret) => {
             if (ret.error) helper.msg(ret.msg, true);
             else {
@@ -39,16 +39,16 @@ cart.DELETE = () => {
   app.Cart.DELETE()
     .then((ret) => {
       if (!ret.error) {
-        sheet.textContent = "";
-        sheet.insertAdjacentHTML(
-          "afterbegin",
-          `   <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><button>CHECKOUT</button></td>
-      </tr>`
-        );
+        //   sheet.textContent = "";
+        //   sheet.insertAdjacentHTML(
+        //     "afterbegin",
+        //     `   <tr>
+        //   <td></td>
+        //   <td></td>
+        //   <td></td>
+        //   <td><button>CHECKOUT</button></td>
+        // </tr>`
+        //   );
       }
       ret.error ? helper.msg(ret.msg, true) : helper.msg(ret.msg);
     })
@@ -56,18 +56,28 @@ cart.DELETE = () => {
       console.log(err);
     });
 };
-
+DOM.moneyFormat = function (price) {
+  let formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+  return formatter.format(price);
+};
 cart.GET = () => {
   app.Cart.GET()
     .then((ret) => {
       if (ret.error) {
         helper.msg(ret.msg, true);
       } else {
+        console.log(ret);
         let s = [];
+        let total = 0;
         for (let i in ret.data.item) {
           s.push(pushProduct(ret.data.item[i]));
+          total += 1.0 * ret.data.item[i].price;
         }
         sheet.insertAdjacentHTML("afterbegin", s.join(""));
+        document.getElementById("total").textContent = DOM.moneyFormat(total);
         cart.PUT();
       }
     })
@@ -81,6 +91,6 @@ $(document).ready(async function () {
   const clearCart = document.getElementById("clearCart");
   cart.GET();
   clearCart.onclick = function () {
-    cart.DELETE();
+    if (confirm("sure to clear your cart")) cart.DELETE();
   };
 });

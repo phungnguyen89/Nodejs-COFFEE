@@ -4,6 +4,11 @@ class CartApi extends BaseApi {
     super();
     this.url = "/cart";
   }
+
+  VIETNAM() {
+    return this.client.get(`/vietnam`);
+  }
+
   DELETE(params = "") {
     return this.client.delete(`${this.url}/${params}`);
   }
