@@ -39,3 +39,7 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   return res.render("user/login", { title: "Login" });
 };
+
+module.exports.index = async (req, res) => {
+  return res.render("user/index", { title: "USER" });
+};

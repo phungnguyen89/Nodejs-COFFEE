@@ -40,8 +40,9 @@ module.exports.getById = async (id) => {
 
 module.exports.getAll = async () => {
   try {
-    let a = await Category.find().sort({ updatedAt: -1 });
-    return a;
+    let ret = await Category.find().sort({ updatedAt: -1 });
+
+    return ret;
   } catch (err) {
     throw new Error(err);
   }

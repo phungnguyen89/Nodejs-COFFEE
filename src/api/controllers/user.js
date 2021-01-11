@@ -72,11 +72,13 @@ module.exports.LOGIN = async (req, res) => {
 };
 
 module.exports.DELETE = async (req, res) => {
+  console.log(req.params);
   if (req.params.id) {
     try {
-      let ret = await app.User.deleteById(req.params.id);
+      let ret = await app.User.deleteByUsername(req.params.id);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
+      console.log(chalk.red(err));
       return res.status(500).json(helper.stt500(err));
     }
   }
@@ -113,11 +115,8 @@ module.exports.POST = async (req, res) => {
 
 module.exports.GET = async (req, res) => {
   try {
-    let value = helper.valueToken(req.signedCookies.token);
-    if (value != {}) {
-      let ret = await app.User.getByUsername(value.username);
-      if (ret) return res.status(200).json(helper.stt200(ret));
-    }
+    let ret = await app.User.getAll();
+    if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
     console.log(chalk.red("user api GET"), err);
     return res.status(500).json(helper.stt500());

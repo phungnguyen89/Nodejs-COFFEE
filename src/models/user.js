@@ -27,6 +27,15 @@ module.exports.getProfileByUsername = async (usr) => {
   }
 };
 
+module.exports.deleteByUsername = async (usr) => {
+  try {
+    let ret = await User.findOneAndDelete({ username: usr }).select({ username: 1 });
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports.deleteById = async (id) => {
   try {
     let ret = await User.findByIdAndRemove(id).select({ username: 1 });
@@ -74,8 +83,8 @@ module.exports.getByUsername = async (usr) => {
 
 module.exports.getAll = async () => {
   try {
-    let users = await User.find().sort({ updateAt: -1 });
-    return users;
+    let ret = await User.find().sort({ updatedAt: -1 });
+    return ret;
   } catch (err) {
     throw new Error(err);
   }

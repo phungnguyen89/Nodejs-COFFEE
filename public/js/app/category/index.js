@@ -6,10 +6,10 @@ let category = {};
 category.pushOne = function (o) {
   let s = [];
   s.push(`<tr>`);
-  s.push(`<td>${o.name}</td>`);
-  s.push(`<td class="update"id=id${o._id} value=${o._id}>
-  <img  src="/images/crud/edit.png" alt="edit.png" width="50px" />
-</td>`);
+  s.push(`<td >${o.name}</td>`);
+  s.push(
+    `<td style="background-color:darksalmon;" class="update"id=id${o._id} value=${o._id}>UPDATE</td>`
+  );
   s.push(`<td class="del" value=${o._id}>DELETE</td>`);
   s.push(`</tr>`);
   return s.join("");
@@ -72,6 +72,8 @@ category.POST = function (o) {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
+        console.log(ret);
+        helper.msg(`Create ${ret.data.name}  successfully`);
         DOM.sheet.insertAdjacentHTML("afterbegin", category.pushOne(ret.data));
         category.setEventUpdate(DOM.sheet.querySelector("td.update"));
         category.setEventDelete(DOM.sheet.querySelector("td.del"));
@@ -89,9 +91,10 @@ category.GET = function () {
     .then((ret) => {
       if (ret.error) helper.msg(ret.msg, true);
       else {
+        console.log(ret.data);
         if (ret.data.length > 0) {
           for (let i in ret.data) {
-            DOM.sheet.insertAdjacentHTML("afterbegin", category.pushOne(ret.data[i]));
+            DOM.sheet.insertAdjacentHTML("beforeend", category.pushOne(ret.data[i]));
             category.setEventUpdate(DOM.sheet.querySelector("td.update"));
             category.setEventDelete(DOM.sheet.querySelector("td.del"));
           }

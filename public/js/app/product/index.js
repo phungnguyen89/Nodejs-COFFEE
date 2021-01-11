@@ -148,9 +148,7 @@ product.pushOne = function (o) {
   s.push(`<td value=${o.price}>${DOM.moneyFormat(o.price)}</td>`);
   s.push(`<td>${o.size} kg</td>`);
   s.push(`<td>${o.quantity}</td>`);
-  s.push(
-    `<td class="update"> <img src="/images/crud/edit.png" alt="edit.png" width="50px" /></td>`
-  );
+  s.push(`<td class="update">UPDATE</td>`);
   s.push(`<td class="del">DELETE</td>`);
   s.push(`</tr>`);
   return s.join("");
@@ -179,8 +177,9 @@ product.GET = function () {
       if (ret.error) helper.msg(ret.msg, true);
       else {
         // console.log(ret.data.length);
+        console.log(ret.data);
         if (ret.data.length > 0) {
-          for (let i in ret.data) {
+          for (let i = ret.data.length - 1; i >= 0; i--) {
             DOM.sheet.insertAdjacentHTML("afterbegin", product.pushOne(ret.data[i]));
             DOM.setEventDelete(DOM.sheet.querySelector("td.del"));
             DOM.setEventUpdate(DOM.sheet.querySelector("td.update"));

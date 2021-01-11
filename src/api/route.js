@@ -40,9 +40,10 @@ router
 //router.use(auth.authorization);
 router
   .route("/user/:id?")
-  .get(user.GET)
-  .post(userMiddle.registerCheck, user.POST)
-  .put(userMiddle.updateCheck, user.PUT)
+  .get(auth.authorization, user.GET)
+  .post(auth.authorization, userMiddle.registerCheck, user.POST)
+  .put(auth.authorization, userMiddle.updateCheck, user.PUT)
+  .patch(auth.authorization, userMiddle.changePasswordByAdmin, user.PATCH)
   .delete(user.DELETE);
 //manage productInfo
 router

@@ -1,6 +1,13 @@
 const Joi = require("joi");
 const chalk = require("chalk");
 
+module.exports.changePasswordByAdmin = (o) => {
+  let changePassword = Joi.object().keys({
+    password: Joi.string().alphanum().min(5).max(40).required(),
+  });
+  return changePassword.validate(o);
+};
+
 module.exports.changePassword = (o) => {
   let changePassword = Joi.object().keys({
     currentPassword: Joi.string().alphanum().min(5).max(40).required(),

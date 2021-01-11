@@ -76,7 +76,7 @@ DOM.setEventDelete = function (elm) {
 };
 DOM.loadTable = function (arr) {
   let s = [];
-  for (let i in arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
     s.push(productInfo.pushOne(arr[i]));
   }
   sheet.insertAdjacentHTML("afterbegin", s.join(""));
@@ -177,9 +177,7 @@ productInfo.pushOne = function (o) {
   s.push(`<td>${o.subname}</td>`);
   s.push(`<td>${o.description}</td>`);
   s.push(category.pushTable(o.category));
-  s.push(`  <td class="update" id=id${o._id} value=${o._id}>
-  <img  src="/images/crud/edit.png" alt="edit.png" width="50px" />
-</td>`);
+  s.push(`  <td class="update" id=id${o._id} value=${o._id}>UPDATE</td>`);
   s.push(`<td class="del" value="${o._id}">DELETE</td>`);
   s.push("</tr>");
   return s.join("");
@@ -256,6 +254,7 @@ productInfo.POST = function (o) {
 };
 $(document).ready(function () {
   //get html elements
+  console.log(document.getElementById("createFrm"));
   DOM.create = document.getElementById("btnCreate");
   DOM.sheet = document.getElementById("sheet");
   DOM.createFrm = document.getElementById("createFrm");

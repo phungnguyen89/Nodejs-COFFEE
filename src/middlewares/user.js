@@ -3,6 +3,40 @@ const app = require("../models/app");
 const validate = require("../validates/user");
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
+
+module.exports.changePasswordByAdmin = async (req, res, next) => {
+  //check existing
+  try {
+    let valid = validate.login(req.body);
+    if (valid.error) {
+      if (valid.error.details[0].message.indexOf("pattern") <= -1)
+        return res.status(400).json(helper.stt400(valid.error.details[0].message));
+      return res
+        .status(400)
+        .json(
+          helper.stt400(
+            `"username" should include characters [A-Z], [a-z], "_", [0-9], start and end with a character`
+          )
+        );
+    }
+    let ret = await app.User.getByUsername(valid.value.username);
+    //not found
+    if (!ret)
+      return res.status(400).json(helper.stt400(`"${valid.value.username}" not found`));
+
+    res.locals.data = {
+      id: ret._id,
+      password: helper.hashPassword(ret.username, valid.value.password),
+    };
+    return next();
+
+    //not existing
+  } catch (err) {
+    console.log(chalk.red(err));
+    return res.status(500).json(helper.stt500(err));
+  }
+};
+
 module.exports.changePasswordCheck = async (req, res, next) => {
   try {
     console.log(chalk.blue("we got middle profile"), req.body);

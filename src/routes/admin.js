@@ -5,12 +5,15 @@ const productInfo = require("../controllers/productInfo");
 const product = require("../controllers/product");
 const category = require("../controllers/category");
 const user = require("../controllers/user");
-//router.use(require("../middlewares/auth").authorization);
+router.use(require("../middlewares/auth").authorization);
+router.get("/category/asd", category.index1);
+router.get("/product/asd", product.index1);
+router.get("/product/info/asd", productInfo.index1);
 
-router.route("/product/info/:id?").get(productInfo.index).post().put().delete();
-router.route("/product/:id?").get(product.index).post().put().delete();
-router.route("/category/:id?").get(category.index).post().put().delete();
-router.route("/user/:id?").get().post().put().delete();
+router.route("/product/info/:id?").get(productInfo.index1).post().put().delete();
+router.route("/product/:id?").get(product.index1).post().put().delete();
+router.route("/category/:id?").get(category.index1).post().put().delete();
+router.route("/user/:id?").get(user.index).post().put().delete();
 router
   .route("/dashboard")
   .get(require("../middlewares/auth").authorization, user.dashboard);

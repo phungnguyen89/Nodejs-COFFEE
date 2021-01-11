@@ -92,3 +92,18 @@ module.exports.index = (req, res) => {
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
   });
 };
+module.exports.aboutus = (req, res) => {
+  return res.status(200).render("home/aboutus", {
+    title: "ABOUT US",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
+};
+
+module.exports.auth = (req, res) => {
+  return res.status(200).render("error/auth", { title: "AUTH ERROR", layout: false });
+};
+module.exports.authorize = (req, res) => {
+  return res
+    .status(200)
+    .render("error/authorize", { title: "DENIED ACCESS", layout: false });
+};

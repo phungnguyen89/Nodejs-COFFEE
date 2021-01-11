@@ -106,7 +106,7 @@ module.exports.getAll = async () => {
     console.log("we are here");
     let a = await ProductInfo.find()
       .populate({ path: "category", select: "name" })
-      .sort({ createdAt: -1 });
+      .sort({ updatedAt: -1 });
     return a;
   } catch (err) {
     throw new Error(err);

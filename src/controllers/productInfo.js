@@ -10,7 +10,14 @@ module.exports.detail = (req, res) => {
   }
   return res.status(400).json(helper.stt400());
 };
-
+module.exports.index1 = (req, res) => {
+  console.log("index1");
+  return res.status(200).render("productInfo/index1", {
+    title: "PRODUCT-A",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
+  // return res.render("productInfo/index", { title: "PRODUCT INFO" });
+};
 module.exports.index = (req, res) => {
   return res.status(200).render("productInfo/index", {
     title: "PRODUCT-ADMIN",

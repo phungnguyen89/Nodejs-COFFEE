@@ -142,7 +142,7 @@ module.exports.count = async () => {
 };
 module.exports.getAll = async () => {
   try {
-    let ret = await Product.find({}).populate(populateOpt);
+    let ret = await Product.find({}).populate(populateOpt).sort({ updatedAt: -1 });
     console.log(ret);
     //let a = await Product.find().populate("info").sort({ updatedAt: -1 });
     return ret;
