@@ -48,7 +48,7 @@ router
   .delete(cart.DELETE);
 
 //user manage
-router.use(auth.authorization);
+// router.use(auth.authorization);
 router
   .route("/user/:id?")
   .get(user.GET)
