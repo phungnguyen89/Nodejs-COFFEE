@@ -11,6 +11,7 @@ const cors = require("cors");
 
 //connect to database
 require(".//src/configs/configs").connectDatabase();
+// require(".//src/test/mongoose");
 const Handlebars = require("handlebars");
 const expressHandlebars = require("express-handlebars");
 const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access");

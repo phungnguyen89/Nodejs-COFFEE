@@ -24,7 +24,7 @@ module.exports.createToken = (
     });
   } else {
     token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
-      expiresIn: `${1000 * 60 * 60 * 24 * 2}`,
+      expiresIn: `${1000 * 60 * 60 * 24}`,
     });
   }
 

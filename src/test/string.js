@@ -3,8 +3,10 @@ let s2 = "a,csdasd,dsa";
 let s3 = ",dsadsa,dsadas,";
 let s = s3;
 
+let t = "300.22-22";
+
 let a = "abc,xyz";
-console.log(a.indexOf("n"));
+console.log(t.replace(/[. -]/g, ""));
 // console.log("mattch", s.match(","));
 // console.log("search", s.search(","));
 // if (s.search(",")) console.log("we got here");

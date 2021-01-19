@@ -23,6 +23,23 @@ module.exports.removeOne = async (token) => {
   }
 };
 
+module.exports.deleteByUsername = async (username) => {
+  try {
+    let ret = await Cart.findOneAndUpdate(
+      { customer: username },
+      {
+        $set: {
+          updatedAt: new Date(),
+          item: [],
+        },
+      }
+    );
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports.delete = async (token) => {
   try {
     let ret = await Cart.findOneAndUpdate(
@@ -40,9 +57,28 @@ module.exports.delete = async (token) => {
   }
 };
 
-module.exports.deleteProductById = async (o) => {
+module.exports.deleteProductByUsername = async (o) => {
+  try {
+    let cart = await Cart.findOne({ customer: o.customer });
+
+    if (cart.item.indexOf(o.id) > -1) cart.item.splice(cart.item.indexOf(o.id), 1);
+    cart.updatedAt = new Date();
+    let ret = await Cart.findOneAndUpdate(
+      { token: cart.token },
+      { $set: { item: cart.item } },
+      { new: true }
+    );
+
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports.deleteProduct = async (o) => {
   try {
     let cart = await Cart.findOne({ token: o.token });
+
     if (cart.item.indexOf(o.id) > -1) cart.item.splice(cart.item.indexOf(o.id), 1);
     cart.updatedAt = new Date();
     let ret = await Cart.findOneAndUpdate(
@@ -52,6 +88,17 @@ module.exports.deleteProductById = async (o) => {
     );
     // let t = await Cart.findOneAndUpdate({ token: cart.token }, {}, { new: true });
 
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports.updateByUsername = async (o) => {
+  try {
+    o.updatedAt = new Date();
+    o.token = null;
+    let ret = await Cart.findOneAndUpdate({ customer: o.customer }, o);
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -70,8 +117,8 @@ module.exports.update = async (o) => {
 
 module.exports.create = async (o) => {
   try {
+    console.log(o);
     let newCart = new Cart(o);
-    //  console.log(chalk.blue("new cart"), newCart);
     let ret = await newCart.save();
     return ret;
   } catch (err) {

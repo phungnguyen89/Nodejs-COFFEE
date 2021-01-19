@@ -2,9 +2,11 @@ const router = require("express").Router();
 
 const home = require("../controllers/home");
 const auth = require("../middlewares/auth");
-auth.authorization;
+const cartMiddle = require("../middlewares/cart");
+
 /* GET home page. */
 
+router.use(cartMiddle.tokenCheck);
 router.get("/search:q?", home.search);
 router.get("/detail/:id?", home.detail);
 

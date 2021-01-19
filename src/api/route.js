@@ -10,6 +10,7 @@ const userMiddle = require("../middlewares/user");
 const auth = require("../middlewares/auth");
 const categoryMiddle = require("../middlewares/category");
 const productMiddle = require("../middlewares/product");
+const cartMiddle = require("../middlewares/cart");
 //controllers
 const product = require("./controllers/product");
 const productInfo = require("./controllers/productInfo");
@@ -25,11 +26,12 @@ router.get("/vietnam", (req, res) => {
   if (data) return res.status(200).json(helper.stt200(data));
   return res.status(400).json(helper.stt400());
 });
+
 router.get("/detail/:id?", productInfo.GET);
 router.post("/search", product.SEARCH);
 router.get("/page/:p?", product.PAGE);
 router.post("/register", userMiddle.registerCheck, user.POST);
-router.post("/login", userMiddle.loginCheck, user.LOGIN);
+router.post("/login", userMiddle.loginCheck, cartMiddle.checkTokenCart, user.LOGIN);
 router.post("/logout", auth.auth, user.LOGOUT);
 router
   .route("/profile")
@@ -38,22 +40,21 @@ router
   .patch(auth.auth, userMiddle.changePasswordCheck, user.PATCH);
 
 //cart
-//router.use(auth.auth);
 router
   .route("/cart/:id?")
-  .get(cart.GET)
+  .get(cartMiddle.tokenCheck, cart.GET)
   .post(cart.POST)
   .put(cart.PUT)
   .delete(cart.DELETE);
 
 //user manage
-//router.use(auth.authorization);
+router.use(auth.authorization);
 router
   .route("/user/:id?")
-  .get(auth.authorization, user.GET)
-  .post(auth.authorization, userMiddle.registerCheck, user.POST)
-  .put(auth.authorization, userMiddle.updateCheck, user.PUT)
-  .patch(auth.authorization, userMiddle.changePasswordByAdmin, user.PATCH)
+  .get(user.GET)
+  .post(userMiddle.registerCheck, user.POST)
+  .put(userMiddle.updateCheck, user.PUT)
+  .patch(userMiddle.changePasswordByAdmin, user.PATCH)
   .delete(user.DELETE);
 //manage productInfo
 router

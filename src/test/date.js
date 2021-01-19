@@ -1,8 +1,13 @@
+require("../configs/configs").connectDatabase();
+let app = require("../models/app");
+let test = function () {
+  app.Cart.create({}).then((ret) => {
+    console.log(ret);
+  });
+};
+test();
 let t = Date.now();
 let s = "2021-01-07T16:27:09.417Z";
-let d = new Date(s);
-console.log(d.toLocaleString());
-console.log(new Date().toLocaleTimeString(), new Date().toLocaleDateString());
 //console.log(t);
 // var asiaTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Shanghai" });
 // console.log(new Date().toLocaleString());

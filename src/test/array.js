@@ -1,7 +1,6 @@
 let a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-for (let i = 0; i <= a.length - 1; i++) {
-  if (i % 3 == 0) console.log(a.slice(i, i + 3));
-}
+let b = ["a", "b", "c"];
+console.log(a.concat(b));
 
 // let urlDtb = `mongodb+srv://admin:admin@coffee.a9wil.mongodb.net/coffee?retryWrites=true&w=majority`;
 // require("../configs/configs").testConnectDatabase(urlDtb);

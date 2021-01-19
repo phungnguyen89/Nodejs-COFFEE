@@ -10,7 +10,13 @@ const cart = new Schema(
     token: { type: String, required: true },
     customer: { type: String, ref: "users" },
     item: [{ type: String, ref: "products" }],
-    expireAt: { type: Number, expires: 3600 * 24 * 30 },
+    expireAt: {
+      type: Date,
+      default: function () {
+        return new Date(new Date().getTime() + 1000 * 3600 * 2);
+      },
+      expires: 3600 * 24 * 30,
+    },
   },
   { timestamps: true }
 );

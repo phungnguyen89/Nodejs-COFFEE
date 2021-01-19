@@ -6,29 +6,50 @@ function pushProduct(o) {
   s.push("<tr>");
   s.push(` <td>${o.info.name} ${o.size}gr x1</td>`);
   s.push(` <td>${o.info.subname}</td>`);
-  s.push(` <td>${DOM.moneyFormat(o.price)}</td>`);
+  s.push(` <td >${DOM.moneyFormat(o.price)}</td>`);
 
   s.push(`<td id="del" value=${o._id}>Delete</td>`);
   s.push("</tr>");
   return s.join("");
 }
 
+DOM.moneyReformat = function (s) {
+  for (let i = 0; i < 2; i++) s = s.replace(s[s.length - 1], "");
+  s = s.replace(/[. -]/g, "");
+  return s;
+};
+
 cart.PUT = () => {
   {
     let dels = document.querySelectorAll("#del");
     for (let i in dels) {
       dels[i].onclick = function () {
-        app.Cart.PUT({ id: this.getAttribute("value") })
-          .then((ret) => {
-            if (ret.error) helper.msg(ret.msg, true);
-            else {
-              helper.msg(ret.msg);
-              this.parentNode.parentNode.removeChild(this.parentNode);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        if (confirm("Sure to delete")) {
+          app.Cart.PUT({ id: this.getAttribute("value") })
+            .then((ret) => {
+              if (ret.error) helper.msg(ret.msg, true);
+              else {
+                helper.msg(ret.msg);
+
+                let price = DOM.moneyReformat(
+                  this.parentNode.querySelectorAll("td")[2].textContent
+                );
+                let total = DOM.moneyReformat(
+                  document.getElementById("total").textContent
+                );
+
+                this.parentNode.parentNode.removeChild(this.parentNode);
+                setTimeout(function () {
+                  document.getElementById("total").textContent = DOM.moneyFormat(
+                    1.0 * total - 1.0 * price
+                  );
+                }, 300);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       };
     }
   }
@@ -39,16 +60,16 @@ cart.DELETE = () => {
   app.Cart.DELETE()
     .then((ret) => {
       if (!ret.error) {
-        //   sheet.textContent = "";
-        //   sheet.insertAdjacentHTML(
-        //     "afterbegin",
-        //     `   <tr>
+        sheet.textContent = "";
+        // sheet.insertAdjacentHTML(
+        //   "afterbegin",
+        //   `   <tr>
         //   <td></td>
         //   <td></td>
         //   <td></td>
         //   <td><button>CHECKOUT</button></td>
         // </tr>`
-        //   );
+        // );
       }
       ret.error ? helper.msg(ret.msg, true) : helper.msg(ret.msg);
     })

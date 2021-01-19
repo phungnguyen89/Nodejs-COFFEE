@@ -81,14 +81,6 @@ module.exports.shop = async (req, res, next) => {
 };
 
 module.exports.index = (req, res) => {
-  if (!req.signedCookies.token) {
-    let token = helper.createToken();
-    res.cookie("token", token, {
-      maxAge: 1000 * 60 * 60 * 24 * 2,
-      // httpOnly: true,
-      signed: true,
-    });
-  }
   return res.status(200).render("home/index", {
     title: "Home",
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
