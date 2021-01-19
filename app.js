@@ -1,12 +1,12 @@
 require("dotenv").config();
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 const passport = require("passport");
-var logger = require("morgan");
+const logger = require("morgan");
 const cors = require("cors");
 
 //connect to database
@@ -18,7 +18,7 @@ const multer = require("multer");
 const upload = multer();
 
 const helper = require("./src/helper");
-var app = express();
+const app = express();
 
 appConfig = () => {
   app.use(helmet());

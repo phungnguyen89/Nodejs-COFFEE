@@ -76,7 +76,7 @@ DOM.setEventDelete = function (elm) {
 };
 DOM.loadTable = function (arr) {
   let s = [];
-  for (let i = arr.length - 1; i >= 0; i--) {
+  for (let i in arr) {
     s.push(productInfo.pushOne(arr[i]));
   }
   sheet.insertAdjacentHTML("afterbegin", s.join(""));
@@ -197,6 +197,7 @@ productInfo.PUT = function (o) {
           DOM.sheet.insertAdjacentHTML("afterbegin", productInfo.pushOne(ret.data));
         }).then(function () {
           DOM.setEventUpdate(DOM.sheet.querySelector("tr >td.update"));
+          DOM.setEventDelete(DOM.sheet.querySelector("td.del"));
           DOM.formReset(DOM.updateFrm);
         });
       }

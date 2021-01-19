@@ -78,8 +78,11 @@ module.exports.GET = async (req, res) => {
         signed: true,
       });
     }
-    console.log(typeof helper.valueToken(token).exp);
-    let ret = await app.Cart.getByToken(token);
+    let o = helper.valueToken(token);
+    let ret;
+    if (o.username) ret = await app.Cart.getByUsername(o.username);
+    else ret = await app.Cart.getByToken(token);
+
     if (!ret)
       ret = await app.Cart.create({
         token: token,

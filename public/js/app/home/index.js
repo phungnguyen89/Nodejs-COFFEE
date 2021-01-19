@@ -32,6 +32,7 @@ DOM.pushProductAll = function (arr) {
     resolve();
   });
   t.then(function () {
+    console.log("add event cart");
     DOM.setEventCart();
   });
 };
@@ -109,6 +110,9 @@ DOM.loadmoreEvent = function () {
             }
           }
         })
+        .then(function () {
+          DOM.setEventCart();
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -116,6 +120,7 @@ DOM.loadmoreEvent = function () {
   }
 };
 DOM.init = function () {
+  if (document.querySelectorAll("button.add").length > 0) DOM.setEventCart();
   if (document.getElementsByClassName("active page-item").length > 0) {
     DOM.page = document.getElementsByClassName(
       "active page-item"

@@ -87,3 +87,12 @@ module.exports.getByToken = async (token) => {
     throw new Error(err);
   }
 };
+
+module.exports.getByUsername = async (usr) => {
+  try {
+    let ret = await Cart.findOne({ customer: usr }).populate(populateOpt);
+    return ret;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
