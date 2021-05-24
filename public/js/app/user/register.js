@@ -5,7 +5,7 @@ $(document).ready(function () {
   let frm = document.getElementById("frm");
   frm.onsubmit = async function (ev) {
     ev.preventDefault();
-    let ret = await app.User.POST({
+    let ret = await app.User.REGISTER({
       username: frm.username.value,
       password: frm.password.value,
       email: frm.email.value,
@@ -13,7 +13,8 @@ $(document).ready(function () {
     if (ret.error) {
       helper.msg(ret.msg, true);
     } else {
-      helper.msg(`SUCESSFULLY TO CREATE ${ret.data.username}`);
+      // console.log(ret.data);
+      helper.msg(`SUCESSFULLY TO CREATE "${ret.data.username}"`);
       setTimeout(function () {
         document.location.href = "/user/login";
       }, 2000);

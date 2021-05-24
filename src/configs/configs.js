@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const configs = {};
+
 configs.connectDatabase = () => {
   //choose local or mongo Atlas
   // const mongoDbUrl = "mongodb://127.0.0.1:27017/coffee";

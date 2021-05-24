@@ -50,8 +50,8 @@ module.exports.POST = async (req, res) => {
   try {
     if (req.body.productId) {
       let product = await app.Product.getById(req.body.productId);
-      console.log(product.quantity);
-      console.log(req.body.productId);
+      // console.log(product.quantity);
+      // console.log(req.body.productId);
       if (product && product.quantity < +req.body.quantity)
         return res.status(400).json(helper.stt400("Oversize of quantity"));
 
@@ -83,6 +83,7 @@ module.exports.POST = async (req, res) => {
           // cart.item.push(req.body.productId);
           ret = await app.Cart.update(cart);
         } else {
+          console.log("no Cart");
           let o = {
             customer: helper.valueToken(token).username,
             token: token,

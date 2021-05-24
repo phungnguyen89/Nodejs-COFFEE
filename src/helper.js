@@ -35,7 +35,7 @@ module.exports.hashPassword = (usr, pwd) => {
   try {
     return crypto
       .createHash("sha256")
-      .update(pwd + "@@coffee##" + usr)
+      .update(pwd + process.env.TOKEN_SECRECT.toString() + usr)
       .digest("hex");
   } catch (err) {
     throw new Error(err);

@@ -1,5 +1,6 @@
 const User = require("./model").User;
 const chalk = require("chalk");
+const helper = require("../helper");
 
 module.exports.changePassword = async (o) => {
   try {

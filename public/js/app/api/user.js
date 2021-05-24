@@ -19,7 +19,9 @@ class UserApi extends BaseApi {
   LOGIN(frm) {
     return this.client.post("/login", frm);
   }
-
+  REGISTER(frm) {
+    return this.client.post("/register", frm);
+  }
   DELETE(params = "") {
     return this.client.delete(`${this.url}/${params}`);
   }

@@ -107,7 +107,7 @@ module.exports.PUT = async (req, res) => {
 
 module.exports.POST = async (req, res) => {
   if (res.locals.data) {
-    // console.log(chalk.blue("has data"), res.locals.data);
+    console.log(chalk.blue("has data"), res.locals.data);
     try {
       let ret = await app.User.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
