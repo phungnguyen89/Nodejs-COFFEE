@@ -14,45 +14,32 @@
       </h2>
       <h3 class="subname">{{o.info.subname}}</h3>
       <div class="hc">
-        <h4 id="productPrice" class="price" style="color: black">{{{money o.price}}}</h4>
-        <button id="cart" value="{{o._id}}">Thêm vào giỏ</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- 
-<div class="row">
-  <div class="col-4"></div>
-  <div class="col-8">
-    <div>
-      <div>
-        <h2>{{o.info.name}}</h2>
-      </div>
-      <div>{{o.info.subname}}</div>
-      <div class="row">
-        <div class="col-4">
-          <div>
-            <img
-              src="/images/productInfo/{{o.info.imgUrl}}"
-              width="250px"
-              alt="{{o.info.imgUrl}}"
-            />
-          </div>
-        </div>
-        <div class="col-8">
-          <div>{{o.info.description}}</div>
-        </div>
-      </div>
-      <div>
-        <form id="frm" name="frm">
-          <input type="hidden" name="id" value="{{o._id}}" />
-          <input name="num" type="number" min="1" max="50" step="1" value="1" />
-          <button>Add To CART</button>
+        <form action="" id="cartFrm">
+          <h4 id="productPrice" class="price" style="color: black">
+            {{{money o.price}}}
+          </h4>
+          <input type="hidden" name="productId" value="{{o._id}}" />
+          <input
+            type="number"
+            name="quantity"
+            id=""
+            value="1"
+            min="1"
+            max="{{{o.quantity}}}"
+            step="1"
+          />
+          <button id="cartBtn" type="submit" style="margin-left: 100px">
+            Thêm vào giỏ
+          </button>
         </form>
       </div>
     </div>
+    <div class="cardproduct">
+      <div id="productDescription" style="color: black">{{{o.info.description}}}</div>
+      <div id="productBestChoice"></div>
+    </div>
   </div>
-</div> -->
+</div>
 
 <script src="/js/app/api/productInfo.js"></script>
 <script src="/js/app/api/cart.js"></script>

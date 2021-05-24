@@ -1,7 +1,19 @@
 const app = require("../models/app.js");
 const chalk = require("chalk");
 const helper = require("../helper");
+const { default: axios } = require("axios");
 //const ml = require("path").join(__dirname, "models");
+
+module.exports.covid = async (req, res) => {
+  // axios.get("http://168.63.133.155/api/Covid/GetCityList").then((as) => {
+  //   console.log(as.data);
+  // });
+  return res.status(200).render("home/infomation", {
+    layout: false,
+    title: "Covid",
+    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+  });
+};
 
 module.exports.search = async (req, res, next) => {
   if (req.query.q) {
@@ -41,6 +53,7 @@ module.exports.search = async (req, res, next) => {
 module.exports.detail = async (req, res, next) => {
   try {
     let ret = await app.Product.getById(req.params.id);
+
     if (ret)
       return res.status(200).render("home/detail", {
         o: ret,
@@ -80,16 +93,26 @@ module.exports.shop = async (req, res, next) => {
   return res.status(400).render("error", { layout: false, message: "BAD NETWORK" });
 };
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+  if (!req.signedCookies.token) {
+    let token = helper.createToken();
+    res.cookie("token", token, {
+      maxAge: 1000 * 60 * 60 * 24 * 2,
+      // httpOnly: true,
+      signed: true,
+    });
+  }
   return res.status(200).render("home/index", {
     title: "Home",
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
   });
 };
 module.exports.aboutus = (req, res) => {
-  return res.status(200).render("home/aboutus", {
-    title: "ABOUT US",
+  let coffee = req.params.coffee || "index";
+  return res.status(200).render(`aboutus/${coffee}`, {
+    title: coffee == "index" ? "ABOUT US" : `${coffee.toUpperCase()} Coffee`,
     isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
+    layout: coffee == "index" ? "main" : false,
   });
 };
 

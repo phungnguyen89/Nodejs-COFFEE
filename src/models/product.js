@@ -150,3 +150,20 @@ module.exports.getAll = async () => {
     throw new Error(err);
   }
 };
+
+// module.exports.fillAllProdut = async () => {
+//   try {
+//     // let ret = await Product.find({ quantity: 1 });
+//     // ret.map((o) => (o.quantity *= 3));
+//     let ret = await Product.updateMany(
+//       { quantity: 1 },
+//       {
+//         $inc: { quantity: 3 },
+//       }
+//     );
+//     // console.log(ret);
+//     return ret;
+//   } catch (err) {
+//     throw new Error(err);
+//   }
+// };

@@ -1,11 +1,19 @@
+require("../configs/configs").connectDatabase();
 const app = require("../models/app");
-const model = require("../models/model");
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// let d1 = new Date();
-// let d2 = new Date(1611212489 * 1000);
-// console.log(d1.getTime());
-// console.log(d2.getTime());
-// console.log((d2.getTime() - d1.getTime()) / 1000);
-let test = async function () {};
-test();
+
+let t = async function () {
+  let ret = await app.Product.getAll();
+  let info = await app.ProductInfo.getAll();
+  // console.log(ret[0].info.category);
+  //console.log(info);
+
+  console.log(ret);
+  console.log(ret[0].info);
+  console.log(ret[0].info.category[0]);
+};
+// t();
+let s = "Abc";
+console.log(Schema.Types.ObjectId(s));

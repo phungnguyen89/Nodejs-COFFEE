@@ -1,9 +1,9 @@
 class BaseApi {
   client;
   constructor() {
+    let href = document.location.href;
     this.client = axios.create({
-      // baseURL: "http://localhost:3000/api",
-      baseURL: "https://express--coffee.herokuapp.com/api",
+      baseURL: href.substr(0, href.indexOf("/", href.indexOf("//") + 3)) + "/api",
       headers: {
         "content-type": "application/json",
         // "Content-Security-Policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",

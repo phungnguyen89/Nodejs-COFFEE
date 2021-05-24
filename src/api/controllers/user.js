@@ -61,9 +61,8 @@ module.exports.LOGIN = async (req, res) => {
           signed: true,
         });
       }
-      if (res.locals.cart) {
-        res.locals.cart.expireAt = new Date(helper.valueToken(token).exp * 1000);
-        let ret = app.Cart.create(res.locals.cart);
+      if (res.locals.data.item) {
+        let ret = app.Cart.create({ token: token, item: res.locals.data.item });
       }
       let data = {
         admin: res.locals.data.role === "admin" ? true : false,

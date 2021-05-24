@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": false,
   "scripts": {
-    "start": "node app",
-    "dev": "nodemon app",
-    "debug": "nodemon --inspect app"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "debug": "nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",

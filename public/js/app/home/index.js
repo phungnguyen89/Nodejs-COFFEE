@@ -55,7 +55,10 @@ DOM.pushProductCard = function (o) {
     ` <a href="/detail/${o._id}"><img src="/images/productInfo/${o.info.imgUrl}" widtd="30px" alt="${o.info.imgUrl}" class="imgproduct" /></a>`
   );
   s.push(
-    `  <h2 id="productName" class="name" style="color:red">${o.info.name} ${o.size}gr</h2>`
+    `  <h2 id="productName" class="name" style="color:red">${o.info.name} ${o.size}gr </h2>`
+  );
+  s.push(
+    `  <h3 id="productQuantity" style="color:darkcyan">Quantity: ${o.quantity} </h3>`
   );
   s.push(` <h3 class="subname">${o.info.subname}</h3>`);
   s.push(`  <div class="hc">
@@ -122,9 +125,8 @@ DOM.loadmoreEvent = function () {
 DOM.init = function () {
   if (document.querySelectorAll("button.add").length > 0) DOM.setEventCart();
   if (document.getElementsByClassName("active page-item").length > 0) {
-    DOM.page = document.getElementsByClassName(
-      "active page-item"
-    )[0].childNodes[0].textContent;
+    DOM.page =
+      document.getElementsByClassName("active page-item")[0].childNodes[0].textContent;
     product.PAGE(DOM.page);
   }
 };
@@ -227,6 +229,9 @@ product.PAGE = function (p) {
     });
 };
 $(document).ready(function () {
+  // if (location.protocol != "https:") {
+  //   location.protocol = "https:";
+  // }
   DOM.searchFrm = document.getElementById("searchFrm");
   DOM.sheet = document.getElementById("sheet");
   DOM.init();

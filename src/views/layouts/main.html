@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>{{title}}</title>
+
     <!-- css -->
    <link rel="stylesheet" href="/css/style/chat.css">
     <link rel="stylesheet" href="/css/style/style.css" />
@@ -31,7 +32,8 @@
           </nav>
         </div>
         <div class="right">
-          <button id="chatBtn" >Support</button> 
+          <button style="display: none;" id="chatBtn" >Support</button> 
+          <!-- <button id="covidBtn" ><a style="color: white;" href="/covid">Covid</a></button>  -->
           <a href="/cart"> <button >Cart</button> </a>
           {{#if isAuthenticated}}
           <a href="/user/profile"> <button id="btnProfile">Profile</button> </a>

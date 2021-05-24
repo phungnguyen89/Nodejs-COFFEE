@@ -23,62 +23,39 @@ module.exports.removeOne = async (token) => {
   }
 };
 
-module.exports.deleteByUsername = async (username) => {
+module.exports.delete = async (o) => {
   try {
-    let ret = await Cart.findOneAndUpdate(
-      { customer: username },
-      {
-        $set: {
-          updatedAt: new Date(),
-          item: [],
-        },
-      }
-    );
+    console.log(o);
+    let ret =
+      o.username == null
+        ? await Cart.findOneAndUpdate(
+            { token: o.token },
+            {
+              $set: {
+                updatedAt: new Date(),
+                item: [],
+              },
+            }
+          )
+        : await Cart.findOneAndUpdate(
+            { customer: o.username },
+            {
+              $set: {
+                updatedAt: new Date(),
+                item: [],
+              },
+            }
+          );
+    console.log("result", ret);
     return ret;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-module.exports.delete = async (token) => {
-  try {
-    let ret = await Cart.findOneAndUpdate(
-      { token: token },
-      {
-        $set: {
-          updatedAt: new Date(),
-          item: [],
-        },
-      }
-    );
-    return ret;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-module.exports.deleteProductByUsername = async (o) => {
-  try {
-    let cart = await Cart.findOne({ customer: o.customer });
-
-    if (cart.item.indexOf(o.id) > -1) cart.item.splice(cart.item.indexOf(o.id), 1);
-    cart.updatedAt = new Date();
-    let ret = await Cart.findOneAndUpdate(
-      { token: cart.token },
-      { $set: { item: cart.item } },
-      { new: true }
-    );
-
-    return ret;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-module.exports.deleteProduct = async (o) => {
+module.exports.deleteProductById = async (o) => {
   try {
     let cart = await Cart.findOne({ token: o.token });
-
     if (cart.item.indexOf(o.id) > -1) cart.item.splice(cart.item.indexOf(o.id), 1);
     cart.updatedAt = new Date();
     let ret = await Cart.findOneAndUpdate(
@@ -94,21 +71,14 @@ module.exports.deleteProduct = async (o) => {
   }
 };
 
-module.exports.updateByUsername = async (o) => {
-  try {
-    o.updatedAt = new Date();
-    o.token = null;
-    let ret = await Cart.findOneAndUpdate({ customer: o.customer }, o);
-    return ret;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
 module.exports.update = async (o) => {
   try {
+    // console.log(chalk.red("model update"), o);
     o.updatedAt = new Date();
-    let ret = await Cart.findOneAndUpdate({ token: o.token }, o);
+    let ret =
+      o.username == null
+        ? await Cart.findOneAndUpdate({ token: o.token }, o)
+        : await Cart.findOneAndUpdate({ customer: o.customer }, o);
     return ret;
   } catch (err) {
     throw new Error(err);
@@ -117,8 +87,8 @@ module.exports.update = async (o) => {
 
 module.exports.create = async (o) => {
   try {
-    console.log(o);
     let newCart = new Cart(o);
+    console.log(chalk.blue("new cart"), newCart);
     let ret = await newCart.save();
     return ret;
   } catch (err) {
@@ -126,18 +96,25 @@ module.exports.create = async (o) => {
   }
 };
 
-module.exports.getByToken = async (token) => {
+module.exports.getByToken = async (token, pop = true) => {
   try {
-    let ret = await Cart.findOne({ token: token }).populate(populateOpt);
+    let ret =
+      pop == true
+        ? await Cart.findOne({ token: token }).populate(populateOpt)
+        : await Cart.findOne({ token: token });
+    // console.log(chalk.blue("result"), ret);
     return ret;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-module.exports.getByUsername = async (usr) => {
+module.exports.getByUsername = async (usr, pop = true) => {
   try {
-    let ret = await Cart.findOne({ customer: usr }).populate(populateOpt);
+    let ret =
+      pop == true
+        ? await Cart.findOne({ customer: usr }).populate(populateOpt)
+        : await Cart.findOne({ customer: usr });
     return ret;
   } catch (err) {
     throw new Error(err);

@@ -1,12 +1,11 @@
-const router = require("express").Router();
+var express = require("express");
+var router = express.Router();
 
 const home = require("../controllers/home");
 const auth = require("../middlewares/auth");
-const cartMiddle = require("../middlewares/cart");
-
+auth.authorization;
 /* GET home page. */
-
-router.use(cartMiddle.tokenCheck);
+// router.get("/covid", home.covid);
 router.get("/search:q?", home.search);
 router.get("/detail/:id?", home.detail);
 

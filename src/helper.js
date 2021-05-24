@@ -24,7 +24,7 @@ module.exports.createToken = (
     });
   } else {
     token = jwt.sign(payload, process.env.TOKEN_SECRECT, {
-      expiresIn: `${1000 * 60 * 60 * 24}`,
+      expiresIn: `${1000 * 60 * 60 * 24 * 2}`,
     });
   }
 
@@ -174,6 +174,9 @@ function pushProductCard(o) {
   );
   s.push(
     `  <h2 id="productName" class="name" style="color:red">${o.info.name} ${o.size}gr</h2>`
+  );
+  s.push(
+    `  <h3 id="productQuantity" style="color:darkcyan">Quantity: ${o.quantity} </h3>`
   );
   s.push(` <h3 class="subname">${o.info.subname}</h3>`);
   s.push(`  <div class="hc">

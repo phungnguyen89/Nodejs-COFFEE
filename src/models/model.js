@@ -5,18 +5,25 @@ const Schema = mongoose.Schema;
 //   { id: { type: String, ref: "products" } },
 //   { num: { type: Number, default: 1 } },
 // ],
+
+const order = new Schema(
+  {
+    address: { type: String, required: true },
+    receiver: { type: String, required: true },
+    phone: { type: String, required: true },
+    cost: { type: Number },
+    username: { type: String, ref: "users", default: null },
+    item: [{ type: String, ref: "products" }],
+  },
+  { timestamps: true }
+);
+
 const cart = new Schema(
   {
     token: { type: String, required: true },
-    customer: { type: String, ref: "users" },
+    customer: { type: String, ref: "users", default: null },
     item: [{ type: String, ref: "products" }],
-    expireAt: {
-      type: Date,
-      default: function () {
-        return new Date(new Date().getTime() + 1000 * 3600 * 2);
-      },
-      expires: 3600 * 24 * 30,
-    },
+    expireAt: { type: Number, expires: 3600 * 24 * 30 },
   },
   { timestamps: true }
 );
@@ -88,6 +95,7 @@ const productInfo = new Schema(
     imgUrl: { type: String, default: "default" },
     description: { type: String },
     category: [{ type: mongoose.Types.ObjectId, ref: "categories" }],
+    bestChoice: { type: String, default: "" },
   },
   { timestamps: true }
 );
@@ -101,6 +109,7 @@ const category = new Schema(
   { timestamps: true }
 );
 
+module.exports.Order = mongoose.model("orders", order, "orders");
 module.exports.Cart = mongoose.model("carts", cart, "carts");
 module.exports.User = mongoose.model("users", user, "users");
 module.exports.Product = mongoose.model("products", product, "products");

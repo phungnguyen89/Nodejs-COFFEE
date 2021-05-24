@@ -145,9 +145,11 @@ product.pushOne = function (o) {
     `<td><img width="100px" src="/images/productInfo/${o.info.imgUrl}" alt="${o.info.imgUrl}"></td>`
   );
   s.push(product.pushCategory(o.info.category));
-  s.push(`<td value=${o.price}>${DOM.moneyFormat(o.price)}</td>`);
-  s.push(`<td>${o.size} kg</td>`);
-  s.push(`<td>${o.quantity}</td>`);
+  s.push(`<td style="color:red;" value=${o.price}>${DOM.moneyFormat(o.price)}</td>`);
+  s.push(`<td>${o.size} mg</td>`);
+  s.push(
+    `<td style="text-align: center; color:green;font-size: 45px; font-weight: bold">${o.quantity}</td>`
+  );
   s.push(`<td class="update">UPDATE</td>`);
   s.push(`<td class="del">DELETE</td>`);
   s.push(`</tr>`);

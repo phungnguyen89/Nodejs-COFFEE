@@ -4,6 +4,9 @@ class HomeApi extends BaseApi {
     super();
     this.url = "";
   }
+  COVID() {
+    return this.client.get(`http://168.63.133.155/api/Covid/GetCityList`);
+  }
   VIETNAM() {
     return this.client.get(`/vietnam`);
   }

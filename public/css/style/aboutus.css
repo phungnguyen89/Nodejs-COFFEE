@@ -196,3 +196,46 @@ input[type="submit"]:hover{
   font-family:'Prata', serif;
 }
 
+.packaga{
+  align-items: center;
+  width: max-content;
+  margin: 10px 100px;
+
+}
+h2{
+  text-align: center;
+  color:ivory;
+  font-weight: 400;
+  font-family:'Prata', serif;
+  font-size: 48px;
+  margin-top: 100px;
+}
+
+h4{
+  color:ivory;
+  font-family:'Prata', serif;
+  font-weight: 400;
+  font-size: 24px;
+  margin-top: 20px;
+  text-align: center;
+  background: rgb(255,255,255,0.2);
+  border: #F9AD6A solid 2px;
+  border-radius: 10px;
+}
+.rowp{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+.colp{
+  margin: 0 60px;
+  max-width: 250px;
+}
+.box img{
+  width: 230px;
+  border: solid #F9AD6A 4px;
+  border-radius: 5px;
+}
+.box{
+
+}

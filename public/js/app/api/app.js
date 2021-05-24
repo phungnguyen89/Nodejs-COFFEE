@@ -7,6 +7,12 @@ class AppApi {
   productInfo;
   home;
   cart;
+  order;
+
+  get Order() {
+    if (this.order === undefined) this.order = new OrderApi();
+    return this.order;
+  }
 
   get Cart() {
     if (this.cart === undefined) this.cart = new CartApi();

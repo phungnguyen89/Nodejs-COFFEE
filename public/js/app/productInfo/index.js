@@ -175,7 +175,8 @@ productInfo.pushOne = function (o) {
     `<td><img src="/images/productInfo/${o.imgUrl}" alt="${o.imgUrl}" width="100px"/></td>`
   );
   s.push(`<td>${o.subname}</td>`);
-  s.push(`<td>${o.description}</td>`);
+  let descript = o.description.split(".");
+  s.push(`<td style="display:block">${o.description}</td>`);
   s.push(category.pushTable(o.category));
   s.push(`  <td class="update" id=id${o._id} value=${o._id}>UPDATE</td>`);
   s.push(`<td class="del" value="${o._id}">DELETE</td>`);

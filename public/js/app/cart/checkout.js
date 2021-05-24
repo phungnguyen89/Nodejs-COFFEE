@@ -1,12 +1,13 @@
 let app = new AppApi();
 let cart = {};
-let DOM = {};
+var DOM = {};
 function pushProduct(o) {
+  // console.log(o);
   let s = [];
   s.push("<tr>");
-  s.push(` <td>${o.info.name} ${o.size}gr x1</td>`);
-  s.push(` <td>${o.info.subname}</td>`);
-  s.push(` <td>${DOM.moneyFormat(o.price)}</td>`);
+  s.push(` <td>${o.item.info.name} ${o.item.size}gr x${o.quantity}</td>`);
+  s.push(` <td>${o.item.info.subname}</td>`);
+  s.push(` <td>${DOM.moneyFormat(o.unitPrice * o.quantity)}</td>`);
   s.push("</tr>");
   return s.join("");
 }
@@ -131,16 +132,27 @@ cart.GET = () => {
       if (ret.error) {
         helper.msg(ret.msg, true);
       } else {
-        // console.log(ret);
-        let s = [];
-        let total = 0;
-        for (let i in ret.data.item) {
-          s.push(pushProduct(ret.data.item[i]));
-          total += 1.0 * ret.data.item[i].price;
-        }
-        sheet.insertAdjacentHTML("afterbegin", s.join(""));
-        document.getElementById("total").textContent = DOM.moneyFormat(total);
+        return ret.data;
       }
+    })
+    .then((obj) => {
+      let s = [];
+      let itemList = groupByProduct(obj.item);
+      DOM.item = obj.item.map((o) => o._id);
+      DOM.cartId = obj._id;
+      // let total = 0;
+      for (let i in itemList) {
+        s.push(pushProduct(itemList[i]));
+        DOM.total += itemList[i].unitPrice * itemList[i].quantity;
+      }
+      document.getElementById("total").textContent = moneyFormat(DOM.total);
+
+      sheet.insertAdjacentHTML("afterbegin", s.join(""));
+      if (obj.customer != null) {
+        DOM.total = DOM.total * 0.95;
+        document.getElementById("total").textContent =
+          "Discount 5%\n" + moneyFormat(DOM.total);
+      } else document.getElementById("total").textContent = moneyFormat(DOM.total);
     })
     .then(function () {
       DOM.getVietNam();
@@ -155,8 +167,37 @@ $(document).ready(async function () {
   DOM.districtSelect = document.getElementById("district");
   DOM.wardSelect = document.getElementById("ward");
   DOM.frm = document.getElementById("frm");
+  DOM.item = [];
+  DOM.total = 0;
   const sheet = document.getElementById("sheet");
   const clearCart = document.getElementById("clearCart");
   cart.GET();
-  DOM.frm.onsubmit() = function () {};
+  frm.onsubmit = function (ev) {
+    ev.preventDefault();
+    let a = [];
+    let province = DOM.vietnam.filter((o) => o.id == frm.province.value)[0];
+    let district = province.districts.filter((o) => o.id == frm.district.value)[0];
+    let ward = district.wards.filter((o) => o.id == frm.ward.value)[0];
+    app.Order.POST({
+      address: `${frm.address.value},${ward.name}, ${district.name}, ${province.name}`,
+      receiver: frm.fullName.value,
+      phone: frm.phoneNumber.value,
+      cost: DOM.total,
+      item: DOM.item,
+      cartId: DOM.cartId,
+    })
+      .then((ret) => {
+        console.log(ret);
+        document.location.href = `/order/${ret.data._id}`;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // console.log(`${frm.address.value},${ward.name}, ${district.name}, ${province.name}`);
+
+    // console.log(frm.fullName.value);
+    // console.log();
+  };
+  // DOM.frm.onsubmit() = function () {};
 });
