@@ -33,9 +33,6 @@
   },
   "description": "ABC",
   "main": "app.js",
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  },
   "repository": {
     "type": "git",
     "directory": "https://github.com/phungnguyen89/CS300-COFFEE.git"
