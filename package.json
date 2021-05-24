@@ -33,6 +33,9 @@
   },
   "description": "ABC",
   "main": "app.js",
+  "engines": {
+    "node": "14.8.0"
+  },
   "repository": {
     "type": "git",
     "directory": "https://github.com/phungnguyen89/CS300-COFFEE.git"
