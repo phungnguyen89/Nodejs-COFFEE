@@ -59,23 +59,6 @@ module.exports.create = async (o) => {
     throw new Error(err);
   }
 };
-module.exports.getSearchAggregate = async (q) => {
-  // let agg = [];
-  // agg.push({
-  //   $match: {
-  //     name: { $regex: q, $options: "i" },
-  //   },
-  // });
-  // agg.push({
-  //   $lookup: {
-  //     from: "products",
-  //     localField: "_id",
-  //     foreignField: "info",
-  //     as: "product",
-  //   },
-  // });
-  // let ret = await ProductInfo.aggregate(agg);
-};
 
 module.exports.getSearchCount = async (q) => {
   try {
@@ -143,27 +126,10 @@ module.exports.count = async () => {
 module.exports.getAll = async () => {
   try {
     let ret = await Product.find({}).populate(populateOpt).sort({ updatedAt: -1 });
-    console.log(ret);
+    // console.log(ret);
     //let a = await Product.find().populate("info").sort({ updatedAt: -1 });
     return ret;
   } catch (err) {
     throw new Error(err);
   }
 };
-
-// module.exports.fillAllProdut = async () => {
-//   try {
-//     // let ret = await Product.find({ quantity: 1 });
-//     // ret.map((o) => (o.quantity *= 3));
-//     let ret = await Product.updateMany(
-//       { quantity: 1 },
-//       {
-//         $inc: { quantity: 3 },
-//       }
-//     );
-//     // console.log(ret);
-//     return ret;
-//   } catch (err) {
-//     throw new Error(err);
-//   }
-// };

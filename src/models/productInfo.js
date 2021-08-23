@@ -103,7 +103,7 @@ module.exports.count = async () => {
 };
 module.exports.getAll = async () => {
   try {
-    console.log("we are here");
+    // console.log("we are here");
     let a = await ProductInfo.find()
       .populate({ path: "category", select: "name" })
       .sort({ updatedAt: -1 });
@@ -115,7 +115,7 @@ module.exports.getAll = async () => {
 
 module.exports.getByName = async (name) => {
   try {
-    console.log("we are here");
+    // console.log("we are here");
     let ret = await ProductInfo.findOne({ name: name });
     return ret;
   } catch (err) {

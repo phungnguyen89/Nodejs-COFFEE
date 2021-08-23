@@ -31,7 +31,7 @@ module.exports.DELETE = async (req, res) => {
 
 module.exports.PUT = async (req, res) => {
   if (res.locals.data) {
-    console.log("controller", res.locals.data.imgUrl);
+    // console.log("controller", res.locals.data.imgUrl);
     try {
       let ret = await app.ProductInfo.update(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
@@ -48,32 +48,17 @@ module.exports.POST = async (req, res) => {
       let ret = await app.ProductInfo.create(res.locals.data);
       if (ret) return res.status(200).json(helper.stt200(ret));
     } catch (err) {
-      console.log(chalk.red(err));
+      // console.log(chalk.red(err));
       return res.status(500).json(helper.stt500(err));
     }
   }
   return res.status(400).json(helper.stt400());
 };
 
-// module.exports.GETONE = async (req, res) => {
-//   console.log(req.params);
-//   if (req.params.id) {
-//     try {
-//       console.log(chalk.red("here we go"), req.params);
-//       let ret = await app.ProductInfo.getById(req.params.id);
-
-//       // console.log(chalk.blue("ret now"), ret);
-//       if (ret) return res.status(200).json(helper.stt200(ret));
-//     } catch (err) {
-//       return res.status(500).json(helper.stt500(err));
-//     }
-//   }
-//   return res.status(400).json(helper.stt400());
-// };
 
 module.exports.GET = async (req, res) => {
   try {
-    console.log(chalk.red("here we go"), req.params);
+    // console.log(chalk.red("here we go"), req.params);
     let ret = req.params.id
       ? await app.ProductInfo.getById(req.params.id)
       : await app.ProductInfo.getAll();
@@ -81,7 +66,7 @@ module.exports.GET = async (req, res) => {
     //console.log(ret);
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
-    console.log(chalk.red(err));
+    // console.log(chalk.red(err));
     return res.status(500).json(helper.stt500(err));
   }
   return res.status(400).json(helper.stt400());

@@ -4,7 +4,7 @@ const chalk = require("chalk");
 
 module.exports.SEARCH = async (req, res) => {
   try {
-    console.log("search api", req.body);
+    // console.log("search api", req.body);
     if (req.body) {
       let q = req.body.q || "";
       let ret = await app.Product.getSearchByName(q, req.body.skip);
@@ -21,7 +21,7 @@ module.exports.SEARCH = async (req, res) => {
 module.exports.PAGE = async (req, res) => {
   let p = req.params.p || 1;
 
-  console.log(chalk.red("here we go product PAGE"), p);
+  // console.log(chalk.red("here we go product PAGE"), p);
   try {
     let ret = await app.Product.getPage(p);
     if (ret) return res.status(200).json(helper.stt200(ret));
@@ -67,22 +67,6 @@ module.exports.POST = async (req, res) => {
   }
   return res.status(400).json(helper.stt400());
 };
-
-// module.exports.GETONE = async (req, res) => {
-//   console.log(req.params);
-//   if (req.params.id) {
-//     try {
-//       console.log(chalk.red("here we go"), req.params);
-//       let ret = await app.Product.getById(req.params.id);
-
-//       // console.log(chalk.blue("ret now"), ret);
-//       if (ret) return res.status(200).json(helper.stt200(ret));
-//     } catch (err) {
-//       return res.status(500).json(helper.stt500(err));
-//     }
-//   }
-//   return res.status(400).json(helper.stt400());
-// };
 
 module.exports.GET = async (req, res) => {
   try {

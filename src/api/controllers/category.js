@@ -35,7 +35,6 @@ module.exports.POST = async (req, res) => {
   return res.status(400).json(helper.stt400());
 };
 module.exports.GET = async (req, res) => {
-  console.log(chalk.red("category GET"));
   try {
     let ret = req.params.id
       ? await app.Category.getById(req.params.id)
@@ -43,7 +42,6 @@ module.exports.GET = async (req, res) => {
 
     if (ret) return res.status(200).json(helper.stt200(ret));
   } catch (err) {
-    console.log(chalk.red(err));
     return res.status(500).json(helper.stt500(err));
   }
   return res.status(400).json(helper.stt400());

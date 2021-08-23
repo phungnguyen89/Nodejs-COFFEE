@@ -18,10 +18,3 @@ module.exports.index1 = (req, res) => {
   });
   // return res.render("productInfo/index", { title: "PRODUCT INFO" });
 };
-module.exports.index = (req, res) => {
-  return res.status(200).render("productInfo/index", {
-    title: "PRODUCT-ADMIN",
-    isAuthenticated: helper.valueToken(req.signedCookies.token).username ? true : false,
-  });
-  // return res.render("productInfo/index", { title: "PRODUCT INFO" });
-};

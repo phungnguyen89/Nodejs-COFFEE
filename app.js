@@ -19,7 +19,6 @@ require(".//src/configs/configs").connectDatabase();
 
 app.set("views", path.join(__dirname, "src/views"));
 app.set("view engine", "html");
-// app.set("view engine", "ejs");
 const helper = require("./src/helper");
 app.engine(
   "html",
