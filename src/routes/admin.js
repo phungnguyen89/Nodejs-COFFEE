@@ -8,6 +8,7 @@ const user = require("../controllers/user");
 
 //Need to authenticate
 router.use(require("../middlewares/auth").auth);
+router.use(require("../middlewares/auth").authorization);
 
 router.route("/product/info/:id?").get(productInfo.index1).post().put().delete();
 router.route("/product/:id?").get(product.index1).post().put().delete();
